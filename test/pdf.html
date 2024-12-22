@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF.js Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #pdf-viewer {
+            width: 90vw;
+            height: 135vw;
+            border: 1px solid #ccc;
+        }
+        #controls {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<canvas id="pdf-viewer"></canvas>
+<div id="controls">
+    <button id="prev">上一页</button>
+    <button id="next">下一页</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.1.81/pdf.min.js"></script>
+<script>
+    const url = 'https://s3.bplewiki.top/doc/guide.pdf'; // 替换为你的PDF文件路径
+    const canvas = document.getElementById('pdf-viewer');
+    const ctx = canvas.getContext('2d');
+    let pdfDoc = null;
+    let currentPage = 1;
+
+    //设置指定pdf.worker.js
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.1.81/pdf.worker.min.js';
+
+    // 加载PDF
+    pdfjsLib.getDocument(url).promise.then(function(pdf) {
+        pdfDoc = pdf;
+        renderPage(currentPage);
+    });
+
+    function renderPage(pageNum) {
+        pdfDoc.getPage(pageNum).then(function(page) {
+            const scale = 1.5;
+            const viewport = page.getViewport({ scale: scale });
+
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            const renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            page.render(renderContext);
+        });
+    }
+
+    document.getElementById('prev').addEventListener('click', function() {
+        if (currentPage <= 1) return; // 如果已经是第一页，返回
+        currentPage--;
+        renderPage(currentPage);
+    });
+
+    document.getElementById('next').addEventListener('click', function() {
+        if (currentPage >= pdfDoc.numPages) return; // 如果已经是最后一页，返回
+        currentPage++;
+        renderPage(currentPage);
+    });
+</script>
+
+</body>
+</html>

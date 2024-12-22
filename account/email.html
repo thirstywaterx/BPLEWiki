@@ -1,0 +1,505 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://bplewiki.top/css/topbar.css" />
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>更改邮箱-猪吧维基BPLEWiki</title>
+    <style>
+        .block {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            margin: 0 auto;
+            margin-top: 150px;
+            overflow: hidden;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .greenblk {
+            width: 100px;
+            height: 5px;
+            margin: 0 auto;
+            border-radius: 10px;
+            background-color: green;
+        }
+
+        .fa-lock {
+            position: absolute;
+            left: 10px;
+            top: 25px;
+        }
+
+        input {
+            width: 150px;
+            height: 25px;
+            margin-left: 35px;
+            margin-top: 20px;
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+        }
+
+        input[readonly]{
+            background-color: #c9ced6;
+        }
+
+        input:focus {
+            outline: 2px solid lightgreen;
+        }
+
+        .inputBlock {
+            position: absolute;
+            width: 200px;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 40px;
+            /* 控制垂直位置 */
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 100%;
+        }
+
+        #submit {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            top: 150px;
+            left: 50%;
+            transform: translate(-50%);
+            border: none;
+            border-radius: 2px;
+            background-color: lightgreen;
+            font-size: 110%;
+        }
+
+        #submit:active {
+            background-color: #80DD80;
+        }
+
+        .slide-out {
+            animation: slide-out 0.5s forwards;
+        }
+
+        .slide-in {
+            animation: slide-in 0.5s forwards;
+        }
+
+        @keyframes slide-out {
+            0% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateX(-300px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes slide-in {
+            0% {
+                transform: translateX(300px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(-100px);
+                opacity: 1;
+            }
+        }
+
+
+        .container {
+            position: ;
+            width: 100%;
+            height: 100%;
+            /*margin-top: 15px;*/
+            flex-direction: column;
+            display: none;/*flex*/
+        }
+
+        .code_container {
+            display: flex;
+            padding: 0 15px;
+            justify-content:space-around;
+        }
+
+        .code_input {
+            width: 20px;
+            height: 30px;
+            line-height: 80px;
+            font-size: 28px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+            border: 2px solid rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            transition: border 0.15s ease-in-out;
+            margin: 0 4px;
+        }
+
+        .code_input:hover {
+            border-color: rgba(0, 0, 0, 0.35);
+        }
+
+        .code_input:focus {
+            border-color: #0CA678;
+        }
+
+        p {
+            font-size: 10px;
+            text-align: center;
+        }
+
+        b {
+            color: lightgreen;
+        }
+
+        @keyframes slide-in-code {
+            0% {
+                transform: translateX(300px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(0px);
+                opacity: 1;
+            }
+        }
+
+        .slide-in-code {
+            animation: slide-in-code 0.5s forwards;
+        }
+
+        .changeEmail,
+        .resend {
+            color: lightgreen;
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <div class="block">
+        <div class="greenblk"></div>
+        <h1>更改邮箱</h1>
+        <div class="inputBlock psw">
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" id="password" name="password" placeholder="请在此键入您的密码" readonly>
+        </div>
+        <div class="inputBlock mail" style="display: none;">
+            <i class="fa-solid fa-lock"></i>
+            <input type="email" id="email" name="email" placeholder="请在此键入您的新邮箱">
+        </div>
+        <div class="container">
+            <div class="code_container" id="code-container"> 
+                <input type="number" class="code_input" min="0" max="9" step="1"> 
+                <input type="number" class="code_input" min="0" max="9" step="1"> 
+                <input type="number" class="code_input" min="0" max="9" step="1"> 
+                <input type="number" class="code_input" min="0" max="9" step="1"> 
+                <input type="number" class="code_input" min="0" max="9" step="1"> 
+                <input type="number" class="code_input" min="0" max="9" step="1"> 
+            </div>
+            
+            <div style="margin-top: 5px;font-size: 10px;text-align: center;">我们发送了一个验证码到您的新邮箱，请输入在此<br>如未收到请检查垃圾箱</div>
+            <div style="display: flex;justify-content:space-around;">
+            <span class="changeEmail">更改邮箱</span>
+            <span class="resend">重新发送(60s)</span>
+            </div>
+        </div>
+        <button id="submit">继续</button>
+    </div>
+    <script src="/js/ajax.js"></script>
+<script src="/js/darkmode.js"></script>
+<script>
+document.getElementById('btn').addEventListener('click', function() {
+        history.back();
+    }, true)
+</script>
+    <script>
+        const passwordBlock = document.querySelector('.psw');
+        const emailBlock = document.querySelector('.mail');
+        const codeContainer = document.querySelector('.container');
+        const submitButton = document.getElementById('submit');
+        const resend = dqsa('.resend',1);
+        const pwInput = dqsa("#password",1);
+        const emInput = dqsa("#email",1);
+        const codeInputs = dqsa(".code_input");
+        const urlbase="../php/user/cemail.php?step=";
+
+        let step = -1;
+        
+        window.onload=function(){
+            thendo.checkstep();
+        };
+        
+        var wait={
+          is:false,
+          on(){
+              wait.is=true;
+              //jzz.style.display="block"
+          },
+          off(){
+              wait.is=false;
+              //jzz.style.display="none"
+          },
+          check(){
+              if(wait.is){
+                  return false;
+              }else{
+                  wait.on();
+                  return true;
+              }
+          }
+        };
+        
+        const rec={
+            lastrequest: Number(localStorage.lastrequest)||0,
+            check(){
+                let datenow=new Date;
+                if(datenow.getTime()-rec.lastrequest>60*1000){
+                    return true;
+                }else{
+                    return false;
+                }
+            },
+            r(){
+                let datenow=new Date();
+                rec.lastrequest=datenow.getTime();
+                localStorage.lastrequest=rec.lastrequest;
+            },
+            c(){
+                let datenow=new Date();
+                rec.lastrequest=datenow.getTime()-60*1000;
+                localStorage.lastrequest=rec.lastrequest;
+            },
+            render(){
+                let datenow=new Date();
+                let s=60-Math.round((datenow.getTime()-rec.lastrequest)/1000);
+                if(rec.check()){
+                    resend.innerHTML="重新发送";
+                }else{
+                    resend.innerHTML=`重新发送(${s}s)`;
+                }
+            }
+        };//请求邮件冷却
+        setInterval(rec.render,500);
+        const thendo={
+            checkstep(){
+                if(wait.check(true)){
+                    ajax({
+                        url: urlbase+0,
+                        method: "POST",
+                        success: (r)=>{console.log(r)
+                          let result=JSON.parse(r);
+                          wait.off();
+                          if(result.state==="nosession"){
+                              controle.pw();
+                          }else if(result.state==="inputemail"){
+                              emInput.value=sessionStorage.cemail;
+                              controle.em();
+                          }else if(result.state==="cemailing"){
+                              emInput.value=sessionStorage.cemail;
+                              controle.em();
+                              controle.code();
+                          }else if(result.state==="differentid"||result.state==="overtime"){
+                              location.reload();
+                          }else if(result.state==="unsigned"){
+                              window.open("../signin.html","_self");
+                          }else{
+                              showerr("未知错误");
+                          }
+                        }
+                    });
+                }
+            },
+            sendpw(){
+                if(wait.check(true)){
+                    let email=emInput.value;
+                    ajax({
+                        url: urlbase+1,
+                        method: "POST",
+                        send: `password=${pwInput.value}`,
+                        success: (r)=>{console.log(r)
+                          let result=JSON.parse(r);
+                          wait.off();
+                          if(result.success){
+                            sessionStorage.cemail=email;
+                            controle.em();
+                          }else{
+                            //controle.pw();
+                            showerr(result.notice)
+                          }
+                        }
+                    });
+                }
+            },
+            sendem(){
+                if(IsEmail(emInput.value)){
+                    if(wait.check(true)){
+                        ajax({
+                            url: urlbase+2,
+                            method: "POST",
+                            send: `email=${emInput.value}`,
+                            success: (r)=>{console.log(r)
+                              let result=JSON.parse(r);
+                              wait.off();
+                              if(result.success){
+                                controle.code();
+                              }else{
+                                showerr(result.notice)
+                              }
+                          }
+                      });
+                  }
+              }else{
+                  showerr("邮箱格式错误");
+              }
+          },
+          requestemail(){
+              if(wait.is===false&&rec.check()){
+                  wait.on();
+                  rec.r();
+                  ajax({
+                      url: urlbase+3,
+                      method: "POST",
+                      success: (r)=>{console.log(r)
+                        let result=JSON.parse(r);
+                        wait.off();
+                        if(result.success){
+                          console.log("sended")
+                        }else{
+                          showerr(result.notice)
+                          rec.c()
+                        }
+                      }
+                  });
+              }
+          },
+          sendcode(){
+              if(wait.check(true)){
+                  let code="";
+                  for(let i of codeInputs){
+                      code+=i.value;
+                  }
+                  ajax({
+                      url: urlbase+4,
+                      method: "POST",
+                      send: `code=${code}`,
+                      success: (r)=>{console.log(r)
+                        let result=JSON.parse(r);
+                        wait.off();
+                        if(result.success){
+                          alert(`换绑成功`)
+                          sessionStorage.cemail=null;
+                          location.href = "../setting.html";
+                        }else{
+                          controle.code();
+                          showerr(result.notice);
+                        }
+                      }
+                  });
+              }
+          }
+        };
+
+        submitButton.addEventListener('click', function() {
+            if (step === 0) {
+                thendo.sendpw();
+            } else if (step === 1) {
+                thendo.sendem();
+            } else {
+                thendo.sendcode();
+            }
+        });
+        
+        const controle={
+            pw() {
+                pwInput.readOnly=false;
+                step = 0;
+            },
+            em() {
+                codeContainer.classList.remove('slide-in-code');
+                codeContainer.classList.add('slide-out');
+                passwordBlock.classList.add('slide-out');
+                setTimeout(function() {
+                    passwordBlock.style.display = 'none'; // 隐藏密码输入框
+                    emailBlock.style.display = 'block'; // 显示邮箱输入框
+                    codeContainer.style.display = 'none'; // 隐藏验证码区域
+                    emailBlock.classList.add('slide-in');
+                }, 500); // 等待密码框动画完成
+                step=1;
+            },
+            code() {
+                thendo.requestemail();
+                
+                emailBlock.classList.remove('slide-in');
+                emailBlock.classList.add('slide-out');
+                setTimeout(function() {
+                    emailBlock.style.display = 'none'; // 隐藏邮箱输入框
+                    codeContainer.style.display = 'flex'; // 显示验证码区域
+                    codeContainer.classList.add('slide-in-code'); // 使用专门的动画类
+                }, 500); // 等待邮箱框动画完成
+                step=2;
+            }
+        };
+
+        function showerr(e){
+              alert(e);
+        }
+
+        for(let i=0;i<codeInputs.length;i++){
+            codeInputs[i].oninput=function(){
+                let v=codeInputs[i].value+"";
+                for(let ii=0;ii<v.length && i+ii<codeInputs.length;ii++){
+                    codeInputs[i+ii].value=v.charAt(ii);
+                    if(i+ii<codeInputs.length-1){
+                        codeInputs[i+ii+1].focus();
+                    }
+                }
+                if(v===""){
+                    codeInputs[i-1].focus();
+                }
+            };
+        }
+        
+        dqsa(".changeEmail",1).onclick=controle.em;
+        resend.onclick=thendo.requestemail;
+
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+        function IsEmail(str) {
+            var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            return  reg.test(str);
+        }
+    </script>
+</body>
+
+</html>

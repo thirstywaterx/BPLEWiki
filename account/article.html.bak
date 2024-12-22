@@ -1,0 +1,372 @@
+<!doctype html>
+<html>
+
+<head>
+    <script type="text/javascript" src="js.js"></script>
+    <title>我的文章-猪吧维基BPLEWiki</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="search.css">
+    <link rel="stylesheet" href="https://www.bplewiki.top/css/page.css" />
+<link rel="stylesheet" type="text/css" href="https://www.bplewiki.top/css/darkmode.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #btn {
+            position: absolute;
+            font-size: 120%;
+            color: #444746;
+            margin-top: 5px;
+            margin-left: 10px;
+        }
+
+
+        .search_enter p {
+            color: #646768;
+            margin-top: 50px;
+        }
+
+
+        /* 新增的CSS样式 */
+
+        .searchInputContainer {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+            margin-bottom: 10px;
+            margin-top: 10px;
+            width: 80%;
+        }
+
+        .searchInput {
+            width: 100%;
+            height: 30px;
+            border: none;
+            background-color: #e9eef6;
+            border-radius: 15px;
+            border: none;
+            width: 85%;
+            padding-left: 35px;
+            /* 调整这个值以便为搜索图标留出空间 */
+        }
+
+        .searchIcon {
+            position: absolute;
+            left: 10px;
+            color: #444746;
+        }
+
+        .title {
+            background-color: red;
+
+        }
+
+        .block {
+            margin: 0;
+            margin-bottom: 20px;
+            width: 100%;
+            height: 40px;
+            background-color: #f3f5f7;
+            box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .block_re {
+            width: 90%;
+            height: 150px;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .sonBlock {
+            width: 85%;
+            height: 50px;
+            box-sizing: border-box;
+            height: 40px;
+            padding: 16.66px;
+            border: 0;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 50px;
+        }
+
+        .p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 2;
+            margin: 0;
+        }
+
+        .p p {
+            margin-top: 15px;
+        }
+
+        #loading {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        .greenblk {
+            position: absolute;
+            width: 45px;
+            height: 5px;
+            top: 87px;
+            background-color: green;
+            border-radius: 30px;
+        }
+
+        #left_blk {
+            display: block;
+        }
+
+        #right_blk {
+            display: none;
+        }
+
+        .content {
+            position: relative;
+        }
+
+        .contentBlock {
+            box-sizing: border-box;
+            width: 90%;
+            min-height: 165px;
+            background-color: white;
+            padding: 20px;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 10px;
+        }
+
+       body.dark-mode .contentBlock {
+           background-color: #333333 !important;
+        }
+
+        .contentBlock:active {
+            transform: scale(0.96);
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .contentBlock h3 {
+            margin: 0;
+        }
+
+        .previewimg {
+            margin-right: 10px;
+            border-radius: 2px;
+            float: left;
+            width: 120px;
+            height: 120px;
+        }
+
+
+        #article,
+        #collect {
+            display: block;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+        }
+
+        #loading {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 60%);
+        }
+
+        #results {
+            margin-top: 50px;
+        }
+
+        a {
+            color: black;
+            text-decoration-line: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+    </style>
+</head>
+
+<body>
+    <i class="fa-solid fa-angle-left" id="btn"></i>
+    <!-- 新增div包裹输入框和搜索图标 -->
+    <div class="searchInputContainer">
+        <i id="runsearch" class="fa-solid fa-magnifying-glass searchIcon"></i>
+        <input type="text" placeholder="键入以搜索我的文章" maxlength="30" class="searchInput" />
+    </div>
+
+    <div class="block">
+        <div class="sonBlock">
+            <div class="p" id="left">
+                <p>我的文章</p>
+                <div class="greenblk" id="left_blk"></div>
+            </div>
+            <div class="p" id="right">
+                <p>我的收藏</p>
+                <div class="greenblk" id="right_blk"></div>
+            </div>
+        </div>
+        <div id="content">
+            <div id="article">
+                <!-- output pagination -->
+            </div>
+            <div id="collect">
+                <!-- output pagination -->
+            </div>
+            <div id="results"></div>
+        </div>
+    </div>
+    <script src="https://www.bplewiki.top/js/ajax.js"></script>
+    <script src="https://www.bplewiki.top/js/page.b.js?v=0.0.5"></script>
+    <script src="/js/darkmode.js"></script>
+    <script>
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+
+        var elements = {
+            article: dqsa("#article", 1),
+            collect: dqsa("#collect", 1),
+            search: dqsa("#results", 1),
+            searchinput: dqsa(".searchInput", 1),
+            output:{
+                article: dqsa("#article .output", 1),
+                collect: dqsa("#collect .output", 1),
+            }
+        };
+        
+        window.onload = function() {
+            document.getElementById("collect").style.display = "none"; //页面完成载入后执行
+        };
+
+        loadPageData()
+
+        dqsa('#left', 1).addEventListener('click', function() {
+            dqsa("#left_blk", 1).style.display = "block";
+            dqsa("#right_blk", 1).style.display = "none";
+            elements.collect.style.display = "none";
+            elements.article.style.display = "block";
+            elements.search.style.display = "none";
+        }, true)
+        dqsa('#right')[0].addEventListener('click', function() {
+            dqsa("#left_blk", 1).style.display = "none";
+            dqsa("#right_blk", 1).style.display = "block";
+            elements.article.style.display = "none";
+            elements.collect.style.display = "block";
+            elements.search.style.display = "none";
+        }, true)
+
+        dqsa('input', 1).addEventListener('keypress', function(e) {
+            elements.search.style.display = "block";
+            if (e.keyCode == 108 || e.keyCode == 13) { //enter
+                search();
+                elements.article.style.display = "none";
+            }
+        });
+        dqsa('#runsearch')[0].addEventListener('click', function(e) {
+            search();
+            elements.article.style.display = "none";
+            elements.collect.style.display = "none";
+        });
+
+
+        function search() {
+            elements.search.innerHTML = `<div id="loading"><i class="fa fa-refresh fa-spin"></i></div>`;
+
+            ajax({
+                url: "https://www.bplewiki.top/php/article/my.php",
+                method: "POST",
+                send: `keyword=${elements.searchinput.value}`,
+                success: function(r) {
+                    let i = JSON.parse(r);
+                    if (i.noresults == "true") {
+                        elements.search.innerHTML = i.notice;
+                    } else {
+                        elements.search.innerHTML = "";
+                        Page.create(elements.search);
+                        Page.aptEasy1(elements.search,i.results);
+                    }
+                }
+            });
+        }
+
+        function resulthtml(i) {
+            return `
+<a href="../article/?id=${i.id}">
+<div class="contentBlock">
+             <img src="#" alt="预览图片" class="previewimg">
+            <h3 class="article_title">
+            ${i.title}
+            </h3>
+            <p>${i.content}</p>
+            </div></a>`;
+        }
+
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+
+
+        
+        // 数据加载逻辑
+
+        function loadPageData() {
+
+            ajax({
+                url: 'https://www.bplewiki.top/php/article/my.php',
+                method: "POST",
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if(response.noresults!=="false"){
+                        alert(response.notice);
+                        return;
+                    }
+                    Page.create(elements.article);
+                    Page.aptEasy1(elements.article,response.results);
+                }
+            });
+
+
+            ajax({
+                url: 'https://www.bplewiki.top/php/article/collectg.php',
+                method: "POST",
+                success: function(response) {
+                    response = JSON.parse(response);
+                    if(!response.success){
+                        alert(response.notice);
+                        return;
+                    }
+                    Page.create(elements.collect);
+                    Page.aptEasy1(elements.collect,response.articles);
+                }
+            });
+        }
+        
+
+
+        
+        
+        // 从collectg.php获取文章ID数组的函数
+    </script>
+</body>
+
+</html>

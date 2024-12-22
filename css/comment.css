@@ -1,0 +1,90 @@
+#comment p.h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-block-start: 0.83em;
+    margin-block-end: 0.83em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+
+.comment-block {
+    position: relative;
+    min-height: 140px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+    padding: 10px;
+    margin-left: 10px;
+    animation: blink 1.5s ease-out 3 forwards;
+    animation-play-state: paused;
+}
+
+@keyframes blink {
+
+    0%,
+    25%,
+    100% {
+        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+        /* 初始阴影 */
+    }
+
+    50% {
+        box-shadow: 20px 0 30px rgba(144, 238, 144, 0.5),
+            -20px 0 30px rgba(144, 238, 144, 0.5);
+    }
+}
+
+
+
+
+
+#comment .mainBlock {
+    max-width: 85%;
+    margin-top: 60px;
+}
+
+.mainP {
+    word-break: break-all;
+}
+
+#comment .subBlock {
+    max-width: 60%;
+    margin-top: 10px;
+}
+
+.subP {
+    word-break: break-all;
+}
+
+#comment img {
+    border: 1px solid green;
+    border-radius: 1000px;
+    width: 23px;
+    height: 23px;
+}
+
+#comment .pos {
+    position: absolute;
+    transform: translate(10%, 15%);
+}
+
+#comment .more {
+    display: flex;
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+#comment .more .font {
+    margin-left: 20px;
+    /* 为图标之间添加一些间隔 */
+}
+
+#comment .font:active {
+    color: green;
+}
+
+#comment .reply {
+    color: rgba(144, 238, 144, 1);
+}

@@ -1,0 +1,259 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name='description' content='这里是猪吧BPLEWiki的功能界面，你可以在这里找到许多网站的实用的扩展功能，帮助您更好地游玩新创捣蛋猪'>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="bottom_bar.css">
+    <link rel="stylesheet" href="/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="/css/dialog-choose.css">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>功能-猪吧维基BPLEWiki</title>
+    <style>
+        h1 {
+            font-size: 130%;
+            font-weight: 400;
+        }
+
+        .block {
+            width: 95%;
+            padding: 5px;
+            margin: 0 auto;
+            margin-bottom: 15px;
+            height: 100px;
+            border-radius: 10px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .block:active {
+            transform: scale(0.96);
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.4);
+        }
+
+        .father {
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+        }
+
+        .block_half {
+            float: left;
+            width: 42.5%;
+            padding: 5px;
+            margin: 0 auto;
+            margin-bottom: 15px;
+            border-left: 10px solid #a2ffa2;
+            height: 100px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        }
+
+        .block_half:active {
+            border-left: 10px solid #80DD80;
+        }
+
+        .download {
+            background: -webkit-linear-gradient(left, #73ff72, #84ff83);
+            background: -o-linear-gradient(right, #73ff72, #84ff83);
+            background: -moz-linear-gradient(right, #73ff72, #84ff83);
+            background: linear-gradient(to right, #73ff72, #84ff83);
+        }
+
+        .doc {
+            background: -webkit-linear-gradient(left, #ffb82c, #ffdc2c);
+            background: -o-linear-gradient(right, #ffb82c, #ffdc2c);
+            background: -moz-linear-gradient(right, #ffb82c, #ffdc2c);
+            background: linear-gradient(to right, #ffb82c, #ffdc2c);
+        }
+
+        .workshop {
+            background: -webkit-linear-gradient(left, #6c6aff, #8684ff);
+            background: -o-linear-gradient(right, #6c6aff, #8684ff);
+            background: -moz-linear-gradient(right, #6c6aff, #8684ff);
+            background: linear-gradient(to right, #6c6aff, #8684ff);
+        }
+
+
+        .font {
+            font-size: 520%;
+            //filter: blur(0.5px);
+            z-index: 1;
+            margin-left: 10px;
+            float: left;
+        }
+
+        .font_half {
+            font-size: 250%;
+            //filter: blur(0.5px);
+            z-index: 1;
+            margin-left: 10px;
+            color: #444746;
+        }
+
+        h2 {
+            margin-top: 6px;
+            margin-right: 10px;
+            float: right;
+        }
+
+        .h2_half {
+            font-size: 100%;
+            float: right;
+            !important
+        }
+
+        .space {
+            width: 100px;
+            height: 100%;
+            margin-bottom: 250px;
+        }
+
+        .fa-download {
+            color: #1A4D2E;
+        }
+
+        .fa-file-lines {
+            position: relative;
+            color: #b96200;
+            transform: translate(20%);
+        }
+
+        .fa-wrench {
+            color: #5c009a;
+        }
+
+        a {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            color: #484F55;
+            text-decoration-line: none;
+        }
+
+        body.dark-mode .fa-list {
+            color: grey !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>创建</h2>
+            <div class="operation">
+                <a class="choose" href="article/create.html"><i class="fa-solid fa-file-lines" style="color: #ffdc2c;"></i>新建文章</a>
+                <hr>
+                <a class="choose" href="workshop/create.html"><i class="fa-solid fa-wrench" style="color: #5c009a;"></i>上传创意工坊物品</a>
+                <hr>
+                <a class="choose" href="forum/create.html"><i class="fa-solid fa-signs-post" style="color: #b96200;"></i>发布帖子</a>
+            </div>
+        </div>
+    </div>
+    <h1>常用功能</h1>
+    <a href="download.html" style="color:black;">
+        <div class="download block">
+            <span class="font"><i class="fa-solid fa-download"></i></span>
+            <h2>新创下载</h2>
+        </div>
+    </a>
+    <a href="article/library.html?page=1" style="color:black;">
+        <div class="doc block">
+            <span class="font"><i class="fa-solid fa-file-lines"></i></span>
+            <h2>文档库</h2>
+        </div>
+    </a>
+    <a href="workshop/library.html?page=1" style="color:black;">
+        <div class="workshop block">
+            <span class="font"><i class="fa-solid fa-wrench"></i></span>
+            <h2>创意工坊</h2>
+        </div>
+    </a>
+    <div class="father">
+        <a href="peculiarity.html" class="peculiarity block_half" style="color:black;">
+            <div>
+                <span class="font_half"><i class="fa-solid fa-align-justify"></i></span>
+                <h2 class="h2_half">特性表</h2>
+            </div>
+        </a>
+        <a href="album/index.html" class="peculiarity block_half" style="color:black;">
+            <div>
+                <span class="font_half"><i class="fa-regular fa-image"></i></span>
+                <h2 class="h2_half">相册</h2>
+            </div>
+        </a>
+        <a href="calculator.html" class="peculiarity block_half" style="color:black;">
+            <div>
+                <span class="font_half"><i class="fa-solid fa-calculator"></i></span>
+                <h2 class="h2_half">油箱计算</h2>
+            </div>
+        </a>
+        <a href="doc/about.html" class="peculiarity block_half" style="color:black;">
+            <div>
+                <span class="font_half"><i class="fa-solid fa-circle-info"></i></span>
+                <h2 class="h2_half">关于我们</h2>
+            </div>
+        </a>
+        <a href="contribute.html" class="peculiarity block_half" style="color:black;">
+            <div>
+                <span class="font_half"><i class="fa-solid fa-yen-sign"></i></span>
+                <h2 class="h2_half">赞助我们</h2>
+            </div>
+        </a>
+        <a href="doc/link.html" class="peculiarity block_half" style="color:black;">
+            <div>
+                <span class="font_half"><i class="fa-solid fa-link"></i></span>
+                <h2 class="h2_half">友链</h2>
+            </div>
+        </a>
+        <a href="https://security.bplewiki.top" class="peculiarity block_half" style="color:black;">
+            <div>
+                <span class="font_half"><i class="fa-solid fa-shield-halved"></i></span>
+                <h2 class="h2_half">响应中心</h2>
+            </div>
+        </a>
+        <a href="/album/threebody.html" class="peculiarity block_half" style="color:black;">
+            <div>
+                <span class="font_half"><i class="fa-solid fa-flag-checkered"></i></span>
+                <h2 class="h2_half">参赛作品</h2>
+            </div>
+        </a>
+        <a href="/doc/pwa.html" class="peculiarity block_half" style="color:black;">
+            <div>
+                <span class="font_half"><i class="fa-solid fa-mobile-screen-button"></i></span>
+                <h2 class="h2_half">PWA</h2>
+            </div>
+        </a>
+    </div>
+    <div class="space"></div>
+
+    <div class="bottom-rec">
+        <div class="homepage_ico button">
+            <a href="index.html"><i class="fa-solid fa-house"></i></a>
+        </div>
+        <div class="chat_ico button">
+            <a href="forum.html"><i class="fa-solid fa-comment"></i></a>
+        </div>
+        <div class="plus button edit-button">
+            <span class="fa-stack fa-2x">
+                <div class="plusbtn">
+                    <i class="fa-solid fa-plus fa-stack-1x"></i>
+                </div>
+            </span>
+        </div>
+        <div class="list button">
+            <a href="function.html"><i class="fa-solid fa-list" style="color:green;"></i></a>
+        </div>
+        <div class="user button">
+            <a href="account.html"> <i class="fa-solid fa-user"></i></a>
+        </div>
+    </div>
+    <script src="/js/dialog.js"></script>
+    <script src="/js/darkmode.js"></script>
+</body>
+
+</html>

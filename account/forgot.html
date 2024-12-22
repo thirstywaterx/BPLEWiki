@@ -1,0 +1,293 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>忘记密码-猪吧维基BPLEWiki</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <style>
+        s-text-field,
+        s-button,
+        s-chip,
+        s-snackbar {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+        }
+        s-chip { margin-bottom: 15px; }
+        .step { display: none; }
+        .step.active { display: block; }
+        s-text-field {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        #verification-code {
+            width: 150px;
+            transform: translate(-70%);
+        }
+        s-snackbar {
+            position: relative;
+            transform: translate(-200%, -25%);
+            z-index: 500;
+        }
+        #snackbar { margin-top: 10px; }
+        #continue { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div class="topblk">
+        <div class="back" id="back">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+
+    <h1>忘记密码</h1>
+
+    <div id="operation">
+        <!-- Step 1: 输入用户名 -->
+        <div class="step active" id="step1">
+            <s-text-field label="请输入您要找回账号的用户名" id="username"></s-text-field>
+        </div>
+
+        <!-- Step 2: 输入验证码 -->
+        <div class="step" id="step2">
+            <s-chip type="filled-tonal">我们已将验证码发送至您的邮箱</s-chip><br>
+            <s-text-field
+                label="验证码"
+                type="number"
+                id="verification-code"
+                maxLength="5"
+                countered="true"
+                oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);">
+                <div slot="text">Code</div>
+            </s-text-field>
+
+            <s-snackbar id="snackbar-resent">
+                <s-icon-button type="filled" slot="trigger" id="resend-code">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+                        <path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/>
+                    </svg>
+                </s-icon-button>
+                <span id="snackbar-content">已重新发送验证码</span>
+            </s-snackbar>
+        </div>
+
+        <!-- Step 3: 设置新密码 -->
+        <div class="step" id="step3">
+            <s-text-field label="请输入新密码" id="new-password" type="password" style="margin-bottom: 0px;"></s-text-field>
+            <s-text-field label="请再次输入新密码" id="confirm-password" type="password"></s-text-field>
+        </div>
+    </div>
+
+    <s-button type="outlined" id="continue">继续</s-button>
+
+    <script src="/js/darkmode.js"></script>
+    <script src="https://cdn.jsdmirror.cn/npm/sober@0.7.1/dist/sober.min.js"></script>
+    <script>
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const btnContinue = document.getElementById('continue');
+
+        const usernameField = document.getElementById('username');
+        const verificationCodeField = document.getElementById('verification-code');
+        const newPasswordField = document.getElementById('new-password');
+        const confirmPasswordField = document.getElementById('confirm-password');
+
+        const btnResendCode = document.getElementById('resend-code');
+        const snackbarResent = document.getElementById('snackbar-resent');
+        const snackbarContent = document.getElementById('snackbar-content');
+
+        document.getElementById('back').addEventListener('click', () => history.back(), true);
+
+        // 当前步骤
+        let currentStep = 1;
+
+        // 用于重新发送验证码的倒计时，单位：秒
+        let resendCooldown = 0;
+        let countdownInterval = null;
+
+        // 启动倒计时函数
+        function startCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+                countdownInterval = null;
+            }
+            resendCooldown = 60;
+            countdownInterval = setInterval(() => {
+                if (resendCooldown > 0) {
+                    resendCooldown--;
+                } else {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                }
+            }, 1000);
+        }
+
+        // 「重新发送验证码」按钮点击事件
+        btnResendCode.addEventListener('click', () => {
+            if (resendCooldown > 0) {
+                // 冷却中，提示剩余时间
+                snackbarContent.textContent = `请 ${resendCooldown} 秒后重试`;
+                snackbarResent.show();
+            } else {
+                fetch('/php/user/forgotpassword.php?step=2', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        action: 'resendCode',
+                        username: usernameField.value.trim()
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        snackbarContent.textContent = "已重新发送验证码";
+                        snackbarResent.show();
+                        startCountdown();
+                    } else {
+                        // 如果后端报错，也可以给用户一个提示
+                        snackbarContent.textContent = data.message || "重新发送失败";
+                        snackbarResent.show();
+                    }
+                })
+                .catch(err => console.error(err));
+            }
+        });
+
+        btnContinue.addEventListener('click', () => {
+            // 每次点击前先清除所有输入框的 error 状态
+            usernameField.removeAttribute("error");
+            verificationCodeField.removeAttribute("error");
+            newPasswordField.removeAttribute("error");
+            confirmPasswordField.removeAttribute("error");
+
+            if (currentStep === 1) {
+                // Step 1: 提交用户名
+                const username = usernameField.value.trim();
+                if (!username) {
+                    alert("用户名不能为空！");
+                    // 给文本框加上 error="true"
+                    usernameField.setAttribute("error", "true");
+                    return;
+                }
+
+                fetch('/php/user/forgotpassword.php?step=1', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        action: 'sendCode',
+                        username: username
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // 后端成功 => 进入 step2
+                        step1.classList.remove('active');
+                        step2.classList.add('active');
+                        currentStep = 2;
+                        startCountdown();
+                    } else {
+                        // 后端失败 => 停留在 step1, 并显示错误
+                        usernameField.setAttribute("error", "true");
+                        alert(data.message || "用户名不存在");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("发送验证码请求失败");
+                });
+
+            } else if (currentStep === 2) {
+                // Step 2: 验证验证码
+                const code = verificationCodeField.value.trim();
+                if (!code) {
+                    alert("验证码不能为空！");
+                    verificationCodeField.setAttribute("error", "true");
+                    return;
+                }
+
+                fetch('/php/user/forgotpassword.php?step=2', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        action: 'verifyCode',
+                        username: usernameField.value.trim(),
+                        code: code
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // 验证码正确 => 进入 step3
+                        step2.classList.remove('active');
+                        step3.classList.add('active');
+                        currentStep = 3;
+                    } else {
+                        // 验证码错误 => 留在 step2
+                        verificationCodeField.setAttribute("error", "true");
+                        alert(data.message || "验证码验证失败");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("验证码验证请求失败");
+                });
+
+            } else if (currentStep === 3) {
+                // Step 3: 设置新密码
+                const newPass = newPasswordField.value.trim();
+                const confirmPass = confirmPasswordField.value.trim();
+
+                if (!newPass || !confirmPass) {
+                    alert("密码不能为空！");
+                    if (!newPass) newPasswordField.setAttribute("error", "true");
+                    if (!confirmPass) confirmPasswordField.setAttribute("error", "true");
+                    return;
+                }
+                if (newPass !== confirmPass) {
+                    alert("两次输入的密码不一致！");
+                    confirmPasswordField.setAttribute("error", "true");
+                    return;
+                }
+
+                fetch('/php/user/forgotpassword.php?step=3', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        action: 'resetPassword',
+                        username: usernameField.value.trim(),
+                        newPassword: newPass
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("密码重置成功！");
+                        window.location.href = '/siginin.html';
+                    } else {
+                        // 后端更新失败 => 留在 step3
+                        newPasswordField.setAttribute("error", "true");
+                        confirmPasswordField.setAttribute("error", "true");
+                        alert(data.message || "密码重置失败");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("密码重置请求失败");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

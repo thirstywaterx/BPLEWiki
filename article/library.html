@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/topbar.css" />
+    <link rel="stylesheet" href="../css/page.css" />
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文档库-猪吧维基BPLEWiki</title>
+    <style>
+        .fa-solid:active {
+            color: green;
+        }
+
+        .article-block {
+            box-sizing: border-box;
+            width: 90%;
+            min-height: 165px;
+            background-color: white;
+            padding: 20px;
+            border: 0;
+            margin: 0 auto;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+         body.dark-mode .article-block {
+    background-color: #333333 !important;
+        }
+
+        .back-btn {
+            transform: translateY(-15%);
+        }
+
+        .previewimg {
+            margin-right: 10px;
+            border-radius: 2px;
+            float: left;
+            width: 120px;
+            height: 120px;
+        }
+
+        .article-block h3 {
+            margin: 0;
+        }
+
+        a{
+           color:black;
+           text-decoration: none;
+       }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left back-btn"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <!-- 内容块 -->
+    <h1>文档库</h1>
+    <div id="content"></div>
+
+
+    <!-- 分页按钮 -->
+
+
+
+    <script src="/js/ajax.js"></script>
+    <script src="/js/page.b.js?v=0.0.4"></script>
+<script src="/js/darkmode.js"></script>
+    <script>
+    ajax({
+        url: `https://www.bplewiki.top/php/article/all.php?do=1`,
+        method: "POST",
+        success: function(rj) {
+            try{
+            let r=JSON.parse(rj)
+            if(!r.notice){
+                Page.create(document.querySelector('#content'));
+                Page.data.resultblock="article-block";
+                Page.aptEasy1(document.querySelector('#content'),r.ids);
+            }else{
+                alert(r.notice);
+            }
+            }catch(err){alert(rj+"，"+err)}
+        }
+    });
+    </script>
+
+    <script>
+        //返回按钮
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+    </script>
+</body>
+
+
+</html>

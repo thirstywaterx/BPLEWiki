@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" href="/css/copy.css" />
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>客服-猪吧维基BPLEWiki</title>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="../img/favicon.ico" alt="logo" style="position: absolute;height:40px;width: 40px;left: 50%;transform: translateX(-50%);">
+                <h3 style="position: absolute;height: 100px;width: 100px;left: 50%;text-align: center;transform: translate(-50%);line-height: 10%;color: #bebebe;">猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <div id="content">
+        <h1>客服</h1>
+        <p>您是否遇见了问题，或者您对猪吧维基有一些建议？您可以来联系我们的客服！只需往邮箱地址发送邮件即可，我们一般会在24小时内回复您。</p>
+        <p>邮箱地址：</p>
+        <div class="copy-block">
+            <p class="content">support@bplewiki.top</p>
+            <button id="copy"><i class="fa-regular fa-clone copy-btn"></i></button>
+        </div>
+        <p>请将您的问题详细描述，组织好语言，最好配上截图，这样有便于工作人员帮助您解决问题，谢谢。</p>
+    </div>
+</body>
+
+<script src="/js/darkmode.js"></script>
+<script src="/js/copy.js"></script>
+<script>
+    document.getElementById('btn').addEventListener('click', function() {
+        history.back();
+    }, true)
+</script>
+
+</html>

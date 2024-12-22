@@ -1,0 +1,411 @@
+<!doctype html>
+<html>
+
+<head>
+    <script type="text/javascript" src="js.js"></script>
+    <title>搜索页-猪吧维基BPLEWiki</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="search.css">
+    <link href="/css/page.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://www.bplewiki.top/css/darkmode.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .search-blk {
+            width: 100%;
+            height: 50px;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .home {
+            font-size: 120%;
+            color: #444746;
+            margin-right: 10px;
+        }
+
+        .search-enter {
+            display: flex;
+            align-items: center;
+            width: 80%;
+            max-width: 600px;
+            height: 30px;
+            border-radius: 30px;
+            padding-left: 10px;
+        }
+
+        .search-enter input {
+            border: none;
+            background-color: #e9eef6;
+            width: 100%;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .search-enter i {
+            margin-left: 10px;
+            color: #444746;
+        }
+
+        .block {
+            margin: 0;
+            width: 100%;
+            height: 40px;
+            background-color: #f3f5f7;
+            box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tab-block {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .tab {
+            text-align: center;
+            flex: 1;
+            cursor: pointer;
+            position: relative;
+            padding: 10px 0;
+        }
+
+        .tab p {
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        .green-blk {
+            width: 30px;
+            height: 5px;
+            background-color: green;
+            border-radius: 30px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        #loading {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            display: block;
+        }
+
+        #results {
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        #results div.resultcontain {
+            display: none;
+        }
+        
+        #results div.active {
+            display: block !important;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .contentBlock {
+            box-sizing: border-box;
+            width: 90%;
+            min-height: 165px;
+            background-color: white;
+            padding: 20px;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 10px;
+        }
+
+        .contentBlock:active {
+            transform: scale(0.96);
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .previewimg {
+            margin-right: 10px;
+            border-radius: 2px;
+            float: left;
+            width: 120px;
+            height: 120px;
+        }
+
+        .sonBlock {
+            width: 85%;
+            height: 50px;
+            box-sizing: border-box;
+            height: 40px;
+            padding: 16.66px;
+            border: 0;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-blk img {
+            display: none;
+        }
+
+        .logo-blk h1 {
+            display: none;
+        }
+
+        body.dark-mode .logo-blk {
+            background-color:#333333;
+       }
+
+        body.dark-mode .contentBlock {
+            background-color:#333333;
+       }
+
+        @media (min-width: 768px) {
+            .search-blk {
+                max-width: 400px;
+                margin-left: 130px;
+                height: 60px;
+            }
+
+            .block {
+                max-width: 400px;
+                margin-left: 130px;
+                border-bottom-left-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+
+            .contentBlock {
+                max-width: 450px;
+            }
+
+            .top-blk {
+                position: relative;
+                display: inline-block;
+            }
+
+            .logo-blk {
+                position: relative;
+                float: right;
+                margin-top: 3px;
+                width: 350px;
+                height: 70px;
+                background-color: white;
+                box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+                display: inline-block;
+                margin-top: 10px;
+                margin-right: 60px;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+            }
+
+            .top-main-blk {
+                width: 1000px;
+                margin: 0 auto;
+            }
+
+            .logo-blk img {
+                width: 70px;
+                margin-left: 10px;
+                margin-right: 10px;
+                display: block;
+            }
+
+            .logo-blk h1 {
+                color: grey;
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-main-blk">
+        <div class="top-blk">
+            <div class="search-blk">
+                <a href="index.html">
+                    <div class="home"><i class="fa-solid fa-house"></i></div>
+                </a>
+                <div class="search-enter">
+                    <input type="text" placeholder="键入以搜索" maxlength="30" />
+                    <i id="run-search" class="fa-solid fa-magnifying-glass"></i>
+                    
+                </div>
+            </div>
+            <div class="block">
+                <div class="tab-block">
+                    <div class="tab active" id="left" data-search="article">
+                        <b>
+                            <p>文章</p>
+                        </b>
+                    </div>
+                    <div class="tab" id="middle" data-search="workshop">
+                        <b>
+                            <p>创意工坊</p>
+                        </b>
+                    </div>
+                    <div class="tab" id="right" data-search="thread">
+                        <b>
+                            <p>主题帖</p>
+                        </b>
+                    </div>
+                    <div class="green-blk" id="indicator"></div>
+                </div>
+            </div>
+        </div>
+        <div class="logo-blk">
+            <img src="https://pic.imgdb.cn/item/660eaab168eb935713b430d7.png">
+            <h1>猪吧维基 · 搜索</h1>
+        </div>
+    </div>
+    <div id="results">
+        <div id="loading" style="display:none;"><i class="fa fa-refresh fa-spin"></i></div>
+        <div id="result-left" class="active resultcontain"></div>
+        <div id="result-middle" class="resultcontain"></div>
+        <div id="result-right" class="resultcontain"></div>
+    </div>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/page.b.js?v=0.0.7"></script>
+<script src="/js/darkmode.js"></script>
+<script src="//cdn.jsdelivr.net/npm/eruda"></script>
+<script>
+eruda.init()
+
+    var GETs = (function() {
+        var url = window.document.location.href.toString();
+        var u = url.split("?");
+        if (typeof(u[1]) == "string") {
+            u = u[1].split("&");
+            var get = {};
+            for (var i in u) {
+                var j = u[i].split("=");
+                get[j[0]] = j[1];
+            }
+            return get;
+        } else {
+            return {};
+        }
+    })(); //get对象
+
+    window.onload = function() {
+        const keyword = GETs[('keyword')];
+        if (keyword) {
+            const searchInput = document.querySelector('input');
+            searchInput.value = keyword;
+            search(); // 自动执行搜索
+        }
+    };
+
+    var cm = {
+        id: ["left-blk", "middle-blk", "right-blk"],
+        button: ["left", "middle", "right"]
+    };
+
+    function updateActiveTab(index) {
+        const tabs = document.querySelectorAll('.tab');
+        const indicator = document.getElementById('indicator');
+        tabs.forEach((tab, i) => {
+            if (i == index) {
+                tab.classList.add('active');
+                const tabRect = tab.getBoundingClientRect();
+                const parentRect = tab.parentElement.getBoundingClientRect();
+                indicator.style.width = `30px`;
+                indicator.style.left = `${tabRect.left - parentRect.left + tabRect.width / 2 - 15}px`;
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+    }
+
+    document.querySelectorAll('.tab').forEach((tab, index) => {
+        tab.addEventListener('click', () => updateActiveTab(index));
+        tab.addEventListener('click', () => {
+            let divblock=document.querySelector("#result-"+tab.id);
+            if(!divblock.classList.contains("active")){
+                document.querySelector("#results div.active").classList.remove("active");
+                divblock.classList.add("active");
+                divblock.style.display="block";
+                document.querySelector("#results div.active").style.display="none";
+            }
+        });
+    });
+
+    document.querySelector('input').addEventListener('keypress', function(e) {
+        if (e.keyCode == 108 || e.keyCode == 13) { // enter
+            search();
+        }
+    });
+
+    document.getElementById('run-search').addEventListener('click', function(e) {
+        search();
+    });
+
+    function search() {
+        let type=document.querySelector("div.tab.active").dataset.search;
+        if (type === "article") {
+            let ele=document.querySelector("#result-left");
+            document.querySelector('#loading').style.display="block";
+            ele.innerHTML = "";
+            ajax({
+                url: "/php/article/search.php",
+                method: "POST",
+                send: `keyword=${document.querySelector("input").value}`,
+                success: function(r) {
+                    document.querySelector('#loading').style.display="none";
+                    let i = JSON.parse(r);
+                    if (!i.success) {
+                        ele.innerHTML = i.notice;
+                    } else {
+                        Page.create(ele);
+                        Page.aptEasy1(ele, i.results);
+                    }
+                }
+            });
+        }else if(type==="workshop"){
+            let ele=document.querySelector("#result-middle");
+            document.querySelector('#loading').style.display="block";
+            ele.innerHTML = "";
+            ajax({
+                url: "/php/savefile/search.php",
+                method: "POST",
+                send: `keyword=${document.querySelector("input").value}`,
+                success: function(r) {console.log(r)
+                    document.querySelector('#loading').style.display="none";
+                    let i = JSON.parse(r);
+                    if (!i.success) {
+                        ele.innerHTML = i.notice;
+                    } else {
+                        Page.create(ele);
+                        Page.aptEasy2(ele, i.results);
+                    }
+                }
+            });
+        }
+    }
+
+    // Initialize the first tab as active
+    updateActiveTab(0);
+</script>
+</body>
+
+</html>

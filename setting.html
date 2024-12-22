@@ -1,0 +1,152 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+        <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+        <link rel="stylesheet" href="/css/topbar.css" />
+    <title>设置-猪吧维基BPLEWiki</title>
+    <style>
+        body {
+            margin-top:70px;
+            background-color: white;
+            max-width:100%;
+            padding:0px;
+        }
+
+        .space {
+            position: absolute;
+            top: 700px;
+            width: 100%;
+            height: 40px;
+        }
+
+        h1 {
+            margin-left: 10px;
+        }
+
+        .settings {
+            margin-top: 30px;
+        }
+
+        p {
+            position: relative;
+            margin-top: 0;
+            margin-left: 16px;
+            margin-bottom: -4px;
+            top: 50%;
+            transform: translateY(-50%);
+            //top: 10px;
+        }
+
+        .block {
+            width: 100%;
+            height: 40px;
+            background-color: #fafafa;
+            margin-bottom: 1px;
+            margin-top: 5px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .block:active {
+            background-color: lightgreen;
+        }
+
+        .fa-angle-right {
+            position: relative;
+            margin-right: 15px;
+            top: 50%;
+            transform: translateY(-140%);
+            float: right;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <h1>设置</h1>
+    <div class="settings">
+        <a href="account/account.html">
+            <div class="block">
+                <p>我的账户</p>
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </a>
+        <a href="account/nickname.html">
+            <div class="block">
+                <p>更改昵称</p>
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </a>
+        <a href="account/password.html">
+            <div class="block">
+                <p>更改密码</p>
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </a>
+        <a>
+<a href="account/email.html">
+            <div class="block">
+                <p>更改邮箱</p>
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </a>
+<a href="doc/user-agreement.html">
+            <div class="block">
+                <p>用户协议</p>
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </a>
+    </div>
+    <div class="settings">
+        <a href="service.html">
+            <div class="block">
+                <p>客服</p>
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </a>
+        <a>
+<a href="/darkmode.html">
+                  <div class="block">
+                  <p>暗黑模式</p>
+                 <i class="fa-solid fa-angle-right"></i>
+           </div>
+       </a>
+            <div class="block">
+        <a href="doc/about.html">
+                <p>关于</p>
+                <i class="fa-solid fa-angle-right"></i>
+            </div>
+        </a>
+    </div>
+
+    <div class="space">
+    </div>
+<script src="/js/darkmode.js"></script>
+    <script>
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+    </script>
+</body>
+
+</html>

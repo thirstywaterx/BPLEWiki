@@ -1,0 +1,594 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <meta name="keywords" content="新创, 捣蛋猪, 下载, 模组, 愤怒的小鸟, 新创捣蛋猪">
+    <meta name="description" content="新创捣蛋猪是原版捣蛋猪的一个模组，它拥有比原版更多的特性，更多的物品，更大的地图，比原版更开放......是一个青出于蓝而胜于蓝的模组，你能用它做出许多原版无法做到的东西，你可以做出包括但不限于机甲，坦克，星舰等等。">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>新创捣蛋猪下载-猪吧维基BPLEWiki</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .logo {
+            position: fixed;
+            width: 130px;
+            height: 40px;
+            margin: 5px;
+            padding: 2px;
+            top: 1px;
+            float: left;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+
+        }
+
+        body {
+            background: url(https://pic.imgdb.cn/item/660eaab168eb935713b42f03.png) no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+
+        .content {
+            position: absolute;
+            width: 100%;
+            min-height: 1300px;
+            padding: 2px;
+            padding-top: 0;
+            top: 300px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+        }
+
+
+
+        h1 {
+            position: absolute;
+            left: 50%;
+            top: 95px;
+            font-size: 220%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-shadow: 5px 5px 30px rgba(0, 0, 0, 9);
+        }
+
+        .topblk h3 {
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            left: 45px;
+            line-height: 10%;
+            color: grey;
+        }
+
+        button {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: none;
+            border-radius: 30px;
+            width: 100px;
+            height: 48px;
+            font-size: 100%;
+            border: 1px solid green;
+            color: green;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
+                box-shadow 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        button:active {
+            transform: translate(-50%, -50%) scale(0.95);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+            transition: transform 0.2s cubic-bezier(0.25, 0.1, 0.25, 1),
+                box-shadow 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+
+
+        .join-button {
+            margin-top: 50px;
+            box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        .download-button {
+            top: 200px;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+        }
+
+
+        .greenblk {
+            margin: 0 auto;
+            width: 100px;
+            height: 5px;
+            border-radius: 10px;
+            background-color: green;
+        }
+
+        .info {
+            position: relative;
+            width: 87%;
+            min-height: 240px;
+            top: 200px;
+            margin-top: 60px;
+            left: 50%;
+            padding: 12px;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid green;
+        }
+
+        .info p {
+            margin-top: 55px !important;
+        }
+
+        .info img {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+            top: 12px;
+            width: 100px;
+            height: 100px;
+        }
+
+        .other img {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #community-img {
+            width: 80px;
+            height: 80px;
+            margin-left: -5px;
+        }
+
+        #military-img {
+            width: 70px;
+            height: 70px;
+        }
+
+        #beta-img {
+            width: 70px;
+            height: 70px;
+        }
+
+
+        .other {
+            position: relative;
+            width: 87%;
+            height: 65px;
+            bottom: 100px;
+            left: 50%;
+            padding: 12px;
+            margin-top: 20px;
+            transform: translate(-50%);
+            background-color: white;
+            border-radius: 10px;
+            border: 1px solid green;
+        }
+
+        .other-container {
+            position: relative;
+            margin-top: 200px;
+        }
+
+        .other h3 {
+            position: relative;
+            left: 90px;
+            width: 200px;
+            font-size: 150%;
+            margin-top: -70px;
+        }
+
+        .fa-circle-info {
+            position: relative;
+            font-size: 50%;
+            transform: translateY(-25%);
+            margin-left: 8px;
+            color: #444746;
+        }
+
+        .fa-circle-info:active {
+            color: grey;
+        }
+
+        .name {
+            position: absolute;
+            left: 50%;
+            top: 117px;
+            transform: translate(-50%, -50%);
+            font-size: 150%;
+        }
+
+        .content p {
+            margin-top: 150px;
+        }
+
+        .know-info p {
+            position: relative;
+            text-align: center;
+            margin: 0;
+            margin-top: 2px;
+            font-size: 60%;
+        }
+
+
+
+        .know-info {
+            position: absolute;
+            left: 100px;
+            top: 55px;
+            width: 80px;
+            height: 15px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .fa-caret-right {
+            position: relative;
+            top: -45px;
+            float: right;
+            font-size: 250%;
+            color: #444746;
+        }
+
+        .fa-community {
+            top: -50px;
+        }
+
+        .fa-brands {
+            float: left;
+            font-size: 40px;
+            margin-right: 30px;
+        }
+
+        .fa-android {
+            color: lightgreen;
+        }
+
+        .fa-windows {
+            color: #30c4f4;
+        }
+
+        hr {
+            position: relative;
+            border: none;
+            float: left;
+            width: 80%;
+            height: 1px;
+            background-color: lightgrey;
+            margin-top: 20px;
+        }
+
+        .modal-content .operation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .modal-content .choose {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        .choose:active {
+            background-color: #f5f5f5;
+            ;
+        }
+
+        .modal-content .choose:not(:last-child) hr {
+            width: 100%;
+            border-top: 1px solid #ccc;
+            margin-top: 20px;
+        }
+
+        .modal-content .choose i {
+            margin-right: 10px;
+        }
+
+        .modal-content .choose p {
+            margin: 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        #content-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: filter 0.5s ease;
+        }
+
+        #content-container.blur {
+            filter: blur(10px);
+            /* 应用高斯模糊 */
+            pointer-events: none;
+        }
+
+        #popup {
+            position: fixed;
+            bottom: -300px;
+            /* 初始位置在视图外 */
+            left: 50%;
+            transform: translate(-50%);
+            width: 90%;
+            max-width: 600px;
+            /* 宽度100% */
+            background-color: #fff;
+            padding: 20px;
+            padding-bottom: 45px;
+            border-radius: 20px 20px 0 0;
+            /* 顶部圆角修复 */
+            box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            text-align: center;
+            transition: bottom 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #E5E1E6;
+            /* 非线性动画 */
+        }
+
+        #popup.active {
+            bottom: 0;
+            /* 弹窗最终位置 */
+        }
+
+        #popup .bar {
+            width: 25px;
+            height: 2px;
+            border-radius: 50px;
+            background-color: #A5A3AA;
+            margin: 0 auto;
+            margin-top: 0px;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            margin: 0 0 15px;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        #popup s-button {
+            margin-top: 25px;
+        }
+
+        @media (min-width: 768px) {
+            .content {
+                width: 50%;
+                left: 50%;
+                transform: translate(-50%);
+            }
+
+        }
+    </style>
+</head>
+
+<body style="margin: 0;">
+
+    <div id="content-container">
+        <div class="topblk">
+            <a href="../index.html">
+                <div class="logo">
+                    <img src="/img/favicon.ico" alt="logo" style="position: absolute;height:40px;width: 40px;">
+                    <h3>猪吧维基</h3>
+                </div>
+            </a>
+        </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content modal-content-creative">
+                <span class="close-button">&times;</span>
+                <h2>新创下载</h2>
+                <div class="operation">
+
+                </div>
+            </div>
+        </div>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content modal-content-community">
+                <span class="close-button">&times;</span>
+                <h2>社区版下载</h2>
+                <div class="operation">
+                </div>
+            </div>
+        </div>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content modal-content-community">
+                <span class="close-button">&times;</span>
+                <h2>军事版下载</h2>
+                <div class="operation">
+                    <a class="choose" href="https://bplewiki.s3.ap-northeast-2.amazonaws.com/bple/%E5%86%9B%E4%BA%8B%E7%89%8824.7.12.zip">
+                        <i class="fa-brands fa-windows"></i>
+                        <p>Windows</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="myModal" class="modal">
+            <div class="modal-content modal-content-community">
+                <span class="close-button">&times;</span>
+                <h2>关于军事版</h2>
+                <div class="operation">
+                    <p>军事版是由<b>黑暗森林中的雀斑猪</b>开发的一款新创改版，其拥有更多的特性，如雀斑猪行走，更多部件等。</p>
+                    <p>具体特性演示视频可以到哔哩哔哩同名UP主的视频下研究。</p>
+                </div>
+            </div>
+        </div>
+
+        <h1>新创捣蛋猪</h1>
+        <button class="download-button edit-button">立即下载</button>
+
+        <div class="content">
+            <div class="greenblk"></div>
+            <div class="info">
+                <img src="/img/yuanye.png" alt="原野与森林">
+                <h3 class="name">原野与森林</h3>
+                <p>他是新创捣蛋猪的开发者，一名在校大学生，平时学业很重，很少有空闲时间。他开发的新创在2020年风靡全B站，为新创吸引了不少的人气，并逐渐形成了一个大圈子。</p>
+            </div>
+            <div class="info">
+                <img src="/img/bp.png" alt="新创捣蛋猪">
+                <h3 class="name">新创捣蛋猪</h3>
+                <p>新创捣蛋猪是原版捣蛋猪的一个模组，它拥有比原版更多的特性，更多的物品，更大的地图，比原版更开放......是一个青出于蓝而胜于蓝的模组，你能用它做出许多原版无法做到的东西，你可以做出包括但不限于机甲，坦克，星舰等等。</p>
+            </div>
+            <div class="info">
+                <img src="/img/group2.png" alt="群聊图标">
+                <h3 class="name">新创二群</h3>
+                <p>这里是新创玩家们的官方交流群（群号：881944532），群员200人左右，建议玩家们加入此聊群，学习新创中的特性与技术，提升自己的能力。</p>
+                <a href="http://qm.qq.com/cgi-bin/qm/qr?_wv=1027&k=VIntcA9F_QUP_MBlzaiWNnDjxIfhAg48&authKey=ITprRd8CjKim0q8ZPSA5atsYglC%2F9HoLnW0MIPPWWdYb%2Fs7mEz0LK3gtL35Sfiwd&noverify=0&group_code=881944532"><button class="join-button">立即加入</button></a>
+            </div>
+
+            <div class="other-container">
+                <div class="other edit-button">
+                    <img src="/img/bpre.png" alt="社区版图标" id="community-img">
+                    <h3>社区版</h3>
+                    <i class="fa-solid fa-caret-right fa-community"></i>
+                </div>
+
+                <div class="other edit-button">
+                    <img src="/img/bp.png" alt="军事版图标" id="military-img">
+                    <h3>军事版<i class="fa-solid fa-circle-info edit-button"></i></h3>
+                    <i class="fa-solid fa-caret-right"></i>
+                </div>
+
+                <a href="/other/pdf.html?url=https://s3.bplewiki.top/doc/guide.pdf" href-file="https://s3.bplewiki.top/doc/guide.pdf" style="color: black;">
+                    <div class="other">
+                        <img src="/img/beta.png" alt="科技群图标" id="beta-img">
+                        <h3>科技版</h3>
+                        <div class="know-info">
+                            <p>了解详情</p>
+                        </div>
+                        <i class="fa-solid fa-caret-right"></i>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup">
+        <div class="bar"></div>
+        <h2>Notice</h2>
+        <p>Due to Discord's terms and conditions, the download service is not available in your region.You can go to the bple server to download.
+        </p>
+        <s-button onclick="javascript:window.open(`https://discord.gg/bad-piggies-mod-leading-edge-701019016445296641`)">Take Me There!</s-button>
+    </div>
+
+
+    <script src="/js/dialog.js"></script>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/darkmode.js"></script>
+    <script type="module" src="https://unpkg.com/sober@0.4.1/dist/sober.min.js"></script>
+    <script>
+        // 使用IP API来获取用户的地理位置
+        async function checkUserIP() {
+            try {
+                // 使用 fast 的IP地理位置 API
+                const response = await fetch('https://ipapi.co/json/'); // 也可以使用其他快速IP服务，例如 ipify
+                const data = await response.json();
+
+                // 检查是否在中国之外
+                if (data.country !== 'CN') {
+                    showPopup();
+                }
+            } catch (error) {
+                console.error('无法获取IP地址信息', error);
+            }
+        }
+
+        function showPopup() {
+            // 添加模糊效果
+            const contentContainer = document.getElementById('content-container');
+            contentContainer.classList.add('blur');
+
+            // 激活弹窗的动画
+            const popup = document.getElementById('popup');
+            popup.classList.add('active');
+        }
+
+        // 页面加载完成后执行IP检查
+        window.onload = checkUserIP;
+
+        ajax({
+            url: "/json/download.json",
+            method: "GET",
+            success: function(download) {
+                download = JSON.parse(download);
+                let operationCreative = document.querySelector(`.modal-content-creative .operation`);
+                let operationCommunity = document.querySelector(`.modal-content-community .operation`);
+
+                // 为新创下载弹窗插入选项
+                // 假设 ajax 请求成功返回的 JSON 数据已存储在变量 downloadData 中
+                // 这里模拟使用 AJAX 请求获取的数据，实际使用时替换为 AJAX 请求获取的数据
+
+
+                function insertDownloadLinks() {
+                    // 定义下载链接的顺序
+                    const order = ["android", "android44", "windowsX64", "windowsX32", "bpreAndroid", "bpreWindows", "bpreWindowsBeta"];
+
+                    // 分别获取两个弹窗的操作区域
+                    const operationCreative = document.querySelector(`.modal-content-creative .operation`);
+                    const operationCommunity = document.querySelector(`.modal-content-community .operation`);
+
+                    // 清空现有的内容
+                    operationCreative.innerHTML = '';
+                    operationCommunity.innerHTML = '';
+
+                    // 遍历顺序数组，将下载链接插入到相应的弹窗中
+                    order.forEach((key, index) => {
+                        // 根据key判断应使用的图标
+                        const iconClass = (key.includes('android') || key === 'bpreAndroid' || key === "bpreAndroidBeta") ? 'fa-android' : 'fa-windows';
+
+                        // 创建链接元素
+                        const linkElement = `
+<a class="choose" href="${download[key].link}">
+    <i class="fa-brands ${iconClass}"></i>
+    <p>${download[key].displayName}</p>
+</a>`;
+
+                        // 根据索引决定插入的位置，前四个是新创下载，后两个是社区版下载
+                        if (index < 4) {
+                            operationCreative.innerHTML += linkElement;
+                            // 只为前三个新创下载选项添加分割线
+                            if (index < 3) operationCreative.innerHTML += '<hr>';
+                        } else {
+                            operationCommunity.innerHTML += linkElement;
+                            // 为社区版的第一个选项后添加分割线
+                            if (index < 6) operationCommunity.innerHTML += '<hr>';
+                        }
+                    });
+                }
+
+                insertDownloadLinks();
+            }
+        }); //这段代码一运行就会发送请求
+    </script>
+</body>
+
+</html>

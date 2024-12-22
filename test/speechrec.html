@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>语音转文字</title>
+</head>
+<body>
+  <button id="start-btn">按住按钮说话</button>
+  <p id="result"></p>
+
+  <script>
+(function(){var script=document.createElement('script');script.src="//cdn.jsdelivr.net/npm/eruda";document.body.appendChild(script);script.onload=function(){eruda.init()}})();
+
+
+// 确保浏览器支持SpeechRecognition
+if (!('SpeechRecognition' in window || 'webkitSpeechRecognition' in window)) {
+  alert('您的浏览器不支持语音识别！');
+}
+
+const startBtn = document.getElementById('start-btn');
+const result = document.getElementById('result');
+
+// 创建语音识别实例
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+recognition.lang = 'zh-CN';  // 设置语音识别的语言为中文
+recognition.interimResults = true;  // 获取实时识别结果
+
+// 按住按钮开始语音识别
+startBtn.addEventListener('pointerdown', (e) => {
+  e.preventDefault();
+  recognition.start();  // 启动语音识别
+  result.textContent = '正在听您说话...';
+});
+
+// 松开按钮结束语音识别
+startBtn.addEventListener('pointerup', () => {
+  recognition.stop();  // 停止语音识别
+  result.textContent = '语音识别结束。';
+});
+
+// 处理识别到的结果
+recognition.onresult = (event) => {
+  let transcript = '';
+  for (let i = 0; i < event.results.length; i++) {
+    transcript += event.results[i][0].transcript;
+  }
+  result.textContent = transcript;  // 显示转换后的文字
+};
+
+// 处理语音识别错误
+recognition.onerror = (event) => {
+  result.textContent = '发生错误: ' + event.error;
+};
+
+  </script>
+</body>
+</html>

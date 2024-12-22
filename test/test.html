@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Ajax+PHP</title>
+	<!-- 这是在某鸟教程网站复制下来的jquery ,可以上官网下载-->
+	<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+	<h1 id="header">测试</h1>
+	用户名:<input type="text" id="username" name="username" /><br>
+	密码:  <input type="password" id="password" name="password" /><br>
+		   <button type="button" class="butn">Ajax提交</button><br>	
+		   <span id = "con"></span>
+<script type="text/javascript">
+$(document).ready(function(){
+    $(".butn").click(function(){
+        var username = $("#username").val();
+        var password = $("#password").val();
+        $.ajax({
+			//请求的地址
+             url: "test.php", 
+			//数据传输的方式
+             type: "POST",
+			 //需要传输的数据
+             data:{name:username,pwd:password},
+			 //返回数据的格式
+             dataType: "json",
+			 //若json返回失败
+             error: function(){  
+                 alert('请输入用户名,和密码');  
+             },  
+			 //若json有数据返回
+			 //	将所有数据写到res中,直接用 res.status/res.data/res.msg调调用数据(res可以自定义)
+             success: function(res){//如果调用php成功 
+			 /*
+				function returnJson($status,$data="",$msg="")
+				{
+					$j_array = array("status"=>$status,"data"=>$data,"msg"=>$msg);
+					echo json_encode($j_array);
+					exit;
+				}
+				
+				注意:status,data,msg,需要前后端一致
+			 */
+				if(res.status==0)
+				{
+					alert(res.msg);
+					var str = res.msg;
+					$("#header").empty();//我习惯先清空id=header 里的值
+					$("#header").append(str);//然后进行赋值
+					$("#con").empty();//因为是登录失败,所有清空id=con里面的值
+				}
+				else
+				{
+					alert('用户密码正确');
+					var str = res.msg;//我这里用来接收session
+					$("#header").empty();//我习惯先清空id=header 里的值
+					$("#header").append(str+'登录成功')//然后进行赋值
+					
+					$("#con").empty();//因为我这里登录按钮重复按,所有我就登录后先清空在赋值
+					
+					//输出数据
+					var i=0;
+					var res_len = res.data.length ;
+					for(i=0;i<res_len;i++)
+					{	
+						//输出类似于表格的数据---也可以设置id样式,或者设置class样式
+						//这里就要 i 做循环,可以用别的
+						// var str = "<p>后台的序号输出:"+res.data[i].id+"</p>"; 原来版本
+						var str = "<p id="+'p_'+i+" class="+'c_'+i+">后台的序号输出:"+res.data[i].id+"</p>";
+						
+						//重点:-- 赋值给id=con 里面
+						$("#con").append(str)
+					}
+				}
+                
+            }
+        });
+    })
+})
+</script>
+</body>
+</html>

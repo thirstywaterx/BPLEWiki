@@ -1,0 +1,1225 @@
+<!DOCTAPE html>
+<html>
+<head>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<style>
+body{
+margin:0;
+padding:0;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+#jr{
+display:none;
+}
+#full{
+position:fixed;
+top:3vw;right:3vw;
+opacity:0.7
+}
+#j,#k,#l{
+  margin:10;width:26;height:26;background:#999;
+}
+</style>
+<title>eating(matter.js) 1.7.7</title>
+<!--link rel="stylesheet" href="style.css"-->
+<link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+</head>
+<body>
+<!--html-->
+<noscript>noscript</noscript>
+
+
+<canvas id="canvas" width="1200" height="675" style="max-width:100vw;max-height:100vh;display:block;margin:auto;">你的浏览器不支持canvas</canvas>
+<div id="control">
+  <div id="jr" style="margin:10;width:100;height:100;background:#ccc;">
+    <div id="jrc" style="position:relative;width:20;height:20;background:#ddd"></div>
+  </div>
+</div><!--#control-->
+<div id="full">
+<button style="margin:10" ><i class="fa fa-expand" style="text-align:center;"></i></button>
+<!--button style="margin:10" onclick="document.documentElement.webkitRequestFullScreen();"><i class="fa fa-expand" style="text-align:center;"></i></button>
+<button style="margin:10" onclick="document.webkitExitFullscreen()"><i class="fa fa-compress" style="text-align:center;"></i></button-->
+</div>
+<div id="log"></div>
+<!--a href="?m=1">11</a-->
+<!-- <script src="matter.js"></script> -->
+<script src="https://cdn.bootcdn.net/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<!--script src="matter-spring.js"></script-->
+<!-- <script src="tool.js"></script> -->
+<script>
+//全屏相关
+!(function(){
+    let fullbu=document.querySelector("#full button");
+    let fulltext=document.querySelector("#full button i");
+    fullbu.addEventListener("click", (event) => {
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          document.documentElement.requestFullscreen();
+        }
+    });
+    document.addEventListener("fullscreenchange", function(){
+        if(document.fullscreenElement){
+            fulltext.classList.remove("fa-expand");
+            fulltext.classList.add("fa-compress");
+        }else{
+            fulltext.classList.remove("fa-compress");
+            fulltext.classList.add("fa-expand");
+        }
+    });
+})();
+</script>
+
+<script>
+function dgbyid(idid){
+return document.getElementById(idid)
+}
+
+function at(n) {
+    // ToInteger() abstract op
+    n = Math.trunc(n) || 0;
+    // Allow negative indexing from the end
+    if (n < 0) n += this.length;
+    // OOB access is guaranteed to return undefined
+    if (n < 0 || n >= this.length) return undefined;
+    // Otherwise, this is just normal property access
+    return this[n];
+}
+const TypedArray = Reflect.getPrototypeOf(Int8Array);
+for (const C of [Array, String, TypedArray]) {
+    Object.defineProperty(C.prototype, "at",
+        {
+            value: at,
+            writable: true,
+            enumerable: false,
+            configurable: true
+        });
+}
+
+var GETs = (function(){
+    let url = window.document.location.href.toString();
+    let u = url.split("?");
+    if(typeof(u[1]) == "string"){
+        u = u[1].split("&");
+        let get = {};
+        for(let i in u){
+            let j = u[i].split("=");
+            get[j[0]] = j[1];
+        }
+        return get;
+    } else {
+        return {};
+    }
+})();//get对象
+if(GETs.m==="a"){
+  dgbyid("canvas").width=1200;
+  dgbyid("canvas").height=545;
+}else if(GETs.m==="b"){
+  dgbyid("canvas").width=1680;
+  dgbyid("canvas").height=763;
+}else if(GETs.m==="c"){
+  let w,h;
+  if(window.screen.width>window.screen.height){
+    w=window.screen.width;
+    h=window.screen.height;
+  }else{
+    w=window.screen.height;
+    h=window.screen.width;
+  }
+  let s=(1200+675)/2/((w+h)/2);
+  w*=s;
+  h*=s;
+  dgbyid("canvas").width=w;
+  dgbyid("canvas").height=h;
+}else{
+  //window.open("?m=b","_self")
+}
+//logs(dqsa("body")[0])
+
+
+// matter.js 0.19.0
+
+
+// 模块别名
+var Engine = Matter.Engine,
+    Render = Matter.Render,
+    Runner = Matter.Runner,
+    Bodies = Matter.Bodies,
+    Constraint = Matter.Constraint,
+    Composite = Matter.Composite,
+    Composites = Matter.Composites,
+    Body = Matter.Body,
+    MouseConstraint = Matter.MouseConstraint,
+    Mouse = Matter.Mouse,
+    Query = Matter.Query,
+    Events = Matter.Events,
+    Example = Matter.Example,
+    Vector = Matter.Vector;
+    
+//Matter.use('matter-springs');//弹簧插件
+
+
+// create an engine
+var engine = Engine.create({
+  gravity:{x:0,y:0},
+  timing:{timeScale:1}
+});
+
+// create a renderer
+var render=(function(){
+    let canvas=dgbyid("canvas");
+    return Render.create({
+        canvas: canvas,
+        //element: document.body,
+        engine: engine,
+        options: {
+            width: canvas.width,
+            height: canvas.height,
+            background:"#eee",
+            hasBounds:true,
+            //showAngleIndicator: true,
+            showPerformance: false,
+            showDebug: false,
+            showIds: false,
+            //showSeparations: true,
+            //showVelocity: true,
+             wireframes: false//线框模式
+        }
+    });
+})();
+//...
+var runner = Runner.create();
+
+var loadstyle=[
+  {
+  width:1200,
+  height:675
+  },
+  {
+  width:600,
+  height:300
+  }
+];
+if(GETs.m && false){
+  
+  
+  let styles=loadstyle[Number(GETs.m)];
+  render.options.width=styles.width
+  render.options.height=styles.height
+  render.canvas.width=styles.width
+  render.canvas.height=styles.height
+}
+
+</script>
+<script>
+
+var hero=(function(){
+        let hero=Bodies.rectangle(100, 100, 24, 24, {
+          render:{
+            fillStyle:"#333333",
+            opacity:1
+          },
+          collisionFilter:{group: Body.nextGroup(true)},
+          label:"hero"
+        });
+        Composite.add(engine.world,[hero]);
+        return hero;
+    })(),
+    shockwave=Bodies.circle(100,100,24,{
+      render:{
+        fillStyle:"#333333",
+        opacity:0.5
+      },
+      isSensor:true,
+      collisionFilter:{group: hero.collisionFilter.group},
+      label:"shockwave"
+    }),
+    tishi=(function(){
+        let size = 50,
+            x = 40,
+            y = 40,
+            partA = Bodies.rectangle(x, y, size, size / 8, {render: {fillStyle:"#ff0000",opacity:0.8},isSensor:true}),
+            partB = Bodies.rectangle(x, y, size / 8, size, { render: partA.render,isSensor:partA.isSensor}),
+            partC = Bodies.circle(x, y, size * 5 / 7 /2, { render: {fillStyle:rgba(0,0,0,0), lineWidth: size / 8,strokeStyle: "#ff0000",opacity:0.8} ,isSensor:partA.isSensor});
+        let tishi = {
+            body: Body.create({
+                parts: [partA, partB, partC]
+            }),
+            live:false,
+            show(position){
+                Body.setPosition(tishi.body,position);
+                for(let i=1;i<tishi.body.parts.length;i++){
+                  tishi.body.parts[i].render.visible=true;
+                }
+            },
+            hide(){
+                for(let i=1;i<tishi.body.parts.length;i++){
+                  tishi.body.parts[i].render.visible=false;
+                }
+            }
+        };
+        tishi.hide();
+        
+        Body.setStatic(tishi.body,true)
+        Composite.add(engine.world,[tishi.body]);
+        return tishi;
+    })();
+    
+var walls=[
+  Bodies.rectangle(render.options.width/2, 0, render.options.width, 30, {label:"wall",isStatic:true}),
+  Bodies.rectangle(render.options.width/2, render.options.height, render.options.width, 30, {label:"wall",isStatic:true}),
+  Bodies.rectangle(0, render.options.height/2, 30, render.options.height, {label:"wall",isStatic:true}),
+  Bodies.rectangle(render.options.width, render.options.height/2, 30, render.options.height, {label:"wall",isStatic:true})
+]
+Composite.add(engine.world,walls)
+
+
+var score={
+  n:(function(){
+      if (localStorage.scoren) {
+        return Number(localStorage.scoren);
+      } else {
+        return 0;
+      }
+  })(),
+  l:(function(){
+      if (localStorage.scorel) {
+        return Number(localStorage.scorel);
+      } else {
+        return 0;
+      }
+  })(),
+  skill:{
+    j:10,k:30,l:100,
+    buj:undefined,
+    buk:undefined,
+    bul:undefined
+  },
+  a(){
+    score.n++
+    if(score.n>score.l){
+        score.l=score.n;
+        if(score.l===score.skill.j){
+        showText.notice.add("解锁技能。靠近粉块，按J释放冲击波")
+        }else if(score.l===score.skill.k){
+        showText.notice.add("解锁技能。按K释放地雷")
+        }else if(score.l===score.skill.l){
+        showText.notice.add("解锁技能。按L，再点击屏幕，向点击区域发射子弹",4000)
+        }
+    }
+    score.save()
+    score.t()
+  },
+  s(){
+    if(hero.render.opacity===1){
+      score.n--;
+      localStorage.scoren=score.n;
+      Body.setPosition(hero,{x:100,y:100})
+      hero.render.opacity=0.5;
+      setTimeout(function(){hero.render.opacity=1;},3000);
+      score.t()
+      return true;
+    }else{
+      return false;
+    }
+  },t(){
+    if(score.n<score.skill.j){
+      score.skill.buj.coolingfull()
+      score.skill.buj.islock=true
+    }else{
+      score.skill.buj.islock=false
+    }
+    if(score.n<score.skill.k){
+      score.skill.buk.coolingfull()
+      score.skill.buk.islock=true
+    }else{
+      score.skill.buk.islock=false
+    }
+    if(score.n<score.skill.l){
+      score.skill.bul.coolingfull()
+      score.skill.bul.islock=true
+    }else{
+      score.skill.bul.islock=false
+    }
+  },save(){
+    localStorage.scoren=score.n;
+    localStorage.scorel=score.l;
+  }
+};
+var skill={
+    shockwave:{
+        body:shockwave,
+        release(){
+            
+        },
+        diffuse(){
+          if(Composite.allBodies(engine.world).indexOf(shockwave)!==-1){
+            if(shockwave.area<3.14*24**2*10){
+              Body.scale(shockwave,1.2,1.2)
+              Body.setPosition(shockwave,hero.position)
+              shockwave.render.opacity-=0.2
+            }else{
+              for(let i of Query.collides(shockwave, Composite.allBodies(engine.world))){
+                if(i.bodyB.label==="hero" || i.bodyB.label==="shockwave" || i.bodyB.isStatic===true){continue}
+                let p=Vector.sub(i.bodyB.position,i.bodyA.position)
+                Body.applyForce( i.bodyB, i.bodyB.position, Vector.mult(p,0.1/Math.sqrt(p.x**2+p.y**2)));
+              }
+              Composite.remove(engine.world,[shockwave])
+            }
+          }
+        }
+    },
+    mines: {
+    
+    },
+    shoots: {
+    
+    }
+};
+
+setTimeout("score.t()",300)
+
+
+Events.on(engine, 'collisionStart', function(event) {
+    var pairs = event.pairs;
+
+    for (let i of pairs) {
+        if(i.bodyA.label==="hero"&&i.bodyB.label==="red"){
+          organism.remove(i.bodyB);
+          score.a();
+        }else if(i.bodyA.label==="hero"&&i.bodyB.label==="pink"){
+          if(score.s()){
+            let scalem=(i.bodyA.area+i.bodyB.area)**0.5/(i.bodyB.area**0.5)
+            Body.scale(i.bodyB,scalem,scalem)
+          }
+        }else if(i.bodyA.label==="wall"&&i.bodyB.label==="pink"){
+          score.a();
+          organism.remove(i.bodyB);
+        }else if(i.bodyA.label==="pink"&&i.bodyB.label==="pink"&&Math.floor((Math.random()*3))===1){
+          let scalem=(i.bodyA.area+i.bodyB.area)**0.5/(i.bodyA.area**0.5)
+          Body.scale(i.bodyA,scalem,scalem)//,Vector.div(Vector.add(i.bodyA.position,i.bodyB.position),2)
+          organism.remove(i.bodyB);
+        }else if(i.bodyB.label==="blueshoot"){
+          if(i.bodyA.label==="hero"){
+            score.s();
+          }
+          Composite.remove(engine.world,i.bodyB)
+        }else if(i.bodyA.label==="hero"&&i.bodyB.label==="blue"){
+          score.a();
+          organism.remove(i.bodyB);
+        }else if(pairla(i,"mine","pink")||pairla(i,"mine","red")||pairla(i,"mine","blue")){
+          removebody(i.bodyA)
+          removebody(i.bodyB)
+          score.a()
+        }
+    }
+    function pairla(pair,labelA,labelB){
+      if((pair.bodyA.label===labelA&&pair.bodyB.label===labelB)||(pair.bodyA.label===labelB&&pair.bodyB.label===labelA)){
+        return true
+      }else{
+        return false
+      }
+    }
+    function removebody(body){
+      switch (body.label){
+        case "red":
+        case "pink":
+        case "blue":
+        organism.remove(body);
+        break;
+        case "mine":
+        break;
+        case "blueshoot":
+        break;
+      }
+      Composite.remove(engine.world,body);
+    }
+});
+
+
+
+//Engine.run(engine);
+//Render.run(render);
+
+//Cbutton: canvas button
+var Cbutton={
+    create(options){
+        let bu={
+            position:options.position,
+            radius:options.radius,
+            backgroundcolor:options.backgroundcolor,
+            text:options.text,
+            islock:true,
+            cooling:1,
+            coolingvelocity:options.coolingvelocity,
+            coolingsub(){
+                if(this.cooling>this.coolingvelocity&&this.islock===false){
+                    this.cooling-=this.coolingvelocity;
+                    this.cooling=this.cooling<0?0:this.cooling;
+                }else if(this.islock===false){
+                    this.cooling=0;
+                }
+            },
+            coolingfull(){
+                this.cooling=1;
+            },
+            click:options.click
+        };
+        this.all.push(bu);
+        setInterval(function(){bu.coolingsub()},20)
+        return bu;
+    },
+    render(){
+        let ctx = render.context;
+        
+        for(let bu of this.all){
+            ctx.beginPath();
+            ctx.fillStyle = bu.backgroundcolor;
+            ctx.arc(bu.position.x, bu.position.y, bu.radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        
+        ctx.fillStyle = "rgba(100,100,100,0.5)";
+        for(let bu of this.all){
+            ctx.beginPath();
+            ctx.arc(bu.position.x, bu.position.y, bu.radius, Math.PI * (-1 * bu.cooling + 0.5), Math.PI * (1 * bu.cooling + 0.5));
+            ctx.fill();
+        }
+        
+        Object.assign(ctx, {
+            font: 50 + "px Arial",
+            textAlign: "center",
+            fillStyle: "#A3ACDC"
+        });
+        for(let bu of this.all){
+            ctx.fillText(bu.text, bu.position.x, bu.position.y + 15);
+        }
+    },
+    all:[],
+    getbutton(position){
+        for(let i of this.all){
+            if(Vector.magnitudeSquared(Vector.sub(i.position,clickui(position)))**0.5<=i.radius){
+                return i;
+            }
+        }
+    },
+    click(button){
+        Events.trigger(button,"click");
+    }
+};
+score.skill.buj=Cbutton.create({
+    position:{x:render.canvas.width-100,y:render.canvas.height-375},
+    radius:60,
+    backgroundcolor:rgba(250,250,40,0.7),
+    text:"J",
+    coolingvelocity:0.002,
+    click:function(){
+        
+        if(this.cooling<=0){
+            this.coolingfull()
+            Body.setPosition(shockwave,hero.position)
+            Body.scale(shockwave,0.1,0.1)
+            shockwave.render.opacity=0.5
+            Composite.add(engine.world,[shockwave])
+        }
+    }
+});
+score.skill.buk=Cbutton.create({
+    position:{x:render.canvas.width-100,y:render.canvas.height-375+130},
+    radius:60,
+    backgroundcolor:rgba(250,250,40,0.7),
+    text:"K",
+    coolingvelocity:0.001,
+    click:function(){
+        
+        if(this.cooling<=0){
+            this.coolingfull()
+            let mines=[];
+            for(let i=0;i<3;i++){
+            mines.push(Bodies.polygon(hero.position.x,hero.position.y,3,12,{
+                render:{
+                  fillStyle:"#333333",
+                },
+                collisionFilter:{group: hero.collisionFilter.group},
+                label:"mine"
+            }))
+            }
+            Composite.add(engine.world,mines)
+            let m=0.001, n=hero.angle;
+            for(let i in mines){
+              Body.setVelocity(mines[i],hero.velocity);
+              Body.applyForce( mines[i], mines[i].position, {x:m*Math.cos(n+i*2), y:m*Math.sin(n+i*2)});
+            }
+        }
+    }
+});
+score.skill.bul=Cbutton.create({
+    position:{x:render.canvas.width-100,y:render.canvas.height-375+260},
+    radius:60,
+    backgroundcolor:rgba(250,250,40,0.7),
+    text:"L",
+    coolingvelocity:0.0008,
+    click:function(e){
+        
+        if(this.cooling<=0){
+            if(!tishi.live){
+                tishi.live=true;
+                this.backgroundcolor=rgba(40,40,250,0.7);
+            }else{
+                tishi.live=false;
+                this.backgroundcolor=rgba(250,250,40,0.7);
+            }
+            return true;
+        }
+        
+    }
+});
+
+var Cjr={
+    position:{x:210,y:render.canvas.height-210},
+    rollposition:{x:0,y:0},
+    touchposition:{x:0,y:0},
+    radius:160,
+    backgroundcolor:rgba(250,250,250,0.5),
+    istouch:false,
+    render(){
+      var ctx=render.context;
+  
+      ctx.beginPath();
+      ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle=this.backgroundcolor;
+      ctx.fill();
+      
+      ctx.beginPath();
+      ctx.arc(this.position.x+this.rollposition.x, this.position.y+this.rollposition.y, this.radius*0.3, 0, Math.PI * 2);
+      ctx.fillStyle=rgba(200,200,200,0.9)
+      ctx.fill();
+    },
+    touch(touchposition,start){
+      let tmove=Vector.sub(touchposition,this.position)
+      let distance=Vector.magnitudeSquared(tmove)**0.5
+      if(start&&distance<=this.radius){
+          this.istouch=true;
+      }
+      if(this.istouch){
+        this.touchposition=touchposition;
+        if(distance<=this.radius){
+          this.rollposition=tmove
+        }else{
+          this.rollposition=Vector.mult(tmove,this.radius/distance)
+        }
+        Object.assign(heromove,Vector.div(this.rollposition,this.radius/1.75))
+        heromove.ismove=true
+      }
+    },
+    end(event){
+        let endpoint=clickui({x: event.changedTouches[0].pageX, y: event.changedTouches[0].pageY});
+        if(endpoint.x===Cjr.touchposition.x && endpoint.y===Cjr.touchposition.y){
+            Cjr.istouch=false
+            Cjr.rollposition=Vector.create()
+            
+            heromove.x=0
+            heromove.y=0
+            heromove.ismove=false
+        }
+    }
+};
+(function(ele, callback){
+  let startTime = 0,
+      delayTime = 200,
+      isMove = false;
+
+  ele.addEventListener('touchstart', function(e) {
+      startTime = Date.now();
+  });
+
+  ele.addEventListener('touchmove', function(e) {
+      isMove = true;
+  });
+
+  ele.addEventListener('touchend', function(e) {
+      if (isMove || (Date.now() - startTime > delayTime)) {
+          isMove = false;
+          return;
+      } else {
+          callback(e);
+          isMove = false;
+      }
+  })
+})(document.body,function(e){
+    let endpoint={x: e.changedTouches[0].pageX, y: e.changedTouches[0].pageY};
+    if(clickcanvas(endpoint)){
+        let clicked=Cbutton.getbutton(endpoint);
+        let c=false;
+        if(clicked){
+            if(clicked.click(e)){
+                c=true;
+            }
+        }
+        if(tishi.live&&!c){
+            score.skill.bul.coolingfull();
+            tishi.live=false;
+            score.skill.bul.backgroundcolor=rgba(250,250,40,0.7);
+            let shootnum=3;
+            
+            tishi.show(clickworld(endpoint));
+            setTimeout(function(){
+                tishi.hide();
+            },300*shootnum);
+            
+            for(let i=0;i<shootnum;i++){
+              setTimeout(function(){
+                mine=Bodies.polygon(hero.position.x,hero.position.y,5,12,{
+                    render:{
+                      fillStyle:"#333333",
+                    },
+                    collisionFilter:{group: hero.collisionFilter.group},
+                    restitution:0.5,
+                    label:"mine"
+                });
+                Composite.add(engine.world,mine)
+                let m=0.03;
+                let mp=Vector.sub(tishi.body.position,mine.position)
+                Body.applyForce( mine, mine.position, Vector.mult(mp,m/((mp.x**2+mp.y**2)**0.5)));
+              }, i*300);
+            }
+        }
+        
+    }
+});
+
+document.body.addEventListener("touchstart",function(event){
+      let touchposition=clickui(Vector.create(event.targetTouches[0].pageX,event.targetTouches[0].pageY))
+      Cjr.touch(touchposition,true)
+})
+document.body.addEventListener("touchmove",function(event){
+      let touchposition=clickui(Vector.create(event.targetTouches[0].pageX,event.targetTouches[0].pageY))
+      Cjr.touch(touchposition,false)
+})
+document.body.addEventListener("touchend",Cjr.end)
+
+function rgba(red,green,blue,opacity){
+    return "rgba("+red+","+green+","+blue+","+opacity+")";
+}
+
+var intervalcontrol={
+    looper:{
+        create:{
+            callback(){
+              let i=15;
+              if(score.n>10){i=10}
+              if(score.n>30){i=5}
+              if(Composite.allBodies(organism.red.all).length<i){
+                organism.red.create();
+              }else if(Composite.allBodies(organism.pink.all).length<11){
+                organism.pink.create();
+                if(Composite.allBodies(organism.pink.all).length>3&&Math.floor(Math.random() * i)<3){
+                  organism.blue.create();
+                }
+              }
+            },
+            time: 1300
+        },
+        blueshoot:{
+            callback(){
+            
+              let sp=2;//
+              for(let i of Composite.allBodies(organism.blue.all)){
+                if(i.area<=30*30*1){
+                  i.label="pink";
+                  i.render.fillStyle="#ff00ff";
+                  Composite.move(organism.blue.all,[i],organism.pink.all);
+                  continue;
+                }
+                let shoot=Bodies.circle(i.position.x,i.position.y,10,{
+                  render:{fillStyle:"#0000ff"},
+                  collisionFilter:{group: i.collisionFilter.group},
+                  label:"blueshoot",
+                  friction:0,
+                  frictionAir:0
+                });
+                let scalem=(i.area-shoot.area)**0.5/(i.area**0.5);
+                Body.scale(i,scalem,scalem);
+                
+                let p=Vector.sub(hero.position,shoot.position);
+                Composite.add(engine.world,shoot);
+                Body.setVelocity(shoot,Vector.mult(p,sp/Math.sqrt(p.x**2+p.y**2)*1.5));
+              }
+              
+            },
+            time: 1500
+        }
+    },
+    list:[],
+    start(){
+        for(let i of Object.keys(this.looper)){
+            let obj=this.looper[i];
+            this.list.push(setInterval(obj.callback, obj.time));
+        }
+    },
+    stop(){
+        for(let i of this.list){
+            clearInterval(i);
+        }
+    }
+};
+intervalcontrol.start();
+/*
+setInterval(function(){
+
+  //粉移动
+  let sp=1;//移动速度
+  for(let i of Composite.allBodies(organism.pink.all)){
+    let p=Vector.sub(hero.position,i.position)
+    Body.setVelocity(i,Vector.mult(p,sp/Math.sqrt(p.x**2+p.y**2)))
+  }
+
+},500)
+*/
+
+
+var showText={
+    score:{
+        fontsize:render.options.height/25,
+        top: render.options.height*5/6,
+        left: 50,
+        fontsize:render.options.height/25,
+        style: {
+            font:(render.options.height/25)+"px Arial",
+            textAlign:"start",
+            fillStyle:"#000"
+        },
+        render(){
+          let ctx=render.context;
+          Object.assign(ctx,this.style);
+          let filltexts=[
+            "当前得分: "+score.n,
+            "最高得分: "+score.l
+          ];
+          for(let i in filltexts){
+            ctx.fillText(filltexts[i], this.left, i*this.fontsize+this.top);
+          }
+        }
+    },
+    notice:{
+        list:[],
+        add(text,time){
+            time=typeof time==="number"?time:3000;
+            this.list.push({text:text,time:time});
+            if(this.list.length===1){
+            setTimeout(()=>{this.sub();},time);
+            }
+        },
+        sub(){
+            this.list.shift();
+            if(this.list.length>0){
+            setTimeout(()=>{this.sub();},this.list[0].time);
+            }
+        },
+        top: render.options.height*1/6,
+        left: render.options.width/2,
+        fontsize:render.options.height/25,
+        style: {
+            font: this.fontsize+"px Arial",
+            textAlign:"center",
+            fillStyle:"#000"
+        },
+        render(){
+          if(this.list.length===0){
+            return;
+          }
+          let ctx=render.context;
+          Object.assign(ctx,this.style);
+          ctx.fillText(this.list[0].text, this.left, this.top);
+        }
+    },
+    render(){
+        this.score.render();
+        this.notice.render();
+    }
+};
+var organism={
+    objpool:[],
+    remove(body){
+        switch(body.label){
+            case "red":
+            Composite.remove(organism.red.all,body);
+            break;
+            case "pink":
+            Composite.remove(organism.pink.all,body);
+            break;
+            case "blue":
+            Composite.remove(organism.blue.all,body);
+            break;
+            default:
+            return false;
+        }
+        Composite.remove(engine.world,body);
+        this.objpool.push(body);
+        return true;
+    },
+    red:{
+        create(){
+          let x=Math.floor(Math.random()*(render.options.width-200))+100;
+          let y=Math.floor(Math.random()*(render.options.height-200))+100;
+          let body;
+          if(organism.objpool.length>0){
+              body=organism.objpool.shift();
+              Body.setPosition(body,{x:x,y:y});
+              let s=30/(body.area**0.5);
+              Body.scale(body,s,s);
+              Body.setVelocity(body,{x:0,y:0});
+          }else{
+              body=Bodies.rectangle(x, y, 30, 30);
+          }
+          body.render.fillStyle="#ff0000";
+          body.label="red";
+          Composite.add(organism.red.all,body)
+          Composite.add(engine.world,body)
+          Events.on(organism,"afterCreate",{
+            body: body,
+            otype: "red"
+          });
+        },
+        all:Composite.create({label:"red"})
+    },
+    pink:{
+        create(){
+          let red=Composite.allBodies(organism.red.all)[Math.floor(Math.random() * Composite.allBodies(organism.red.all).length)];
+          red.label="pink";
+          red.render.fillStyle="#ff00ff";
+          Composite.move(organism.red.all,[red],organism.pink.all)
+          Events.on(organism,"afterCreate",{
+            body: red,
+            otype: "pink"
+          });
+        },
+        all:Composite.create({label:"pink"}),
+        move(){
+            for (let body of organism.pink.all.bodies) {
+                if (body.isStatic || body.isSleeping || body.speed>2){
+                    continue;
+                }
+            
+                let p = Vector.sub(hero.position,body.position);
+                let moveScale = 0.0005;
+                p = Vector.mult(p,moveScale/Math.sqrt(p.x**2+p.y**2));
+                body.force.y += body.mass * p.y;
+                body.force.x += body.mass * p.x;
+            }
+        }
+    },
+    blue:{
+        create(){
+          for(let i of Composite.allBodies(organism.pink.all)){
+            if(i.area>30*30*4){
+              i.label="blue";
+              i.render.fillStyle="#0000ff";
+              i.collisionFilter.group=Body.nextGroup(true);
+              Composite.move(organism.pink.all,[i],organism.blue.all);
+              Events.on(organism,"afterCreate",{
+                body: i,
+                otype: "blue"
+              });
+              break;
+            }
+          }
+        },
+        all:Composite.create({label:"blue"})
+    }
+};
+
+var eating={
+    run(){
+        Render.run(render);
+        Runner.run(runner, engine);
+        
+        Events.on(render, "afterRender", function(){showText.render()});
+        
+        Events.on(runner, "beforeUpdate", function(){
+
+          if(heromove.ismove){
+            let seto=true?hero:tishi.body;
+            Body.setVelocity(seto, heromove);
+          }
+          
+          skill.shockwave.diffuse();
+        
+          organism.pink.move();
+        
+        });
+    },
+    runUI(){
+        Events.on(render, "afterRender", function(){
+            Cbutton.render()
+            Cjr.render()
+        });
+    },
+    stop(){
+    
+    }
+};
+
+var isMobile=(function(){
+	if (/ipad|iphone|midp|rv:1.2.3.4|ucweb|android|windows ce|windows mobile/.test(navigator.userAgent.toLowerCase())) {
+	    return true
+	} else {
+	    return false
+	}
+})();
+
+document.body.onclick=function(e){
+    if(isMobile){
+        return;
+    }
+    if(!clickcanvas(Vector.create(e.pageX,e.pageY))){
+        return;
+    }
+    let clicked=Cbutton.getbutton(Vector.create(e.pageX,e.pageY));
+    let c=false;
+    if(clicked){
+        if(clicked.click(e)){
+            c=true;
+        }
+    }
+    if(tishi.live&&!c){
+        score.skill.bul.coolingfull();
+        tishi.live=false;
+        score.skill.bul.backgroundcolor=rgba(250,250,40,0.7);
+        let shootnum=3;
+        
+        tishi.show(clickworld({x:e.pageX, y:e.pageY}));
+        setTimeout(function(){
+            tishi.hide();
+        },300*shootnum);
+        
+        for(let i=0;i<shootnum;i++){
+          setTimeout(function(){
+            mine=Bodies.polygon(hero.position.x,hero.position.y,5,12,{
+                render:{
+                  fillStyle:"#333333",
+                },
+                collisionFilter:{group: hero.collisionFilter.group},
+                restitution:0.5,
+                label:"mine"
+            });
+            Composite.add(engine.world,mine)
+            let m=0.03;
+            let mp=Vector.sub(tishi.body.position,mine.position)
+            Body.applyForce( mine, mine.position, Vector.mult(mp,m/((mp.x**2+mp.y**2)**0.5)));
+          }, i*300);
+        }
+    }
+};
+
+window.onkeydown = function (event) {//按键
+    event = event || window.event;//浏览器兼容
+    let speed=1.75
+    let keycode=""+event.keyCode;
+    switch(keycode){
+        case "87":
+        heromove.y=-speed
+        heromove.ismove=true
+        break;
+        case "65":
+        heromove.x=-speed
+        heromove.ismove=true
+        break;
+        case "83":
+        heromove.y=speed
+        heromove.ismove=true
+        break;
+        case "68":
+        heromove.x=speed
+        heromove.ismove=true
+        break;
+        case "74":
+        
+        break;
+        case "75":
+        
+        break;
+        case "76":
+        
+        break;
+    }
+};
+window.onkeyup = function (event) {//按键
+    event = event || window.event;//浏览器兼容
+    let keycode=""+event.keyCode;
+    switch(keycode){
+        case "87"://W
+        case "83"://S
+        heromove.y=0
+        cismove()
+        break;
+        case "65"://A
+        case "68"://D
+        heromove.x=0
+        cismove()
+        break;
+        case "74"://J
+        score.skill.buj.click()
+        break;
+        case "75"://K
+        score.skill.buk.click()
+        break;
+        case "76"://L
+        score.skill.bul.click("button")
+    }
+    function cismove(){
+        if(heromove.x===0&&heromove.y===0){
+          heromove.ismove=false
+        }
+    }
+};
+
+var heromove={
+  x:0,
+  y:0,
+  ismove:false,
+  begin:function(event){
+    let speed=1.75;
+    heromove.x=(event.targetTouches[0].pageX-jr.offsetLeft-jr.offsetWidth/2)/jr.offsetWidth*2
+    heromove.y=(event.targetTouches[0].pageY-jr.offsetTop-jr.offsetHeight/2)/jr.offsetHeight*2
+    if(heromove.x>1){heromove.x=1}
+    if(heromove.x<-1){heromove.x=-1}
+    if(heromove.y>1){heromove.y=1}
+    if(heromove.y<-1){heromove.y=-1}
+    dgbyid("jrc").style.left=heromove.jrcbase.x*(1+heromove.x)
+    dgbyid("jrc").style.top=heromove.jrcbase.y*(1+heromove.y)
+    Object.assign(heromove,Vector.mult(heromove,speed))
+    heromove.ismove=true
+  },
+  end:function(event){
+    heromove.x=0;
+    heromove.y=0;
+    dgbyid("jrc").style.left=heromove.jrcbase.x
+    dgbyid("jrc").style.top=heromove.jrcbase.y
+    heromove.ismove=false;
+  },
+  jrcbase:{
+    x:dgbyid("jr").offsetWidth/2-dgbyid("jrc").offsetWidth/2,
+    y:dgbyid("jr").offsetHeight/2-dgbyid("jrc").offsetHeight/2
+  },
+  pc:{
+    
+  }
+}
+heromove.end()
+jr.addEventListener("touchstart",heromove.begin)
+jr.addEventListener("touchmove",heromove.begin)
+jr.addEventListener("touchend",heromove.end)
+
+window.addEventListener("load",()=>{
+    eating.run();
+    eating.runUI();
+    
+    if(score.l===0){
+        for(let i of [
+            "游戏开始！",
+            "玩家控制黑块移动，吃掉红块得分",
+            "红块可能变成粉块。粉块可以吃掉黑块",
+            "巨型粉块可能变成蓝块。小心躲避蓝色子弹！",
+            "技能在一定分数下解锁"
+        ]){
+            showText.notice.add(i);
+        }
+    }
+    showText.notice.add("点击右上角按钮全屏");
+});
+
+var slookat={
+  x: render.options.width/2,
+  y: render.options.height/2,
+  size:1,
+  body:hero,
+  cx:0,
+  cy:0,
+  isfollow:false,
+  lookat:function(x,y,csize,csizex){
+    if(csizex){
+      if(slookat.size*csize>1&&slookat.size*csize<50){
+        slookat.size*=csize;
+      }else if(slookat.size*csize<1){
+        slookat.size=1
+      }else if(slookat.size*csize>50){
+        slookat.size=50
+      }
+    }else if(slookat.size+csize>0.5&&slookat.size+csize<50){
+      slookat.size+=csize;
+    }
+    let size=slookat.size;
+    if(slookat.isfollow){
+      slookat.cx+=x*size;
+      slookat.cy+=y*size;
+    }else{
+      slookat.x+=x*size;
+      slookat.y+=y*size;
+    }
+    Render.lookAt(render, {
+      min: { x: slookat.x-render.options.width/2*size, y: slookat.y-render.options.height/2*size },
+      max: { x: slookat.x+render.options.width/2*size, y: slookat.y+render.options.height/2*size }
+    });
+  },
+  followthings:function(){
+    slookat.x=slookat.body.position.x+slookat.cx;
+    slookat.y=slookat.body.position.y+slookat.cy;
+    slookat.lookat(0,0,0)
+  }
+}
+
+
+function clickworld(point){
+    return Vector.add(render.bounds.min,clickui(point));//{ x:render.bounds.min.x+point.x/render.canvas.offsetWidth*render.canvas.width,
+    //y:render.bounds.min.y+point.y/render.canvas.offsetWidth*render.canvas.width }
+}
+function clickui(point){
+    return { x:(point.x-render.canvas.offsetLeft)/render.canvas.offsetWidth*render.canvas.width,
+    y:(point.y-render.canvas.offsetTop)/render.canvas.offsetWidth*render.canvas.width }
+}
+function clickcanvas(point){
+    if(render.canvas.offsetLeft<point.x && point.x<render.canvas.offsetLeft+render.canvas.offsetWidth && render.canvas.offsetTop<point.y && point.y<render.canvas.offsetTop+render.canvas.offsetHeight){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+
+function dqsa(qsqs){return document.querySelectorAll(qsqs);}
+function logs(e){
+dgbyid("log").innerHTML+=e+", ";
+console.log(e)
+}
+
+
+
+class Loop{
+  constructor(event,interval){
+    this.tick=0;
+    this.times=undefined;
+    this.event=function(){
+      event();
+      if(++this.tick===this.times){this.stop();this.times=undefined;}
+    };
+    this.event=this.event.bind(this)
+    this.interval=interval;
+    this.run=undefined;
+  }
+  start(times){
+    this.run=setInterval(this.event,this.interval)
+    if(times){
+      this.times=times;
+    }
+  }
+  stop(){
+    clearInterval(this.run)
+  }
+}
+</script>
+
+</body>
+</html>

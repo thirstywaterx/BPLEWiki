@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <title>登录-猪吧维基BPLEWiki</title>
+    <style>
+        h1 {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+            font-size: 100%;
+        }
+
+        img {
+            position: absolute;
+            left: 50%;
+            top: -40px;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 60px;
+        }
+
+        .block {
+            position: absolute;
+            width: 280px;
+            height: 400px;
+            /* Adjusted height to accommodate the link */
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5)
+        }
+
+        .greenblk {
+            margin: 0 auto;
+            width: 100px;
+            height: 5px;
+            border-radius: 10px;
+            background-color: green;
+        }
+
+        #username {
+            position: absolute;
+            width: 150px;
+            height: 25px;
+            top: 55px;
+            left: 50%;
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+            transform: translate(-40%);
+        }
+
+        #psw {
+            position: absolute;
+            width: 150px;
+            height: 25px;
+            top: 100px;
+            left: 50%;
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+            transform: translate(-40%);
+        }
+
+        .font {
+            position: absolute;
+            left: 45px;
+            transform: translateY(25%);
+        }
+
+        .font_user {
+            top: 55px;
+        }
+
+        .font_psw {
+            top: 100px;
+        }
+
+        #submit {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            left: 50%;
+            top: 170px;
+            border: none;
+            border-radius: 2px;
+            background-color: lightgreen;
+            font-size: 110%;
+            transform: translate(-50%);
+        }
+
+        #submit:active {
+            background-color: #80DD80;
+        }
+
+        .forgot-password {
+            position: absolute;
+            top: 135px;
+            left: 62%;
+            font-size: 80%;
+        }
+
+        .forgot-password a {
+            color: lightgreen;
+            text-decoration: none;
+        }
+
+        .signup {
+            position: absolute;
+            bottom: 3px;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        .signup p {
+            font-size: 80%;
+        }
+
+        .signup a {
+            color: lightgreen;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="block">
+        <a href="index.html"><img src="img/logo_with_title.jpg"></a>
+        <h1>登录</h1>
+        <div class="greenblk"></div>
+        <i class="fa-solid fa-user font_user font"></i><input type="text" id="username" name="username" placeholder="请在此键入账号">
+        <i class="fa-solid fa-lock font_psw font"></i><input type="password" id="psw" name="username" placeholder="请在此键入密码">
+        <div class="forgot-password">
+            <a href="/account/forgot.html">忘记密码？</a>
+        </div>
+        <button id="submit">登录</button>
+        <div class="signup">
+            <p>未有账户？<a href="signup.html">注册</a></p>
+        </div>
+    </div>
+
+    <script src="/js/ajax.js"></script>
+    <script>
+        ajax({
+            url: "php/user/issignin.php",
+            method: "POST",
+            success: function(r) {
+                let i = JSON.parse(r);
+                if (i.success === true) {
+                    window.open("account.html", "_self");
+                } else {
+                    console.log(i.notice);
+                    i = null;
+                    dqsa("#submit")[0].onclick = function() {
+                        let username = dqsa("#username")[0].value;
+                        let password = dqsa("#psw")[0].value;
+                        ajax({
+                            url: "php/user/signin.php",
+                            method: "POST",
+                            send: `username=${username}&password=${password}`,
+                            success: function(r) {
+                                try {
+                                    let i = JSON.parse(r);
+                                    if (i.success) {
+                                        window.open("account.html", "_self");
+                                    } else {
+                                        alert(i.notice);
+                                    }
+                                } catch (e) {
+                                    alert(r)
+                                }
+                            }
+                        });
+                    };
+
+                }
+            }
+        });
+
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+    </script>
+</body>
+
+</html>

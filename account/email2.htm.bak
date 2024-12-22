@@ -1,0 +1,210 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<style>
+input[readonly]{
+  background-color:#ccc;
+}
+#change{
+  display:none;
+}
+</style>
+<title>换绑邮箱</title>
+</head>
+<body>
+<p>tip：本页面为换绑邮箱页面的兼容版（备用）。</p>
+<p>密码：<input type="password" required readonly></p>
+<p>新邮箱：<input type="email" required readonly></p>
+<p>验证码：<input type="number" readonly><button id="send">发送</button></p>
+<button id="continue">继续</button><button id="change">修改邮箱</button>
+<p id="jzz">加载中</p>
+
+<script src="../js/ajax.js"></script>
+<script>
+var urlbase="../php/user/cemail.php?step=";
+var wait={
+  is:false,
+  on(baninput){
+      wait.is=true;
+      jzz.style.display="block"
+      if(baninput){
+        inputs.p.readOnly=true;
+        inputs.e.readOnly=true;
+        inputs.c.readOnly=true;
+      }
+  },
+  off(){
+      wait.is=false;
+      jzz.style.display="none"
+  },
+  check(baninput){
+      if(wait.is){
+          return false;
+      }else{
+          wait.on(baninput);
+          return true;
+      }
+  }
+};
+var inputs={
+    p:dqsa("input[type='password']",1),
+    e:dqsa("input[type='email']",1),
+    c:dqsa("input[type='number']",1)
+};
+var buttoncontinue=dqsa("#continue",1);
+var buttonreviseemail=dqsa("#change",1);
+var buttonrequestemail=dqsa("#send",1);
+var jzz=dqsa("#jzz",1);
+window.onload=()=>{
+  thendo.checkstep();
+};
+var thendo={
+  checkstep(){
+      if(wait.check(true)){
+          ajax({
+              url: urlbase+0,
+              method: "POST",
+              success: (r)=>{
+                let result=JSON.parse(r);
+                wait.off();
+                if(result.state==="nosession"){
+                    controle.pw();
+                }else if(result.state==="inputemail"){
+                    inputs.e.value=sessionStorage.cemail;
+                    controle.em();
+                }else if(result.state==="cemailing"){
+                    inputs.e.value=sessionStorage.cemail;
+                    controle.code();
+                }else if(result.state==="differentid"||result.state==="overtime"){
+                    location.reload();
+                }else if(result.state==="unsigned"){
+                    window.open("../signin.html","_self");
+                }else{
+                    showerr("未知错误");
+                }
+              }
+          });
+      }
+  },
+  sendpw(){
+      if(wait.check(true)){
+          let email=inputs.e.value;
+          ajax({
+              url: urlbase+1,
+              method: "POST",
+              send: `password=${inputs.p.value}`,
+              success: (r)=>{alert(r)
+                let result=JSON.parse(r);
+                wait.off();
+                if(result.success==="true"){
+                  sessionStorage.cemail=email;
+                  controle.em();
+                }else{
+                  controle.pw();
+                  showerr(result.notice)
+                }
+              }
+          });
+      }
+  },
+  sendem(){
+      if(wait.check(true)){
+          ajax({
+              url: urlbase+2,
+              method: "POST",
+              send: `email=${inputs.e.value}`,
+              success: (r)=>{alert(r)
+                let result=JSON.parse(r);
+                wait.off();
+                if(result.success==="true"){
+                  controle.code();
+                }else{
+                  showerr(result.notice)
+                  inputs.e.readOnly=false;
+                }
+              }
+          });
+      }
+  },
+  requestemail(){
+      if(wait.check()&&true){
+          ajax({
+              url: urlbase+3,
+              method: "POST",
+              success: (r)=>{alert(r)
+                let result=JSON.parse(r);
+                wait.off();
+                if(result.success==="true"){
+                  //倒计时
+                  console.log("sended")
+                }else{
+                  showerr(result.notice)
+                }
+              }
+          });
+      }
+  },
+  sendcode(){
+      if(wait.check(true)){
+          ajax({
+              url: urlbase+4,
+              method: "POST",
+              send: `code=${inputs.c.value}`,
+              success: (r)=>{alert(r)
+                let result=JSON.parse(r);
+                wait.off();
+                if(result.success==="true"){
+                  //绑定成功
+                  sessionStorage.cemail=null;
+                }else{
+                  controle.code();
+                  console.log(result.notice)
+                }
+              }
+          });
+      }
+  }
+};
+var controle = {
+  pw() {
+      inputs.p.readOnly=false;
+      //inputs.p.style.display="inline";
+      inputs.e.readOnly=true;
+      inputs.c.readOnly=true;
+      buttoncontinue.onclick=thendo.sendpw;
+      buttonreviseemail.style.display="none"
+  },
+  em() {
+      inputs.p.readOnly=true;
+      //inputs.p.style.display="none";
+      inputs.e.readOnly=false;
+      inputs.c.readOnly=true;
+      buttoncontinue.onclick=thendo.sendem;
+      buttonreviseemail.style.display="none"
+      buttonrequestemail.onclick=function(){};
+  },
+  code() {
+      inputs.p.readOnly=true;
+      //inputs.p.style.display="none";
+      inputs.e.readOnly=true;
+      inputs.c.readOnly=false;
+      buttoncontinue.onclick=thendo.sendcode;
+      buttonreviseemail.onclick=controle.em;
+      buttonreviseemail.style.display="block"
+      buttonrequestemail.onclick=thendo.requestemail;
+  }
+};
+function showerr(e){
+  alert(e);
+}
+function dqsa(qsqs, first) {
+    if (first) {
+        return document.querySelector(qsqs);
+    } else {
+        return document.querySelectorAll(qsqs);
+    }
+}
+</script>
+</body>
+</html>

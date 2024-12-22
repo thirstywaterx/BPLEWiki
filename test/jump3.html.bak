@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="../css/httperrors.css">
+    <title>功能暂未开放-猪吧维基BPLEWiki</title>
+</head>
+
+<body>
+    <a href="https://www.bplewiki.top">
+        <img src="https://ice.frostsky.com/2024/04/21/24a3a7cc4a5626c7a7b4a4cc0dcbf9a9.png" alt="logo" border="0">
+    </a>
+    <div class="main">
+        <h1>功能暂未开放</h1>
+        <p>错误代码：<i style="color:lightgreen">unopened</i></p>
+        <p>当前页面未开发完毕或未开放使用，请等待功能完善</p>
+    </div>
+    <button class="back-home" onclick="javascript:window.open(`https://www.bplewiki.top`)">返回主页</button>
+<script>
+  // 函数用于解析URL中的查询字符串
+  function getQueryStringValue(key) {
+    return new URLSearchParams(window.location.search).get(key);
+  }
+
+  // 检查查询字符串 'dev' 是否存在并对比其值
+  if (getQueryStringValue('dev') !== 'true') {
+    fetch('https://www.bplewiki.top/index.html')
+        .then(response => response.text())
+        .then(html => {
+            document.open();
+            document.write(html);
+            document.close();
+        })
+        .catch(error => console.error('Error loading the page: ', error));
+  } else {
+    console.log('Dev mode activated, not replacing the document.');
+  }
+</script>
+</body>
+
+</html>

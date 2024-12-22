@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" href="/css/page.css" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>历史记录-猪吧维基BPLEWiki</title>
+    <style>
+        .fa-solid:active {
+            color: green;
+        }
+
+        .article-block {
+            box-sizing: border-box;
+            width: 90%;
+            min-height: 165px;
+            background-color: white;
+            padding: 20px;
+            border: 0;
+            margin: 0 auto;
+            margin-bottom: 30px;
+            overflow: hidden;
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+        }
+
+
+        .back-btn {
+            transform: translateY(-15%);
+        }
+
+        .previewimg {
+            margin-right: 10px;
+            border-radius: 2px;
+            float: left;
+            width: 120px;
+            height: 120px;
+        }
+
+        .article-block h3 {
+            margin: 0;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        #clearHistory {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 120%;
+            margin-left: 10px;
+            margin-bottom: 30px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            padding: 10px;
+            box-shadow: 4px 3px 20px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left back-btn"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+
+    <!-- 内容块 -->
+    <h1>历史记录</h1>
+    <div id="clearHistory"><i class="fa-solid fa-trash-can"></i></div>
+
+
+    <div id="content"></div>
+    <div class="pagination">
+        <button class="prevPage"><i class="fa-solid fa-angle-left"></i></button>
+        第 <input type="number" id="currentPageInput" value="1" min="1" style="width: 50px;"> 页 /
+        共 <span id="totalPages">?</span> 页
+        <button class="nextPage"><i class="fa-solid fa-angle-right"></i></button>
+    </div>
+
+    <center>
+        <p style="color: lightgrey;">历史记录保存位置为本地</p>
+    </center>
+
+    <!-- 分页按钮 -->
+
+
+
+    <script src="/ajax.js"></script>
+    <script>
+        let historyArr = []
+
+        ajax({
+            url: "../php/issignin.php",
+            method: "POST",
+            success: function(r) {
+                r = JSON.parse(r);
+                if (r.success === "false") {
+                    window.open("../signin.html", "_self");
+                }
+            }
+        }); //这段代码一运行就会发送请求
+
+        document.getElementById('clearHistory').addEventListener('click', function() {
+            // 弹出确认对话框
+            if (confirm('确定要删除所有历史记录吗？')) {
+                localStorage.removeItem('articleHistory'); // 清除本地存储中的历史记录
+                historyArr = []; // 清空历史记录数组
+                alert(`历史记录已全部删除`)
+                document.getElementById('totalPages').textContent = '0'; // 更新总页数显示
+                document.getElementById('currentPageInput').value = '1'; // 重设当前页码输入框
+                location.reload();
+            }
+        });
+
+
+
+
+
+        function showHistory() {
+            const history = localStorage.getItem('articleHistory');
+            if (history) {
+                historyArr = JSON.parse(history).reverse(); // 反转数组显示最近访问在前
+            } else {
+                historyArr = [];
+            }
+        }
+
+        showHistory()
+
+alert(historyArr)
+
+
+
+
+        let pageNum = (function(queryString) {
+            let match = queryString.match(/page=(\d+)/);
+            return match ? match[1] : 1;
+        })(window.location.search);
+        var totalPages;
+
+        function getTenItemsAsString(arr, pageNum) {
+            // 计算切片的起始索引
+            const startIndex = (pageNum - 1) * 10;
+            // 使用slice方法来获取从startIndex开始的10个元素
+            const slice = arr.slice(startIndex, startIndex + 10);
+            // 使用join方法将数组转换为以逗号分隔的字符串
+            return slice
+        }
+
+        function loadPageData(page) {
+            let idsString = getTenItemsAsString(historyArr, page)
+            let content = document.querySelector('#content');
+            content.innerHTML = ""
+            for (let i = 0; i < idsString.length; i++) {
+                ajax({
+                    url: `https://www.bplewiki.top/php/articles.php`,
+                    method: "POST",
+                    send: `ids=${idsString[i]}`,
+                    success: function(article) {
+                        article = JSON.parse(article)
+
+                        function assignValue(totality) {
+                            if (totality % 10 === 0) {
+                                // 如果总量除以10没有余数，就给a赋值为它除以10的结果
+                                totalPages = totality / 10;
+                            } else if (totality / 10 > 1) {
+                                // 如果总量除以10的结果大于1，就给a赋值为它除以10向上取整的结果
+                                totalPages = Math.ceil(totality / 10);
+                            } else {
+                                // 如果总量除以10的结果小于1，就给a赋值为1
+                                totalPages = 1;
+                            }
+                            return totalPages;
+                        }
+
+                        totalPages = assignValue(historyArr.length)
+                        document.getElementById('totalPages')
+                            .textContent = totalPages;
+
+                        for (let k = 0; k < 10; k++) {
+                            content.innerHTML += `                
+<a href="/article/?id=${article.articles[k].id}">
+<div class="article-block">
+<img src="${article.articles[k].imgLink}" alt="预览图片" class="previewimg">
+<h3 class="article_title">${article.articles[k].title}</h3>
+<p>${article.articles[k].content}</p>
+</div>
+</a>
+`;
+                        }
+                    }
+                });
+            }
+
+            // 数据加载逻辑
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            let currentPage = pageNum;
+            document.getElementById('currentPageInput')
+                .value = currentPage;
+
+            // 调用loadPageData加载当前页数据
+            loadPageData(currentPage);
+
+            // 更新翻页按钮的事件处理器
+            document.querySelector('.prevPage')
+                .addEventListener('click', function() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        changePage(currentPage);
+                    }
+                });
+
+            document.querySelector('.nextPage')
+                .addEventListener('click', function() {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        changePage(currentPage);
+                    }
+                });
+
+            document.getElementById('currentPageInput')
+                .addEventListener('change', function() {
+                    let inputPage = parseInt(this.value, 10);
+                    if (inputPage >= 1 && inputPage <= totalPages) {
+                        currentPage = inputPage; // 更新currentPage
+                        changePage(inputPage);
+                    } else {
+                        alert("请输入有效的页码");
+                        this.value = currentPage; // Reset to the current valid page number
+                    }
+                });
+
+            function getCurrentPageFromQueryString() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return parseInt(urlParams.get('page') || '1', 10);
+            }
+
+            function changePage(page) {
+                document.getElementById('currentPageInput').value = page;
+                document.body.scrollIntoView(true)
+                loadPageData(page);
+            }
+        });
+    </script>
+
+    <script>
+        //返回按钮
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+    </script>
+
+</body>
+
+
+</html>

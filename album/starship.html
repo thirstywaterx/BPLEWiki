@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" href="/css/dialog_img.css" />
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>相册-猪吧维基BPLEWiki</title>
+    <style>
+       body {
+max-width:100%;
+}
+
+        .content {
+            margin: 0 auto;
+        }
+
+        img {
+            width: 160px;
+            height: 160px;
+            border-radius: 5px;
+            margin: 3px;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="back">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="/index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <h1 class="title">相册</h1>
+    <!-- 弹窗部分 -->
+    <div id="imgModal" class="img-modal">
+        <span class="close">&times;</span>
+        <img class="modal-img-content" id="img01">
+        <div id="caption"></div>
+    </div>
+    <div class="content">
+
+
+    </div>
+    <div class="space"></div>
+    <script src="/ajax.js"></script>
+    <script src="/js/dialog_img.js"></script>
+<script src="/js/darkmode.js"></script>
+    <script>
+        document.getElementById('back').addEventListener('click', function() {
+            history.back();
+        }, true)
+
+        ajax({
+            url: "/album/json/starship.json",
+            method: "GET",
+            success: function(img) {
+                img = JSON.parse(img);
+                // 获取URL的查询字符串部分
+                let queryString = window.location.search;
+                let urlArr = []
+                let title = document.querySelector(`.title`)
+                let content = document.querySelector(`.content`)
+
+                let type = "null";
+                for (let i of Object.keys(img)) {
+                    if ("?" + i === queryString) {
+                        type = i;
+                        break;
+                    }
+                }
+                if (type === "null") {
+                    content.innerHTML += `<p>不存在该相册。<a href="../" style="color: lightgreen;">返回目录</a><p>`;
+                } else {
+                    urlArr = img[type].urlArr
+                    title.innerHTML = img[type].title
+                }
+
+
+                for (let i of urlArr) {
+                    content.innerHTML += `<img class="dialog-img" src="https://ice.frostsky.com/${i[0]}/${i[1]}" alt="${i[1]}" border="0">`;
+                }
+                openImgDialog()
+            }
+        });
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,42 @@
+        .modal-content .operation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .choose {
+            font-size: 20px;
+        }
+
+        .modal-content .choose {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        .choose:active {
+            background-color: #f5f5f5;
+
+        }
+
+        .modal-content .choose i {
+            margin-right: 10px;
+        }
+
+        .operation {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            color: lightgreen;
+            text-decoration-line: none;
+        }
+
+        hr {
+            width: 180px;
+            height: 1px;
+            border: none;
+            background-color: grey;
+        }

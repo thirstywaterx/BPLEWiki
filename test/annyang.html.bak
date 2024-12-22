@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语音识别</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.6.1/annyang.min.js"></script>
+</head>
+<body>
+    <h1>语音识别输入（测试）</h1>
+    <textarea id="textarea" rows="10" cols="30"></textarea><br>
+    <button onclick="startRecognition()">开始识别</button>
+    <button onclick="stopRecognition()">停止识别</button>
+    <p id="status">状态：未开始</p>
+
+    <script>
+        var audallow = false;
+        var recognition;
+
+        // 请求麦克风权限
+        if (typeof navigator.mediaDevices !== `undefined`) {
+            navigator.mediaDevices
+                .getUserMedia({ audio: true })
+                .then(function (stream) {
+                    // 权限被授予
+                    audallow = true;
+                })
+                .catch(function (error) {
+                    // 权限被拒绝或出现错误
+                    alert("无法访问麦克风: " + error);
+                });
+        } else {
+            alert(`无mediaAPI`);
+        }
+
+        function startRecognition() {
+            if (!audallow) {
+                alert('权限异常');
+                return;
+            }
+
+            if (annyang) {
+                annyang.addCommands({
+                    '*text': function (text) {
+                        document.getElementById('textarea').value += text + ' ';
+                    }
+                });
+
+                annyang.start();
+                annyang.setLanguage('zh-CN');
+
+                setstate();
+
+            } else {
+                alert("语音识别库加载失败！");
+            }
+        }
+
+        function stopRecognition() {
+            if (annyang) {
+                annyang.stop();
+                setstate();
+            }
+        }
+        function setstate(){
+            if (annyang.isListening()) {
+                document.getElementById('status').innerText = '状态：正在识别...';
+            }else{
+                document.getElementById('status').innerText = '状态：识别已停止';
+            }
+        }
+    </script>
+</body>
+</html>

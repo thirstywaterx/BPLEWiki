@@ -1,0 +1,16 @@
+{
+  "name": "猪吧维基",
+  "short_name": "猪吧维基",
+  "description": "猪吧维基的渐进式应用。",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/img/logo.png",
+      "sizes": "192x192",
+      "type": "image/x-icon"
+    }
+  ]
+}

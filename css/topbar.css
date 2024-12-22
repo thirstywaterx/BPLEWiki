@@ -1,0 +1,66 @@
+body {
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 10px;
+    margin-top: 42px;
+    background-color: white;
+}
+
+.topblk {
+    position: fixed;
+    width: 100%;
+    height: 48px;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: block;
+    background-color: white;
+    border-bottom: 1px solid lightgrey;
+}
+
+.back {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-42%);
+    left: 5px;
+    font-size: 180%;
+}
+
+.back:active {
+    color: green;
+}
+
+.fa-angle-left {
+    -webkit-text-stroke: 1.5px white;
+    color: #3F484A;
+}
+
+body.dark-mode .fa-angle-left {
+    -webkit-text-stroke: 1.5px #333333;
+    color: #3F484A;
+}
+
+.logo img {
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    left: 50%;
+    transform: translate(-50%, 10%);
+}
+
+.logo h3 {
+    position: absolute;
+    margin-bottom: 0;
+    height: 20px;
+    width: 100px;
+    left: 50%;
+    text-align: center;
+    transform: translate(-50%, -28%);
+    color: lightgrey;
+    font-weight: 450;
+    opacity: 0.8;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-weight: 370;
+}

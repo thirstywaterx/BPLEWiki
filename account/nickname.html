@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>更改昵称-猪吧维基BPLEWiki</title>
+    <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <style>
+        .nickname-box {
+            width: 200px;
+            margin: 0 auto;
+            margin-top: 50px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .nickname-box h2 {
+            font-size: 18px;
+            margin-top: 0px;
+            font-weight: 200;
+        }
+
+        .nickname-box p {
+            margin: 10px 0;
+            margin-bottom: 0;
+            font-size: 14px;
+        }
+
+        .nickname-box s-text-field {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+            min-width: 100%;
+            min-height: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .nickname-box s-button {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+            width: 55px;
+            height: 33px;
+            margin-top: 10px;
+            background-color: #BDF2D5;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .nickname-box button:hover {
+            background-color: #218838;
+        }
+
+        s-divider {
+            margin: 0 auto;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="../img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+
+    <h1>更改昵称</h1>
+    <div class="nickname-box">
+        <h2>更改昵称</h2>
+        <p>当前昵称: <span style="color: #BDF2D5;" id="nicknamePreview"></span></p>
+        <s-divider></s-divider>
+        <p>更改为:</p>
+        <s-text-field label="请输入昵称">
+            <textarea id="nicknameInput"></textarea>
+        </s-text-field>
+        <s-button onclick="updateNickname()"> 提交 </s-button>
+    </div>
+
+
+    <script src="/js//ajax.js"></script>
+    <script src="/js/darkmode.js"></script>
+    <script type="module" src="https://unpkg.com/sober@0.4.1/dist/sober.min.js"></script>
+    <script>
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+
+
+        let iswait = true;
+
+        function updateNickname() {
+            var input = document.getElementById('nicknameInput');
+            var preview = document.getElementById('nicknamePreview');
+            //preview.textContent = input.value;
+            if (!iswait) {
+                iswait = true;
+                ajax({
+                    url: "/php/user/setnickname.php",
+                    method: "POST",
+                    send: `nickname=${input.value}`,
+                    success: function(result) {
+                        try {
+                            let r = JSON.parse(result);
+                            if (r.success === true) {
+                                dqsa("#nicknamePreview", 1).innerText = r.newnickname;
+                                alert("修改成功")
+                            } else {
+                                alert(r.notice);
+                            }
+                            iswait = false;
+                        } catch (e) {
+                            alert(result)
+                        }
+                    }
+                });
+            } else {
+                alert("请稍等")
+            }
+
+        }
+
+        //检测登录
+        ajax({
+            url: "/php/user/issignin.php?getinfo=1",
+            method: "POST",
+            success: function(result) {
+                let r = JSON.parse(result);
+                if (r.success === true) {
+                    dqsa("#nicknamePreview", 1).innerText = r.user.nickname || (r.user.id);
+                    iswait = false
+                } else {
+                    window.open("../signin.html", "_self");
+                }
+            }
+        });
+
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+    </script>
+
+    <body>
+
+</html>

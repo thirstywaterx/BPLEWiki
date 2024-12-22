@@ -1,0 +1,183 @@
+<!doctype html>
+<html>
+
+<head>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://www.bplewiki.top/css/topbar.css" />
+<link rel="stylesheet" type="text/css" href="https://www.bplewiki.top/css/darkmode.css">
+    <title>我的消息-猪吧维基BPLEWiki</title>
+    <style>
+        .box {
+            width: 90%;
+            height: 105px;
+            margin: 0 auto;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background-color: white;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            border-radius: 15px;
+            padding-left: 10px;
+            padding-top: 6px;
+            padding-right: 3px;
+            overflow: hidden;
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        body.dark-mode .box {
+            background-color: #333333 !important;
+        }
+
+        .box:active {
+            transform: scale(0.96);
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .sign {
+            float: left;
+            font-size: 520%;
+        }
+
+        .fa-regular {
+            position: relative;
+            transform: translateY(12.5%);
+        }
+
+        h2 {
+            font-size: 95%;
+            margin-top: 10px;
+            margin-left: 100px;
+        }
+
+        p {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-size: 90%;
+            margin-left: 100px;
+            margin-top: -10px;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 4;
+        }
+
+        a {
+            text-decoration: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            color: black;
+        }
+
+        b {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <h1>我的消息</h1>
+    <div id="content">
+
+    </div>
+    <script src="/js/ajax.js"></script>
+<script src="/js/darkmode.js"></script>
+    <script>
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true);
+
+        ajax({
+            url: "../php/user/issignin.php",
+            method: "POST",
+            success: function(r) {
+                r = JSON.parse(r);
+                if (r.success) {
+                    let msgs=[];
+                    let num=0;
+                    function over(arr){
+                        msgs=msgs.concat(arr);
+                        num++;
+                        console.log(num)
+                        console.log(msgs)
+                        if(num>1){
+                            let content = dqsa("#content", 1)
+                            msgs.sort((a,b)=>{return Date.parse(b.time)-Date.parse(a.time)});
+                            for (let i of msgs) {
+                                content.innerHTML += `
+                            <a href="/article/?id=${i.article}&comment=${i.id}" data-time="${i.time}">
+                            <div class="box">
+                            <i class="fa-regular fa-comment sign "></i>
+                            <h2>${i.isreply?"评论":"文章"}回复自：<b>${i.articletitle}</b></h2>              
+                            <p><strong>${i.unickname}</strong>：<span>${i.content}</span></p>
+                            </div>
+                            </a>
+                            `;
+                            }
+                        }
+                    }
+                    ajax({
+                        url: "/php/article/noticecomment.php",
+                        success(r) {
+                            r = JSON.parse(r);
+                            if (r.success) {
+                                r.comments.forEach((c,index)=>{r.comments[index].isreply=false;});
+                                over(r.comments);
+                            } else {
+                                alert(r.notice)
+                            }
+                        },
+                        fail(s){
+                            over([]);
+                            console.log(`文章评论${s}`)
+                        }
+                    });
+
+                    ajax({
+                        url: "/php/article/noticecommentreply.php",
+                        success(r) {
+                            r = JSON.parse(r);
+                            if (r.success) {
+                                r.comments.forEach((c,index)=>{r.comments[index].isreply=true;});
+                                over(r.comments);
+                            } else {
+                                alert(r.notice)
+                            }
+                        },
+                        fail(s){
+                            over([]);
+                            console.log(`文章评论回复${s}`)
+                        }
+                    });
+
+                } else {
+                    window.open("../signin.html", "_self");
+                    console.log(i.notice);
+                }
+            }
+        }); //这段代码一运行就会发送请求
+
+
+
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>响应式图片轮播图</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .slider {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            /* 垂直居中显示 */
+            justify-content: center;
+            margin: 0 auto;
+            /* 水平居中显示 */
+        }
+
+        .slides {
+            width: 100%;
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slides img {
+            max-width: 100%;
+            /* 确保图片宽度不超过容器宽度 */
+            max-height: 100vh;
+            /* 确保图片高度不超过视口高度 */
+            object-fit: contain;
+            /* 保持图片比例，填充模式 */
+            flex-shrink: 0;
+        }
+
+        button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 100;
+        }
+
+        .prev,
+        .next {
+            border-radius: 2px;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .dots {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            opacity: 0.7;
+        }
+
+        .dot.active {
+            background-color: #717171;
+        }
+
+        @media (min-width: 600px) {
+            .slider {
+                width: 70%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="slider">
+        <div class="slides">
+            <img src="https://plus.unsplash.com/premium_photo-1676496046182-356a6a0ed002?q=80&w=876&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image 1">
+            <img src="https://plus.unsplash.com/premium_photo-1676496046656-cdad44276497?q=80&w=876&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image 2">
+            <img src="https://images.unsplash.com/photo-1681210744266-c6a23b8ed176?q=80&w=998&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image 3">
+        </div>
+        <button class="prev">&#10094;</button>
+        <button class="next">&#10095;</button>
+        <div class="dots">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div>
+    </div>
+
+    <script>
+        let currentIndex = 0;
+        let interval = 3000; // 定时切换的间隔时间
+        let autoSlideTimer; // 用于存放定时器
+        let touchStartX = 0; // 触摸开始的X坐标
+        let touchEndX = 0; // 触摸结束的X坐标
+        let translateX = 0; // 当前滑动的距离
+
+        const slides = document.querySelector('.slides');
+        const dots = document.querySelectorAll('.dot');
+        const slideWidth = slides.clientWidth; // 获取轮播图的宽度
+
+        function resetTimer() {
+            clearInterval(autoSlideTimer); // 清除当前的定时器
+            autoSlideTimer = setInterval(nextSlide, interval); // 重新设置定时器
+        }
+
+        function updateSlidePosition() {
+            slides.style.transition = 'none'; // 取消动画效果，使得滑动更流畅
+            slides.style.transform = `translateX(${translateX - currentIndex * slideWidth}px)`;
+        }
+
+        function finalizeSlidePosition() {
+            slides.style.transition = 'transform 0.5s ease'; // 恢复动画效果
+            if (Math.abs(touchStartX - touchEndX) > slideWidth / 24) { // 判断滑动距离是否超过轮播图宽度的八分之一
+                if (touchStartX > touchEndX) {
+                    nextSlide();
+                } else {
+                    prevSlide();
+                }
+            } else {
+                showSlides(currentIndex); // 滑动距离小，则返回原位置
+            }
+        }
+
+        function showSlides(n) {
+            if (n >= slides.children.length) currentIndex = 0;
+            if (n < 0) currentIndex = slides.children.length - 1;
+            slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach(dot => dot.classList.remove('active'));
+            dots[currentIndex].classList.add('active');
+            resetTimer(); // 每次手动切换后重置定时器
+        }
+
+        function currentSlide(n) {
+            currentIndex = n - 1;
+            showSlides(currentIndex);
+        }
+
+        function nextSlide() {
+            currentIndex++;
+            showSlides(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex--;
+            showSlides(currentIndex);
+        }
+
+        function handleTouchStart(evt) {
+            touchStartX = evt.touches[0].clientX;
+            clearInterval(autoSlideTimer); // 在手动滑动时停止自动轮播
+        }
+
+        function handleTouchMove(evt) {
+            touchEndX = evt.touches[0].clientX;
+            translateX = touchEndX - touchStartX;
+            updateSlidePosition();
+        }
+
+        function handleTouchEnd() {
+            finalizeSlidePosition();
+            resetTimer(); // 手动滑动结束后重新开始自动轮播
+        }
+
+        document.querySelector('.prev').addEventListener('click', prevSlide);
+        document.querySelector('.next').addEventListener('click', nextSlide);
+
+        slides.addEventListener('touchstart', handleTouchStart);
+        slides.addEventListener('touchmove', handleTouchMove);
+        slides.addEventListener('touchend', handleTouchEnd);
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => currentSlide(index + 1));
+        });
+
+        resetTimer(); // 初始化定时器
+        showSlides(currentIndex); // 初始化时设置第一个小圆点样式
+    </script>
+
+</body>
+
+</html>

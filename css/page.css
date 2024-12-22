@@ -1,0 +1,54 @@
+.pagination {
+    width:300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    /* 添加元素间距来提升布局 */
+    margin: 35px auto 20px;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+}
+
+body.dark-mode .pagination {
+    background-color:#333333;
+}
+
+.pagination button {
+    border: none;
+    background-color: transparent;
+    padding: 5px 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+.pagination input[type="number"] {
+    width: 50px;
+    /* 调整输入框宽度以适应两位数的页码 */
+    padding: 5px;
+    text-align: center;
+    border: none;
+    background-color: #e9eef6;
+    border-radius: 3px;
+}
+
+.pagination input[type="number"]:focus {
+    outline: 2px solid lightgreen;
+    /* 焦点状态下的边框颜色 */
+    border-color: transparent;
+}
+
+.pagination .fa-solid {
+    font-size: 140%;
+}
+
+.pagination .fa-solid:active {
+    color: green;
+}
+
+button {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}

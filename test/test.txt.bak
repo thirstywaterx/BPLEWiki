@@ -1,0 +1,21 @@
+@echo off
+setlocal enabledelayedexpansion
+
+:: set upload dir
+set "upload_dir=upload"
+
+:: check has cwebp
+where cwebp >nul 2>nul
+if %errorlevel% neq 0 (
+    echo cwebp notfind
+    exit /b 1
+)
+
+:: for upload all PNG
+for /r "%upload_dir%" %%f in (*.png) do (
+    echo change %%f to %%~dpnxf.webp
+    cwebp "%%f" -o "%%~dpnxf.webp"
+)
+
+echo finish
+endlocal

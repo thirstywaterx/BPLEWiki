@@ -1,0 +1,347 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" href="/css/mdeditor.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <link rel="stylesheet" href="/css/highlightjs-copy.min.css" />
+    <link rel="stylesheet" href="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/11.4.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="/css/highlightjs-copy.min.css" />
+    <title>创建文章-猪吧维基BPLEWiki</title>
+    <style>
+        body {
+            margin-top: 60px;
+        }
+
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .title {
+            width: 90%;
+            height: 20px;
+            margin-bottom: 20px;
+        }
+
+        .content {
+            width: 90%;
+            min-height: 800px !important;
+            margin-bottom: 20px;
+        }
+
+        .input {
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+            padding: 10px;
+        }
+
+        .input:focus {
+            outline: 2px solid lightgreen;
+        }
+
+        .submit {
+            width: 60px;
+            height: 30px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 2px;
+            color: black;
+            background-color: lightgreen;
+            font-size: 110%;
+        }
+
+        .submit:active {
+            background-color: #80DD80;
+        }
+
+        .bottom {
+            position: relative;
+            flex-direction: row;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        a {
+            color: lightgreen;
+            text-decoration-line: none;
+        }
+
+        .operation-area {
+            width: 80%;
+            min-height: 80px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 2px;
+            background-color: #f6f6f6;
+        }
+
+        .link {
+            width: 250px;
+        }
+
+        .submit-center {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        .modal-content {
+            border-radius: 8px;
+            background-color: #fefefe;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            margin: 0 auto;
+            margin-top: 50px;
+            margin-bottom:30px;
+            width: 92%;
+        }
+
+        /* 模态框标题的样式 */
+        .modal-header {
+            background-color: lightgreen;
+            color: #fff;
+            padding: 10px 20px;
+            border-bottom: none;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        /* 模态框内容区域的样式 */
+        .modal-body {
+            padding: 20px;
+            color: #333;
+            background-color: #f9f9f9;
+            font-size: 1rem;
+            line-height: 1.6;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+        
+        .modal-body img{
+        max-width:100%;
+        }
+
+        .hljs {
+            background-color: #282C34;
+            color: #ABB2BF;
+            border-radius: 5px;
+        }
+
+        /* for block of numbers */
+        .hljs-ln-numbers {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            text-align: center;
+            color: #ccc;
+            border-right: 1px solid #CCC;
+            vertical-align: top;
+            padding-right: 5px;
+        }
+
+        .hljs-ln-code {
+            position:relative;
+            left:6px;
+        }
+        
+        .hljs-ln-n {
+            margin-right:6px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="../img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <div>
+        <h1>创建文章</h1>
+        <input class="title center input" maxlength="30" placeholder="标题">
+        <input class="title center input" placeholder="封面链接">
+        <!-- <a href="javascript:void(0);"> -->
+        <div class="operation-area center">
+        </div>
+        <!-- </a> -->
+        <div class="textarea-parent">
+            <div class="textarea-length" data-max="60000">0</div>
+            <textarea class="content center input" placeholder="内容(markdown语法)" style="height:400px"></textarea>
+        </div>
+        
+        <div class="modal fade" id="preview">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content">
+
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">预览</h4>
+                </div>
+
+                <!-- 模态框内容 -->
+                <div class="modal-body">
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+        <div class="bottom">
+            <button type="button" class="submit" data-bs-toggle="modal" data-bs-target="preview">预览</button>
+            <input type="submit" class="submit" onclick="run()" value="提交">
+            <a href="index.html?id=17">写作指导</a>
+        </div>
+        <div id="notice"></div>
+    </div>
+    <!-- 模态框 -->
+    <script src="/js/ajax.js"></script>
+    <script src="/js/mdeditor.js?v=0.0.3"></script>
+    <script src="/js/darkmode.js"></script>
+    <script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/11.4.0/highlight.min.js"></script>
+<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlightjs-line-numbers.js/2.8.0/highlightjs-line-numbers.min.js" type="application/javascript"></script>
+<script src="/js/highlightjs-copy.min.js"></script>
+<script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/marked/4.0.2/marked.min.js" type="application/javascript"></script>
+    <script>
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+
+        //载入markdown编辑器
+        mdeditor.create(dqsa(".operation-area", 1), dqsa(".content", 1),
+            `# <article-title></article-title>
+
+*上面一行会显示为你输入的标题，建议不要删除
+
+## 标题1
+
+文本1
+
+## 标题2
+
+文本2
+
+*以上仅为实例`, true);
+        mdeditor.loadbtn();
+        mdeditor.map(mdeditor.clearevent);
+    </script>
+    <script>
+        var wait = true;
+        ajax({
+            url: "/php/user/issignin.php",
+            method: "POST",
+            success: function(r) {
+                let i = JSON.parse(r);
+                if (!i.success) {
+                    window.open("../signup.html", "_self");
+                } else {
+                    wait = false;
+                }
+            }
+        });
+
+        function run() {
+    if (!wait) {
+        const titleInput = dqsa("input")[0];
+        const coverInput = dqsa("input")[1];
+        const contentInput = mdeditor.textarea;
+
+        // 检查标题和内容长度
+        if (titleInput.value.length < 2) {
+            alert("标题最少2个字");
+            return;
+        }
+        if (contentInput.value.length < 5) {
+            alert("内容最少5个字");
+            return;
+        }
+        if (contentInput.value.length > mdeditor.eletextlength.dataset.max) {
+            alert("内容过长");
+            return;
+        }
+
+        // 设置封面默认值
+        if (!coverInput.value.trim()) {
+            coverInput.value = "/img/preview.svg";
+        }
+
+        wait = true;
+        dqsa("#notice", 1).innerHTML = `正在提交请求`;
+
+        ajax({
+            url: "/php/article/new.php",
+            method: "POST",
+            send: `title=${titleInput.value}&cover=${coverInput.value}&content=${contentInput.value}`,
+            success: function(r) {
+                wait = false;
+                let i = JSON.parse(r);
+                if (i.success) {
+                    dqsa("#notice", 1).innerHTML = "提交成功";
+                    setTimeout(() => {
+                        window.open(`index.php?id=${i.id}`, "_self");
+                    }, 1000);
+                } else {
+                    dqsa("#notice", 1).innerHTML = i.notice + " 请重试";
+                }
+            }
+        });
+    }
+}
+    </script>
+    <script>
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+    </script>
+    <script>
+        //预览
+        dqsa(`button[data-bs-target="preview"]`, 1).addEventListener('click', function() {
+            dqsa("#preview .modal-body", 1).innerHTML = marked.parse(mdeditor.textarea.value);
+            hljs.highlightAll();
+            for (let ii of dqsa("article-title")) {
+                ii.innerHTML = dqsa("input")[0].value;
+            }
+        }, true)                
+    </script>
+    <script>
+    hljs.addPlugin(
+        new CopyButtonPlugin({
+            lang: "zh", // The copy button now says "Copiado!" when selected.
+        })
+    );
+
+    hljs.highlightAll();
+    
+    hljs.initLineNumbersOnLoad();
+    </script>
+</body>
+
+</html>

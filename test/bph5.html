@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{
+padding:0;margin:0;
+}
+body *{
+max-width:100%
+}
+</style>
+    <script src="https://cdn.jsdelivr.net/npm/phaser@v3.80.1/dist/phaser.min.js"></script>
+</head>
+<body>
+
+    <script>
+    document.body.addEventListener('touchstart',function (){
+        document.documentElement.RequestFullScreen()
+    },true)
+    class MainScene extends Phaser.Scene{
+        constructor() {
+            super({ key: 'Main' });
+        }
+        preload ()
+        {this.load.image('lbackground', 'https://file.bplewiki.top/Texture2D/Bad_Piggies_Custom_Splash_2048x1152.png');
+            this.load.setBaseURL('https://labs.phaser.io');
+
+            this.load.image('sky', 'assets/skies/space3.png');
+            this.load.image('logo', 'assets/sprites/phaser3-logo.png');
+            this.load.image('red', 'assets/particles/red.png');
+        }
+
+        create ()
+        {
+            this.matter.world.setBounds();
+            this.matter.add.rectangle(100,100,100,100);
+            this.matter.add.rectangle(100,200,100,100);
+            this.matter.add.mouseSpring();
+            this.add.image(400, 300, 'lbackground');
+        }
+    }
+
+    
+class LoadScene0 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Load0' });
+    }
+
+    preload() {
+        // 显示加载页面的背景或进度条
+        
+        let text=this.add.text(100, 200, 'Loading...', { fontSize: '32px', fill: '#FFF' });
+        
+        let progress=this.add.graphics();
+
+        // 加载游戏资源
+
+        //this.load.setBaseURL('');
+        this.load.image('lbackground', 'https://file.bplewiki.top/Texture2D/Bad_Piggies_Custom_Splash_2048x1152.png');
+        //this.load.audio('bgm', 'https://mlh-aids.github.io/h5bp/audio/main_menu_short.mp3');
+        
+        // 监听加载进度
+        this.load.setPath('sprites')
+        this.load.on('progress', function (value) {
+            progress.clear();
+            progress.fillStyle('0xffffff',1);
+            progress.fillRect(0,270,800*value,50)
+        });
+
+        // 加载完成后自动切换到主场景
+        this.load.on('complete', function () {
+            console.log('Load complete');
+            progress.destroy();
+            this.scene.start('Load1'); // 切换场景
+        }, this);
+    }
+    create(){
+        //alert()
+    }
+}
+class LoadScene1 extends Phaser.Scene {
+    constructor() {
+        super({ key: 'Load1' });
+    }
+
+    preload() {
+        // 显示加载页面的背景或进度条
+        this.load.setBaseURL('');
+        this.add.image(400, 300, 'lbackground');
+        
+        
+        
+        
+        let progress=this.add.graphics();
+
+        // 加载游戏资源
+        
+            //this.load.setBaseURL('https://labs.phaser.io');
+            this.load.audio('bgm', 'assets/background_music.mp3');
+            this.load.image('sky', 'assets/skies/space3.png');
+            this.load.image('logo', 'assets/sprites/phaser3-logo.png');
+            this.load.image('red', 'assets/particles/red.png');
+
+        // 监听加载进度
+        this.load.setPath('sprites')
+        this.load.on('progress', function (value) {
+
+
+            progress.clear();
+            progress.fillStyle('0xffffff',1);
+            progress.fillRect(0,270,800*value,50)
+        });
+
+        // 加载完成后自动切换到主场景
+        this.load.on('complete', function () {
+            console.log('Load complete');
+            progress.destroy();
+            this.scene.start('Main'); // 切换到主场景
+        }, this);
+    }
+}
+// 在游戏配置中添加加载场景
+    const config = {
+        type: Phaser.AUTO,
+        width: 800,
+        height: 800,
+        scene: [LoadScene0, LoadScene1, MainScene],
+        parent:'phraser-example',
+        physics: {
+            default: 'matter',
+            matter: {
+                gravity: { x:0, y: 0 },
+                debug: true
+            }
+        }
+    };
+//var game = new Phaser.Game(config);
+
+    const game = new Phaser.Game(config);
+    
+    </script>
+
+</body>
+</html>

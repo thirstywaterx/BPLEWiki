@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/topbar.css" />
+    <link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>渐进式应用-猪吧维基BPLEWiki</title>
+    <style>
+        p {
+            margin-top: 2px;
+            margin-bottom: 2px;
+            word-wrap: break-word;
+        }
+
+        .pwa {
+            position: relative;
+            width: 300px;
+            left: 50%;
+            transform: translate(-50%);
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <h1>渐进式应用</h1>
+    <p>猪吧维基现已支持渐进式应用（PWA）:
+        你可以在支持PWA的浏览器中，将该网站的主页添加到屏幕中（请事先开启浏览器"创建快捷方式"的权限），这样就可以拥有原生的猪吧维基应用了。</p>
+
+        <img class="pwa" src="https://pic.imgdb.cn/item/670121a0d29ded1a8cf7fc59.png">
+        <script src="/js/darkmode.js"></script>
+        <script>
+            document.getElementById('btn').addEventListener('click', function() {
+                history.back();
+            }, true)
+        </script>
+</body>
+
+</html>

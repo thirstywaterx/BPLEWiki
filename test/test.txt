@@ -1,0 +1,27 @@
+@echo off
+setlocal enabledelayedexpansion
+
+rem set upload menupath
+set "upload_dir=upload"
+
+rem check has upload menu
+if not exist "!upload_dir!" (
+    echo menu "!upload_dir!" not found.
+    exit /b
+)
+
+rem for upload all .webp
+for %%f in ("!upload_dir!\*.webp") do (
+    rem getfilename（hasnotkuozhanmin）
+    set "filename=%%~nf"
+    rem use dwebp change to png file
+    dwebp "%%f" -o "!upload_dir!\!filename!.png"
+    if !errorlevel! equ 0 (
+        echo success: %%f -> !upload_dir!\!filename!.png
+    ) else (
+        echo fail: %%f
+    )
+)
+
+echo finish.
+endlocal

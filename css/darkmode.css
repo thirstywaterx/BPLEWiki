@@ -1,0 +1,35 @@
+body {
+    background-color: #fff;
+    color: #000;
+    transition: background-color 0s, color 0s;
+}
+
+body.dark-mode {
+    background-color: #1c1c1c;
+    color: #e0e0e0;
+}
+
+body.dark-mode p,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5 {
+    color: #e0e0e0;
+}
+
+body.dark-mode .back:active {
+    color: grey;
+}
+
+body.dark-mode .element:active {
+    background-color: darkred !important;
+    /* 适合暗黑模式的颜色 */
+}
+
+body.dark-mode .fa-solid {
+    color: #E0E0E0 !important;
+}
+
+body.dark-mode .fa-solid:active {
+    color: grey !important;
+}

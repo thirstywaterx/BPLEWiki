@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+        <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>油箱计算器-猪吧维基BPLEWiki</title>
+    <style>
+        .compute-area {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 300px;
+            margin: 0 auto;
+            margin-top: 20px;
+        }
+
+        .compute-area input {
+            width: 90%;
+            padding: 10px;
+            font-size: 1.2em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .result {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .result img {
+            margin-right: 10px;
+            height: 20px;
+            position: relative;
+            transform: translateY(-50%);
+        }
+
+        .result input {
+            width: calc(80% - 44px);
+            padding: 10px;
+            font-size: 1.2em;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .texture {
+            /*贴图自适应*/
+            background-position: calc(100%/(var(--imgw)/var(--spw) - 1)/var(--spw)*var(--spx)) calc(100%/(var(--imgh)/var(--sph) - 1)/var(--sph)*var(--spy));
+            background-size: calc(100%/var(--spw)*var(--imgw)) calc(100%/var(--sph)*var(--imgh));
+            background-repeat: no-repeat;
+        }
+        
+        .result .img {
+            margin-right: 10px;
+            width: 25px;
+            height: 20px;
+            position: relative;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="topblk">
+        <div class="back" id="back">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    
+    <h1>油箱计算器</h1>
+
+                <p>这是一个油箱计算器，您可以用它来计算涡喷所对应需要油箱和电机的数量。</p>
+    <div class="compute-area">
+        <input type="number" id="inputNumber" placeholder="输入涡喷数量">
+        <div class="result">
+            <!-- <img src="/img/icon/fuel-tank.jpg" style="width: 22px;margin-left:4px;margin-right: 12px;" alt="Icon 2"> -->
+            <div class="texture img" style="background-image:url(https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png);--imgw:2048;--imgh:2048;--spx:0;--spy:768;--spw:101;--sph:98;"><br/></div>
+            <input type="number" id="result1" placeholder="所需油箱">
+        </div>
+        <div class="result">
+             <!-- <img src="/img/icon/motor.jpg" style="width: 28px;" alt="Icon 1"> -->
+            <div class="texture img" style="background-image:url(https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png);--imgw:2048;--imgh:2048;--spx:935;--spy:189;--spw:88;--sph:64;"><br/></div>
+            <input type="number" id="result2" placeholder="所需核电机">
+        </div>
+    </div>
+
+<script src="/js/darkmode.js"></script>
+    <script>
+        const inputField = document.getElementById('inputNumber');
+        const result1Input = document.getElementById('result1');
+        const result2Input = document.getElementById('result2');
+
+        function processNumber(num) {
+            return num < 1 ? 0 : Math.ceil(num);
+        }
+
+        function updateResultsFromInput() {
+            const inputValue = parseFloat(inputField.value);
+            if (!isNaN(inputValue)) {
+                const number1 = processNumber(inputValue * 1.4);
+                const number2 = processNumber(inputValue * 3.5);
+                result1Input.value = number1;
+                result2Input.value = number2;
+            } else {
+                result1Input.value = '';
+                result2Input.value = '';
+            }
+        }
+
+        function updateFromResult1() {
+            const result1Value = parseFloat(result1Input.value);
+            if (!isNaN(result1Value)) {
+                const inputValue = processNumber(result1Value / 1.4);
+                const number2 = processNumber(result1Value * (3.5 / 1.4));
+                inputField.value = inputValue;
+                result2Input.value = number2;
+            }
+        }
+
+        function updateFromResult2() {
+            const result2Value = parseFloat(result2Input.value);
+            if (!isNaN(result2Value)) {
+                const inputValue = processNumber(result2Value / 3.5);
+                const number1 = processNumber(result2Value * (1.4 / 3.5));
+                inputField.value = inputValue;
+                result1Input.value = number1;
+            }
+        }
+
+        inputField.addEventListener('input', updateResultsFromInput);
+        result1Input.addEventListener('input', updateFromResult1);
+        result2Input.addEventListener('input', updateFromResult2);
+    </script>
+<script>
+document.getElementById('back').addEventListener('click', function() {
+            history.back();
+        }, true)
+</script>
+</body>
+
+</html>

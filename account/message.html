@@ -1,0 +1,224 @@
+<!doctype html>
+<html>
+
+<head>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>我的消息-猪吧维基BPLEWiki</title>
+    <style>
+        .box {
+            position: relative;
+            left: 50%;
+            /* 相对于父容器水平居中 */
+            transform: translateX(-50%);
+            /* 偏移自身宽度的 50% */
+            width: 90%;
+            max-width: 400px;
+            /* 限制最大宽度 */
+            height: 105px;
+            margin: 10px 0;
+            /* 保持上下间距 */
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background-color: white;
+            border-radius: 15px;
+            padding-left: 10px;
+            padding-top: 6px;
+            padding-right: 3px;
+            overflow: hidden;
+            box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        body.dark-mode .box {
+            background-color: #333333 !important;
+        }
+
+        .box:active {
+            transform: translateX(-50%) scale(0.96);
+            /* 保持居中并添加缩放效果 */
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+        }
+
+        .sign {
+            position: relative;
+            float: left;
+            font-size: 520%;
+            top: 50%;
+            transform: translate(5px, -50%);
+            color: #667D99;
+            opacity:0.8;
+        }
+
+
+        h2 {
+            font-size: 95%;
+            margin-top: 10px;
+            margin-left: 100px;
+        }
+
+        p {
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            font-size: 90%;
+            margin-left: 100px;
+            margin-top: -10px;
+            word-break: break-all;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 4;
+        }
+
+        a {
+            text-decoration: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            color: black;
+        }
+
+        b {
+            color: lightblue;
+        }
+
+        s-segmented-button {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+            margin-bottom: 30px;
+        }
+
+        s-circular-progress {
+            width: 35px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <h1>我的消息</h1>
+    <s-segmented-button>
+        <s-segmented-button-item value="article" selected="true">
+            文章
+        </s-segmented-button-item>
+        <s-segmented-button-item value="workshop">
+            工坊
+        </s-segmented-button-item>
+        <s-segmented-button-item value="forum">
+            帖子
+        </s-segmented-button-item>
+    </s-segmented-button>
+    <div id="loading" style="display: none; text-align: center; margin: 20px;">
+        <s-circular-progress indeterminate="true"></s-circular-progress>
+    </div>
+    <div id="content"></div>
+
+    </div>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/darkmode.js"></script>
+    <script src="https://cdn.jsdmirror.cn/npm/sober@0.7.1/dist/sober.min.js"></script>
+    <script>
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true);
+
+        // API 映射表
+        const apiMapping = {
+            'article': [
+                "/php/article/noticecomment.php",
+                "/php/article/noticecommentreply.php"
+            ],
+            'workshop': [
+                "/php/savefile/noticecomment.php",
+                "/php/savefile/noticecommentreply.php"
+            ],
+            'forum': [
+                "/php/forum/noticecomment.php",
+                "/php/forum/noticecommentreply.php"
+            ]
+        };
+
+        const segmentedButton = document.querySelector("s-segmented-button");
+        let currentTab = 'article'; // 默认加载 article
+
+        // 初始化事件监听
+        segmentedButton.addEventListener("change", (event) => {
+            currentTab = event.target.value; // 获取选中值
+            loadDataForTab(currentTab); // 加载对应标签的数据
+        });
+
+        function loadDataForTab(tab) {
+            const apis = apiMapping[tab]; // 获取对应的 API 列表
+            if (!apis) return;
+
+            // 显示加载动画，隐藏内容
+            document.querySelector("#loading").style.display = "block";
+            document.querySelector("#content").style.display = "none";
+
+            let msgs = [];
+            let num = 0;
+
+            function over(arr) {
+                msgs = msgs.concat(arr);
+                num++;
+                if (num === apis.length) {
+                    msgs.sort((a, b) => Date.parse(b.time) - Date.parse(a.time));
+                    const content = document.querySelector("#content");
+                    content.innerHTML = ""; // 清空内容
+                    for (let i of msgs) {
+                        i.content = i.content.replaceAll(/:([0-9]+)/g, '&#$1;');
+                        content.innerHTML += `
+                <a href="/${tab}/?id=${i.article}&comment=${i.id}" data-time="${i.time}">
+                    <s-ripple class="box">
+                        <i class="fa-solid fa-comment sign"></i>
+                        <h2>${i.isreply ? "评论" : "文章"}回复自：<b>${i.articletitle}</b></h2>              
+                        <p><strong>${i.unickname}</strong>：<span>${i.content}</span></p>
+                    </s-ripple>
+                </a>
+            `;
+                    }
+
+                    // 隐藏加载动画，显示内容
+                    document.querySelector("#loading").style.display = "none";
+                    document.querySelector("#content").style.display = "block";
+                }
+            }
+
+            apis.forEach((api, index) => {
+                fetch(api)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            data.comments.forEach(comment => {
+                                comment.isreply = index === 1; // 第二个 API 是回复
+                            });
+                            over(data.comments);
+                        } else {
+                            over([]);
+                            console.error(data.notice || "请求失败");
+                        }
+                    })
+                    .catch(err => {
+                        over([]);
+                        console.error(`请求 ${api} 失败:`, err);
+                    });
+            });
+        }
+
+        // 初始化加载第一个标签数据
+        loadDataForTab(currentTab);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,714 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" href="/css/carousel-pic.css">
+    <link rel="stylesheet" href="/css/dialog_img.css">
+    <link rel="stylesheet" href="/css/dialog.css">
+    <link rel="stylesheet" href="/css/dropdown.css">
+    <link rel="stylesheet" href="/css/comment.css">
+    <link rel="stylesheet" href="/css/page.css" />
+    <title id="workshop-title">创意工坊-猪吧维基BPLEWiki</title>
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+
+
+
+        body {
+            margin-top: 60px;
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 100%;
+        }
+
+        .delete {
+            width: 50px;
+            height: 25px;
+            background-color: red;
+            color: white;
+            font-size: 15px;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .delete:active {
+            background-color: #CC0000;
+        }
+
+        .img-modal img {
+            border-radius: 5px;
+        }
+
+        .search {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            background-color: #c2e7ff;
+            top: 5px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            /* 垂直居中 */
+            justify-content: center;
+            opacity: 0.9;
+            color: #abb2ba;
+        }
+
+        .fa-magnifying-glass {
+            color: white;
+        }
+
+        .fa-magnifying-glass:active {
+            animation: tilt-hit 0.5s ease forwards;
+        }
+
+
+        @keyframes tilt-hit {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(-40deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .search-animate {
+            animation: tilt-hit 0.5s ease forwards;
+        }
+
+
+        .slider {
+            border-radius: 4px;
+        }
+
+        .author {
+            width: max-content;
+            height: 40px;
+            background-color: #f6f6f6;
+            margin-top: 20px;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding-right: 10px;
+        }
+
+        .avatar {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            border: 1px solid green;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 5px;
+            float: left;
+        }
+
+        .author p {
+            position: relative;
+            margin-left: 45px;
+            top: 50%;
+            transform: translateY(-60%);
+        }
+
+        .download .fa-download {
+            margin-right: 5px;
+        }
+
+        .bottom-bar {
+            position: fixed;
+            display: flex;
+            flex-direction: row;
+            bottom: 0;
+            left: 0;
+            background-color: #f6f6f6;
+            width: 100%;
+            height: 45px;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .download {
+            position: relative;
+            background-color: lightgreen;
+            width: 240px;
+            height: 35px;
+            border-radius: 5px;
+            color: white;
+            left: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: box-shadow 0.1s ease, transform 0.1s ease;
+        }
+
+        .download:active {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50%) translateY(2px);
+        }
+
+
+        .fa-circle-question {
+            position: relative;
+            left: 40px;
+            top: 50%;
+            margin-right: 10px;
+            transform: translateY(-25%);
+            font-size: 140%;
+            color: lightgrey;
+        }
+
+        .main-content {
+            width: 600px;
+            min-height: 500px;
+        }
+
+        .comment {
+            width: 320px;
+            height: 400px;
+        }
+
+
+        hr {
+            margin-top: 50px;
+            border: none;
+            width: 95%;
+            height: 1px;
+            background-color: grey;
+        }
+
+
+        .prev,
+        .next {
+            z-index: 0;
+        }
+
+        .desktop-download {
+            display: none;
+        }
+
+
+        .tool-bar {
+            position: relative;
+            background-color: white;
+            float: right;
+            margin-right: 10px;
+            margin-top: 70px;
+            padding: 10px;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+            width: 75%;
+            height: 40px;
+            border-radius: 30px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .tool-bar .fa-solid {
+            margin: 0 auto;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .moreOptions {
+            position: relative;
+        }
+
+        .tool-bar .fa-solid:active {
+            color: green;
+        }
+
+        .save-info {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .save-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .save-info p strong {
+            font-weight: bold;
+            color: #333;
+        }
+
+        #dialog-download label {
+            display: block;
+            margin: 20px 0 10px;
+            color: #333;
+        }
+
+        #dialog-download select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #dialog-download button {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background-color: lightgreen;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 10px;
+            left: 50%;
+            transform: translate(-50%);
+            margin-top: 15px;
+        }
+
+        #dialog-download button:active {
+            background-color: #32CD32;
+        }
+
+        @media (min-width: 768px) {
+            body {
+                flex-direction: row;
+                /* 横向布局 */
+                justify-content: space-between;
+                /* 分散对齐 */
+                padding: 50px;
+            }
+
+            .info {
+                width: 70%;
+                margin: 0 auto;
+            }
+
+            .main-content {
+                width: calc(65% - 20px);
+                margin: 10px;
+                padding: 0px;
+            }
+
+            .comment {
+                width: calc(35% - 20px);
+                margin: 10px;
+            }
+
+            h2 {
+                margin-top: 0px;
+            }
+
+            hr {
+                display: none;
+            }
+
+            .bottom-bar {
+                display: none;
+            }
+
+
+            .bottom-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+            }
+
+            .desktop-download {
+                position: relative;
+                top: 35px;
+                display: block;
+                width: 50px;
+                height: 40px;
+                background-color: white;
+                box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .desktop-download:active {
+                color: green;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="back">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+        <a href="/search.html">
+            <div class="search"><i class="fa-solid fa-magnifying-glass"></i></div>
+        </a>
+    </div>
+
+    <div id="imgModal" class="img-modal">
+        <span class="close">&times;</span>
+        <img class="modal-img-content" id="img01">
+        <div id="caption"></div>
+    </div>
+
+
+    <div id="dialog-report-article" class="modal">
+        <div class="modal-content modal-content-creative">
+            <span class="close-button">&times;</span>
+            <h2>举报文章</h2>
+            <div class="operation">
+                <center>
+                    <p>如果你认为此文章有背于文章守则，您可以举报它。</p>
+                    <div id="report-options">
+                        <span class="report-option" data-value="violence">暴力恐怖</span>
+                        <span class="report-option" data-value="inappropriate-speech">不当言论</span>
+                        <span class="report-option" data-value="obscenity">淫秽内容</span>
+                        <span class="report-option" data-value="baiting">引战钓鱼</span>
+                        <span class="report-option" data-value="irrelevant">无关新创</span>
+                        <span class="report-option" data-value="other">其它</span>
+                    </div>
+                    <textarea class="argument" placeholder="在此键入举报理由"></textarea><br>
+                    <button class="submit" onclick="javascript:submitReport('article')">提交</button>
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog-delete-article" class="modal">
+        <div class="modal-content modal-content-creative">
+            <span class="close-button">&times;</span>
+            <h2>删除文章</h2>
+            <div class="operation">
+                <center>
+                    <p>你确定要删除该文章吗，一经删除将会<b>永久</b>无法恢复</p>
+                    <button class="delete" onclick="deleteArticle()">删除</button>
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <div id="reportCommentModal dialog-reportcomment" class="modal" style="z-index:3 !important;">
+        <div class="modal-content modal-content-creative">
+            <span class="close-button">&times;</span>
+            <h2>举报评论</h2>
+            <div class="operation">
+                <center>
+                    <p>如果你认为此评论有背于社区守则，您可以举报它。</p>
+                    <div id="report-options">
+                        <span class="report-option" data-value="violence">暴力恐怖</span>
+                        <span class="report-option" data-value="inappropriate-speech">不当言论</span>
+                        <span class="report-option" data-value="obscenity">淫秽内容</span>
+                        <span class="report-option" data-value="baiting">引战钓鱼</span>
+                        <span class="report-option" data-value="other">其它</span>
+                    </div>
+                    <textarea class="argument" placeholder="在此键入举报理由"></textarea><br>
+                    <button class="submit" onclick="javascript:submitReport('articlecomment')">提交</button>
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog-download" class="modal">
+        <div class="modal-content modal-content-creative">
+            <span class="close-button">&times;</span>
+            <h2>下载存档</h2>
+            <div class="operation">
+                <p>您可以配置可选选项然后再进行下载。</p>
+                <h3>自定义存档名称</h3>
+                <p>存档作者在制作存档时用的地图可能不是您想要的目标地图，您可以通过以下设置更改存档内容所属的地图。（部分浏览器可能不支持该功能）</p>
+                <p>请注意：由于存档内容并非是基于您要改变到的地图制作的，所以存档迁移之后可能会出现载具位置找不到，卡入墙里等问题。</p>
+                <div class="save-info">
+                    <p><strong>原存档名称:</strong> <span id="originalName"></span></p>
+                    <p><strong>对应地图:</strong> <span id="mapName"></span></p>
+                </div>
+                <label for="mapSelect">选择新存档名称:</label>
+                <select id="mapSelect" onchange="changeDownloadName()">
+                    <!-- 动态生成选项 -->
+                </select>
+                <a id="download-save"><button id="downloadBtn">下载存档</button></a>
+                                <a href="https://s3.bplewiki.top/savefiles/51" download="1"><button>下载测试</button></a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="main-content">
+        <div class="slider">
+            <div class="slides">
+                <img class="dialog-img" src="https://plus.unsplash.com/premium_photo-1676496046182-356a6a0ed002?q=80&w=876&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image 1">
+                <img class="dialog-img" src="https://plus.unsplash.com/premium_photo-1676496046656-cdad44276497?q=80&w=876&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image 2">
+                <img class="dialog-img" src="https://images.unsplash.com/photo-1681210744266-c6a23b8ed176?q=80&w=998&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Image 3">
+            </div>
+            <button class="prev">&#10094;</button>
+            <button class="next">&#10095;</button>
+            <div class="dots">
+                <span class="dot" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+
+        <div class="info">
+
+            <div class="author">
+                <img class="avatar" src="/favicon.ico">
+                <p>name</p>
+            </div>
+
+            <h1>标题</h1>
+            <div class="content" id="content">
+                <?php
+    echo $acontent;
+?>
+            </div>
+
+            <div class="bottom-container">
+                <div class="desktop-download open-downlaod"><i class="fa-solid fa-download"></i></div>
+                <div class="tool-bar">
+                    <div class="toolfont"><i class="fa-solid fa-pen-to-square" id="revise"></i></div>
+                    <div class="toolfont" id="collect"><i class="fa-solid fa-star"></i></div>
+                    <div class="toolfont"><i class="fa-solid fa-circle-info" id="info"></i></div>
+                    <div class="toolfont moreOptions" id="moreOptions" data-type="article"><i class="fa-solid fa-ellipsis"></i>
+                        <div class="dropdown" id="moreDropdown" style="display:none;">
+                            <div class="dropdown-item open-report-article"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div class="dropdown-item open-delete-article"><i class="fa-solid fa-trash"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <hr><br>
+
+
+    <div class="comment" id="comment">
+
+        <h2>评论</h2>
+
+        <div class="${options.type}Block comment-block" id="comments_${options.id}">
+            <img src="${options.imgurl}">
+            <span class="uname pos"><b>${options.showname}</b></span>
+            <span class="more">
+                <i class="fa-solid fa-comment-dots font" data-commentid="${options.id}" onclick="comment.cto(this.dataset.commentid)"></i>
+                <span class="moreOptions" data-type="comment">
+                    <i class="fa-solid fa-ellipsis font"></i>
+                    <div class="dropdown" style="display:none;z-index:3;">
+                        <div class="dropdown-item"><i class="fa-solid fa-triangle-exclamation" onclick="comment.report(${options.id})"></i></div>
+                        <div class="dropdown-item"><i class="fa-solid fa-trash" onclick="comment.delete(${options.id},${options.uid})"></i></div>
+                    </div>
+                </span>
+            </span>
+            <p class="mainP">${options.content}</p>
+        </div>
+    </div>
+
+
+
+
+    <div class="bottom-bar">
+        <div class="download open-download" id="download-btn">
+            <i class="fa-solid fa-download"></i>
+            <p>点击下载</p>
+        </div>
+        <i class="fa-solid fa-circle-question"></i>
+    </div>
+
+    <script src="/js/carousel-pic.js"></script>
+    <script src="/js/dialog_img.js"></script>
+    <script src="/js/dropdown.js"></script>
+    <script src="/js/dialog-id.js"></script>
+    <script src="/js/page.b.js?v=0.0.4"></script>
+    <script>
+        document.getElementById('back').addEventListener('click', function() {
+            history.back();
+        }, true)
+
+        //搜索按钮动画
+        document.querySelector('.fa-magnifying-glass').addEventListener('click', function() {
+            const icon = this;
+            icon.classList.add('search-animate');
+            icon.addEventListener('animationend', function() {
+                icon.classList.remove('search-animate');
+            });
+        });
+
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+
+        var GETs = (function() {
+            var url = window.document.location.href.toString();
+            var u = url.split("?");
+            if (typeof(u[1]) == "string") {
+                u = u[1].split("&");
+                var get = {};
+                for (var i in u) {
+                    var j = u[i].split("=");
+                    get[j[0]] = j[1];
+                }
+                return get;
+            } else {
+                return {};
+            }
+        })(); //get对象
+        //url:"article.php?id="+GETs.id,
+        var ainform = {}; //article信息
+        var signinfo; //用户登录信息
+        if ((GETs.id)) {
+            //article载入
+            let i = JSON.parse(`
+<?php
+echo json_encode($file,JSON_UNESCAPED_UNICODE);
+?>
+        `);
+            if (i.success) {
+                if (i.type === "md") {
+                    dqsa("#content", 1).innerHTML = marked.parse(dqsa("#content", 1).innerHTML);
+                }
+                hljs.highlightAll(); //代码块语法高亮
+                for (let ii of dqsa("article-title")) {
+                    ii.innerHTML = i.title;
+                }
+                ainform.uid = i.user;
+                ainform.unickname = i.unickname;
+                ainform.time = i.time;
+                dqsa("#info", 1).onclick = function() {
+                    alert(`文章创建者：${ainform.uid}(${ainform.unickname})，创建时间：${ainform.time}`)
+                };
+                signed();
+            }
+            dqsa("#revise", 1).onclick = function() {
+                signed(function() {
+                    if (signinfo.success === "true") {
+                        if (signinfo.user.id == ainform.uid) {
+                            window.open("revise.html?id=" + GETs.id, "_self")
+                        } else {
+                            alert("无编辑权限");
+                        }
+                    } else {
+                        alert("未登录");
+                    }
+                });
+            };
+        }
+    </script>
+    <script>
+        Page.create(document.querySelector("#comment"));
+    </script>
+    <script>
+        // 存档名称管理
+
+        const saveData = {
+            "originalName": "save1.dat",
+            "mapName": "Map_A"
+        };
+
+        // 模拟可选的地图和存档名称数据
+        const mapOptions = [{
+                name: "Map_A",
+                saveName: "saveA.dat"
+            },
+            {
+                name: "Map_B",
+                saveName: "saveB.dat"
+            },
+            {
+                name: "Map_C",
+                saveName: "saveC.dat"
+            }
+        ];
+
+
+        // 显示存档信息
+        document.getElementById('originalName').innerText = saveData.originalName;
+        document.getElementById('mapName').innerText = saveData.mapName;
+
+        // 动态生成选项
+        const select = document.getElementById('mapSelect');
+        select.innerHTML = ''; // 清空现有选项
+        mapOptions.forEach(option => {
+            const opt = document.createElement('option');
+            opt.value = option.name;
+            opt.innerText = `${option.name} (${option.saveName})`;
+            select.appendChild(opt);
+        });
+
+        var sel = document.getElementById('mapSelect');
+        var sid = sel.selectedIndex;
+        const selectedSaveName = sel[sid].value;
+        document.querySelector(`#download-save`).download = `${selectedSaveName}`;
+
+
+        function changeDownloadName() {
+            var sel = document.getElementById('mapSelect');
+            var sid = sel.selectedIndex;
+            const selectedSaveName = sel[sid].value;
+            document.querySelector(`#download-save`).download = `${selectedSaveName}`;
+        }
+
+        document.getElementById('download-save').addEventListener('click', function() {
+            download('https://s3.tebi.io/s3.bplewiki.top/savefiles/39?AWSAccessKeyId=X9u6MC7vmdL9ytj1&Signature=ucBPEVJ1TddmBWadPtscyxEmcu0%3D&Expires=1719814859', 'abcd')
+        }, true)
+
+        function download(url, filename) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'blob';
+    xhr.onload = function() {
+        if (xhr.status !== 200) {
+            alert('下载异常！');
+            return;
+        }
+        var encodedFilename = encodeURIComponent(filename); // 对文件名进行编码
+        if (window.navigator.msSaveOrOpenBlob) {
+            navigator.msSaveBlob(xhr.response, filename);
+        } else {
+            var newUrl = window.URL.createObjectURL(xhr.response);
+            var a = document.createElement('a');
+            a.setAttribute('href', newUrl);
+            a.setAttribute('target', '_blank');
+            a.setAttribute('download', encodedFilename); // 使用编码后的文件名
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    };
+    xhr.send();
+}
+    </script>
+</body>
+
+</html>

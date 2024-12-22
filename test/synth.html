@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+      <div>
+        语音播报：测试
+      </div>
+<script>
+var GETs = (function(){
+    let url = window.document.location.href.toString();
+    let u = url.split("?");
+    if(typeof(u[1]) == "string"){
+        u = u[1].split("&");
+        let get = {};
+        for(let i in u){
+            let j = u[i].split("=");
+            get[j[0]] = j[1];
+        }
+        return get;
+    } else {
+        return {};
+    }
+})();//get对象
+
+const synth = window.speechSynthesis;
+const text = decodeURI(GETs.str) || "";
+const utterThis = new SpeechSynthesisUtterance(text);
+
+// 可选：你可以设置语音的语言、音量、速度等属性
+utterThis.lang = "zh-CN"; // 设置中文
+utterThis.rate = 1; // 设置语速
+utterThis.pitch = 1; // 设置音调
+
+synth.speak(utterThis);
+
+</script>
+    </body>
+</html>

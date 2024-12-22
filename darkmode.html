@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" href="/css/darkmode.css" />
+    <title>暗黑模式-猪吧维基BPLEWiki</title>
+    <style>
+        * {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* 滑动开关的容器样式 */
+        .dark-mode-container {
+            width: 170px;
+            height: 50px;
+            background-color: white;
+            margin: 0 auto;
+            border-radius: 5px;
+            box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #dark-mode-status {
+            position: relative;
+            line-height: 50px;
+            left: 30px;
+            font-size: 1.2rem;
+        }
+
+        /* 滑动开关的外部容器样式 */
+        .toggle-container {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            float: right;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #ccc;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-button {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 24px;
+            height: 24px;
+            background-color: #fff;
+            border-radius: 50%;
+            transition: left 0.3s;
+        }
+
+        .toggle-container.dark-mode {
+            background-color: #444;
+        }
+
+        .toggle-container.dark-mode .toggle-button {
+            left: 33px;
+        }
+
+        .wrapper {
+            width: 90%;
+            /* 设置容器宽度 */
+            height: 250px;
+            /* 设置容器高度 */
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            left: 50%;
+            transform: translate(-50%);
+            margin-top: 50px;
+        }
+
+        #container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .sun {
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -30%);
+            width: 8rem;
+            /* 调整为相对较小的尺寸 */
+            height: 8rem;
+            background-color: orange;
+            border-radius: 50%;
+        }
+
+        .moon {
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(calc(-50% + -5rem), calc(-50% + -5.5rem));
+            /* 适应缩小后的尺寸 */
+            width: 15rem;
+            height: 15rem;
+            box-shadow: 5rem 5.5rem 0 cyan;
+            border-radius: 50%;
+        }
+
+        .sea {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40%;
+            backdrop-filter: blur(2rem);
+            -webkit-backdrop-filter: blur(2rem);
+            z-index: 100;
+        }
+
+        .sun,
+        .moon,
+        .sun-box,
+        .moon-box,
+        .bg {
+            transition: all 1s ease-in-out;
+        }
+
+        .sun-box,
+        .moon-box {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 白天 */
+        .light .sun-box {
+            height: 100%;
+        }
+
+        .light .moon-box {
+            height: 0;
+        }
+
+        .light .bg {
+            background-color: #ffeea2;
+        }
+
+        /* 夜晚 */
+        .dark .sun-box {
+            height: 40%;
+        }
+
+        .dark .moon-box {
+            height: 100%;
+        }
+
+        .dark .bg {
+            background-color: #040720;
+        }
+
+        /* 切换按钮样式 */
+        .btn-box {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            z-index: 101;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .btn-box div {
+            background: rgba(255, 255, 255, 0.7);
+            color: #000;
+            width: 5rem;
+            height: 2rem;
+            line-height: 2rem;
+            text-align: center;
+            margin: 5px;
+            font-size: 0.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn-box div:hover {
+            background: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk" id="topblk">
+        <div class="back" id="back">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <h1>暗黑模式</h1>
+
+    <div class="dark-mode-container">
+        <span id="dark-mode-status">开启</span> <!-- 新增的显示文本元素 -->
+        <div id="dark-mode-toggle" class="toggle-container">
+            <div class="toggle-button" onclick="change('light')"></div>
+        </div>
+    </div>
+
+    <div class="wrapper">
+        <div class="dark" id="container">
+            <div class="bg"></div>
+            <div class="moon-box">
+                <div class="moon"></div>
+            </div>
+            <div class="sun-box">
+                <div class="sun"></div>
+            </div>
+            <div class="sea"></div>
+        </div>
+    </div>
+
+    <script src="/js/darkmode.js"></script>
+    <script>
+        function change(str) {
+            document.getElementById('container').setAttribute('class', str);
+        }
+        document.getElementById('back').addEventListener('click', function() {
+            history.back();
+        }, true);
+    </script>
+<script>
+let darkModeStatus = document.querySelector(`#dark-mode-status`);
+if (window.localStorage.getItem(`dark-mode`) == null) {
+            darkModeStatus.innerHTML = '关闭';
+        }
+        if (window.localStorage.getItem(`dark-mode`) == 'disabled') {
+            darkModeStatus.innerHTML = '关闭';
+        }
+        document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+            if (document.body.classList.contains('dark-mode')) {
+                darkModeStatus.textContent = '关闭';
+                let body = document.querySelector('body')
+body.style.backgroundColor = "#ffffff"
+            } else {
+                darkModeStatus.textContent = '开启';
+let body = document.querySelector('body')
+body.style.backgroundColor = "#1c1c1c"
+            }
+        });
+</script>
+</body>
+
+</html>

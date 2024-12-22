@@ -1,0 +1,136 @@
+.bottom-rec .button {
+    text-align: center;
+    flex-grow: 1;
+}
+
+.bottom-rec .fa-solid {
+    transition: outline 0.1s;
+    outline-color: white;
+}
+
+.bottom-rec .fa-solid:not(.fa-plus):active {
+    outline: 6px solid #bdf6c3;
+    background-color: #bdf6c3;
+    border-radius: 3px;
+}
+
+
+
+.bottom-rec {
+    position: fixed;
+    display: flex;
+    left: 0;
+    bottom: 0;
+    box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    background-color: #f6f6f6;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottom-rec .plus {
+    position: relative;
+    border-radius: 20%;
+    padding: 0;
+    z-index: 1;
+    transform: translate(-5px, -20px);
+}
+
+.fa-plus {
+    position: relative;
+    color: white;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.plusbtn {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    margin: 0 auto;
+    margin-top: 12px;
+    border-radius: 100%;
+    border: 4px solid rgba(214, 255, 217, 0.8);
+    background-color: #5ce65a;
+    background-clip: padding-box;
+    transition: transform 0.5s ease-out;
+}
+
+.plusbtn:active {
+    animation: clickEffect 0.5s forwards;
+}
+
+@keyframes clickEffect {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.bottom-rec .homepage_ico {
+    font-size: 28px;
+}
+
+.bottom-rec .chat_ico {
+    font-size: 30px;
+}
+
+.bottom-rec .list {
+    font-size: 28px;
+}
+
+.bottom-rec .user {
+    font-size: 27px;
+}
+
+.bottom-rec .fa-solid:not(.fa-plus) {
+    color: #444746;
+}
+
+.green {
+    color: green;
+}
+
+@media (min-width: 768px) {
+    .bottom-rec {
+        display: flex;
+        flex-direction: column;
+        display: block;
+        width: 80px;
+        height: 100%;
+    }
+
+    .bottom-rec .fa-solid:not(.fa-plus) {
+        margin-top: 50px;
+    }
+
+    .bottom-rec .chat_ico {
+        margin-bottom: 50px;
+    }
+
+    .plusbtn {
+        position: relative;
+        margin-left: 17px;
+    }
+
+    body {
+        position: relative;
+        left: 80px;
+        /* 侧栏的宽度 */
+        width: calc(100% - 80px);
+        /* 减去侧栏的宽度 */
+        float: left;
+    }
+}

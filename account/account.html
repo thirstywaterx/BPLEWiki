@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" href="/css/dialog.css" />
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>我的账户-猪吧维基BPLEWiki</title>
+</head>
+<style>
+    body {
+        margin-top: 80px;
+    }
+
+    .headshots {
+        border: 1.5px solid green;
+        margin: 0 auto;
+        width: 80px;
+        height: 80px;
+        border-radius: 1000px;
+
+    }
+
+    .box {
+        position: relative;
+        /* 添加这行来启用相对定位 */
+        display: inline-block;
+        /* 让容器能够包裹内容 */
+    }
+
+    .edit-button {
+        position: absolute;
+        bottom: 5px;
+        right: -10px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: white;
+        text-align: center;
+        line-height: 30px;
+        font-size: 14px;
+        cursor: pointer;
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    /* 可以添加一个伪元素或使用图标作为编辑按钮的内容 */
+    .edit-button::before {
+        content: "<i class=" fa-solid fa-pencil"></i>";
+        /* 使用文字或者可以选择字体图标 */
+    }
+
+    input {
+        width: 85%;
+        height: 30px;
+        border: none;
+        background-color: #e9eef6;
+        border-radius: 5px;
+    }
+
+    input:focus {
+        outline: 2px solid lightgreen;
+    }
+
+    .operation a {
+        position: relative;
+        text-decoration: none;
+        color: lightgreen;
+        font-size: 80%;
+        top: 8px;
+    }
+
+    button {
+        width: 60px;
+        height: 30px;
+        border: none;
+        background-color: lightgreen;
+        border-radius: 2px;
+        margin-top: 18px;
+        font-size: 120%;
+    }
+
+    button:active {
+        background-color: #80DD80;
+    }
+
+    .fa-pencil:active {
+        color: green;
+    }
+
+    .block {
+        width: 280px;
+        margin-top: 6px;
+        margin: 0 auto;
+        padding: 5px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .nicknameBlk {
+        width: 100px;
+        height: 30px;
+        padding: 0px;
+    }
+
+    .nicknameBlk p {
+        position: relative;
+        top: 50%;
+        transform: translateY(25%);
+    }
+
+    .data {
+        min-height: 130px;
+        margin-top: 18px;
+    }
+
+    .data p {
+        margin: 5px;
+    }
+
+    table {
+        width: 95%;
+        margin: 0 auto;
+        border-collapse: collapse;
+        /* 使边框更紧凑 */
+        table-layout: fixed;
+    }
+
+    tr {
+        border-bottom: 1px solid #ccc;
+        transition: background-color 0.3s ease;
+        /* 为每个tr添加底部边框 */
+    }
+
+    tr:last-child {
+        border-bottom: none;
+        /* 移除最后一个tr的底部边框 */
+    }
+
+    tr:hover {
+        background-color: #f5f5f5;
+    }
+
+    /* 鼠标点击效果，使用JavaScript时可以不需要:active */
+    tr:active {
+        background-color: #eaeaea;
+    }
+
+    .rightTd {
+        text-align: right;
+        word-wrap: break-word;
+    }
+
+    .inf {
+        width: 190px;
+    }
+
+
+    .bottomBlk {
+        width: 150px;
+        height: 30px;
+        text-align: center;
+    }
+
+    .bottomBlk:active {
+        background-color: #fcf8f8;
+    }
+
+    .bottomBlk p {
+        position: relative;
+        transform: translateY(-50%);
+    }
+
+
+    .signout {
+        margin-top: 80px;
+    }
+
+    b {
+        width: 500px;
+    }
+</style>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+
+    <div class="content">
+        <center>
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button">&times;</span>
+                    <h2>编辑头像</h2>
+                    <div class="operation">
+                        <input type="url" placeholder="请在此键入头像图片URL"><br>
+                        <button>提交</button>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <img src="favicon.png" alt="头像" class="headshots" id="avatar">
+                <div class="edit-button"><i class="fa-solid fa-pencil"></i></div>
+            </div>
+
+        </center>
+        <div class="block nicknameBlk" onclick="window.location='nickname.html';">
+            <center>
+                <p class="nickname"></p>
+            </center>
+        </div>
+        <div class="block data">
+            <table border="0">
+                <tr onclick="window.location='nickname.html';">
+                    <td><b>昵称：</b>
+                    </td>
+                    <td class="inf">
+                        <p class="nickname rightTd"></p>
+                    </td>
+                </tr>
+                <tr onclick="window.location='#';">
+                    <td><b>用户名：</b>
+                    </td>
+                    <td class="inf">
+                        <p class="uname rightTd"></p>
+                    </td>
+                </tr>
+                <tr onclick="window.location='#';">
+                    <td><b>UID：</b>
+                    </td>
+                    <td class="inf">
+                        <p class="uid rightTd"></p>
+                    </td>
+                </tr>
+                <tr onclick="window.location='email.html';">
+                    <td>
+                        <b>邮箱：</b>
+                    </td>
+                    <td class="inf">
+                        <p class="email rightTd"></p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <script src="/js/dialog.js"></script>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/darkmode.js"></script>
+    <script>
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+
+        var rows = document.querySelectorAll('table tr');
+
+        // 为每个行添加点击事件监听器
+        rows.forEach(function(row) {
+            row.addEventListener('click', function() {
+                console.log('Row clicked!'); // 在这里添加实际的行为，比如页面跳转
+                // window.location.href = 'http://example.com';
+            });
+        });
+    </script>
+<script>
+    // 定义全局变量用于存储用户的ID
+    let userId = null;
+
+    ajax({
+        url: "/php/user/issignin.php?getinfo=1",
+        method: "POST",
+        success: function(r) {
+            r = JSON.parse(r);
+            if (r.success) {
+                // 提取用户信息
+                const nickname = document.querySelectorAll(`.nickname`);
+                const uname = document.querySelector(`.uname`);
+                const uid = document.querySelector(`.uid`);
+                const email = document.querySelector(`.email`);
+                const avatarImg = document.querySelector(`#avatar`);
+                
+                nickname[0].innerHTML = r.user.nickname;
+                nickname[1].innerHTML = r.user.nickname;
+                uname.innerHTML = r.user.username;
+                r.user.id = String(r.user.id);
+                uid.innerHTML = r.user.id;
+                email.innerHTML = r.user.email;
+                avatarImg.src = r.user.avatar;
+
+                // 存储用户ID到全局变量
+                userId = r.user.id;
+
+                // 绑定头像提交按钮的事件监听器
+                document.querySelector('.operation button').addEventListener('click', function() {
+                    const avatarUrl = document.querySelector('.operation input').value;
+
+                    if (!avatarUrl) {
+                        alert("请输入头像图片的URL！");
+                        return;
+                    }
+
+                    // 将头像URL和用户ID一并发送给后端
+                    fetch('/php/user/avatar.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            id: userId, // 使用正确的变量名
+                            avatar: avatarUrl
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) { // 根据后端返回字段调整条件
+                            alert("头像更新成功！");
+                            avatarImg.src = avatarUrl; // 更新预览
+                            // 关闭模态框
+                            document.querySelector('.close-button').click();
+                        } else {
+                            alert(`更新失败：${data.message}`);
+                        }
+                    })
+                    .catch(error => {
+                        console.error("更新头像时出错:", error);
+                        alert("请求失败，请稍后重试！");
+                    });
+                });
+            } else {
+                window.open("../signin.html", "_self");
+            }
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <meta name="keywords" content="新创 捣蛋猪 下载 模组 愤怒的小鸟">
+    <meta name="description" content="新创捣蛋猪是原版捣蛋猪的一个模组，它拥有比原版更多的特性，更多的物品，更大的地图，比原版更开放......是一个青出于蓝而胜于蓝的模组，你能用它做出许多原版无法做到的东西，你可以做出包括但不限于机甲，坦克，星舰等等。">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://bplewiki.top/css/dialog.css" />
+    <title>新创捣蛋猪下载??-猪吧维基BPLEWiki</title>
+    <style>
+        .logo {
+            position: fixed;
+            width: 130px;
+            height: 40px;
+            margin: 5px;
+            padding: 2px;
+            top: 1px;
+            float: left;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .content {
+            position: absolute;
+            width: 100%;
+            min-height: 480px;
+            padding: 2px;
+            top: 300px;
+            /* This may need to be adjusted based on the final image height in portrait mode */
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .img-top {
+            position: relative;
+        }
+
+        h1 {
+            position: absolute;
+            /* 如果h1相对于其正常流位置定位 */
+            width: 100%;
+            /* 使h1的宽度与其父容器相同 */
+            font-size: 220%;
+            color: white;
+            text-shadow: 5px 5px 30px rgba(0, 0, 0, 0.9);
+            text-align: center;
+            /* 文本居中 */
+            margin-top: 25%;
+            /* 根据需要调整，以在垂直方向上定位 */
+            transform: translateY(-50%);
+            /* 垂直居中调整，取决于元素的高度 */
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            position: fixed;
+            top: 0;
+            z-index: -1;
+        }
+
+        /* Media query for devices in portrait orientation */
+        @media screen and (orientation: portrait) {
+            img {
+                height: 33vh;
+                /* Adjust this value to fill the top area without leaving a white space */
+                object-fit: cover;
+                /* This ensures the image covers the area nicely */
+            }
+
+            .content {
+                top: 33vh;
+                /* Adjust this value to match the new height of the image */
+            }
+        }
+
+        .greenblk {
+            margin: 0 auto;
+            width: 100px;
+            height: 5px;
+            border-radius: 10px;
+            background-color: green;
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .topblk h3 {
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            left: 45px;
+            line-height: 10%;
+            color: grey;
+        }
+
+        .version {
+            width: 200px;
+            height: 50px;
+            margin: 0 auto;
+            margin-top: 40px;
+            background-color: white;
+            display: flex;
+            /* 使用flex布局 */
+            align-items: center;
+            /* 垂直居中 */
+            justify-content: start;
+            /* 图标靠左对齐 */
+            padding-left: 40px;
+            /* 为图标和文字提供一些空间 */
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 5px;
+            padding: 6px;
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .version:active {
+            transform: scale(0.96);
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .fa-brands {
+            font-size: 300%;
+            margin-right: 40px;
+        }
+
+        .fa-android-custom {
+            color: lightgreen;
+            /* 设置Android图标为绿色 */
+        }
+
+        .fa-windows-custom {
+            color: #30c4f4;
+            /* 设置Windows图标为蓝色 */
+        }
+
+        .version h3 {
+            margin: 0;
+            color: inherit;
+            /* h3颜色继承自父元素，即version div，这样就可以根据图标的颜色改变 */
+        }
+
+        p {
+            text-align: center;
+        }
+
+        .notice {
+            width: 300px;
+            height: 25px;
+            margin: 0 auto;
+            border-radius: 5px;
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body style="margin: 0;">
+
+    <div class="topblk">
+        <a href="../index.html">
+            <div class="logo">
+                <img src="https://www.bplewiki.top/img/favicon.ico" alt="logo" style="position: absolute;height:40px;width: 40px;">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <div class="img-top">
+        <img src="https://ice.frostsky.com/2024/04/01/c9b9fe51553094f9b03789e87ea9f255.png">
+        <h1>新创?捣蛋猪?</h1>
+    </div>
+    <div class="content">
+        <div class="greenblk"></div>
+        <div class="notice">
+            <p>本宣传图由Reddit用户Vas2000提供</p>
+        </div>
+        <a href="https://d.kstore.space/download/8055/april/这是什么新创_android.apk">
+            <div class="version">
+                <i class="fa-brands fa-android fa-android-custom"></i>
+                <h3>Android</h3>
+            </div>
+        </a>
+        <a href="https://d.kstore.space/download/8055/april/这是什么新创_windows64.zip">
+            <div class="version">
+                <i class="fa-brands fa-windows fa-windows-custom"></i>
+                <h3>WindowsX64</h3>
+            </div>
+        </a>
+
+        <a href="https://d.kstore.space/download/8055/april/这是什么新创_Linux.tar.gz">
+            <div class="version">
+                <i class="fa-brands fa-linux"></i>
+                <h3 style="margin-left: 12px;">Linux</h3>
+            </div>
+        </a>
+    </div>
+    <script src="https://bplewiki.top/js/dialog.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,2529 @@
+<!DOCTAPE html>
+    <html>
+
+    <head>
+<title>可视化特性表-猪吧维基BPLEWiki</title>
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
+         <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+        <link rel="stylesheet" href="/css/topbar.css" />
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+        <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+        <style>
+            #skinht {
+                margin-top: 70px;
+                z-index: 4;
+                position: absolute;
+                width: 100vw;
+                height: 100vh;
+            }
+
+            #skinht .skinscroll {
+                overflow: scroll;
+                white-space: nowrap;
+            }
+
+            .skinscroll .skint {
+                display: inline-block;
+                margin: 10 30;
+                vertical-align: top;
+            }
+
+            .skint div {
+                font-size: 0px;
+            }
+
+            .skint div .chose {
+                filter: brightness(100%);
+            }
+
+            .skint .star0 {
+                margin-bottom: 10;
+            }
+
+            .skint .star0 .skin {
+                --spx: 627;
+                --spy: 631;
+            }
+
+            .skint div div {
+                background-image: url(https://s1.imagehub.cc/images/2023/05/03/MenuAtlas2.png);
+                width: 56.1px;
+                height: 58.2px;
+                display: inline-block;
+                filter: brightness(60%);
+                margin: 1;
+                --imgw: 2048;
+                --imgh: 2048;
+                --spw: 187;
+                --sph: 194;
+                opacity: 100%;
+            }
+
+            .star1 .skin {
+                --spx: 627;
+                --spy: 825;
+            }
+
+            .star2 .skin {
+                --spx: 1446;
+                --spy: 1218;
+            }
+
+            .star3 .skin {
+                --spx: 1632;
+                --spy: 1218;
+            }
+
+            .star3 .super {
+                --spx: 1256;
+                --spy: 1218;
+            }
+
+            .texture {
+                width: 100%;
+                height: 100%;
+                box-sizing: border-box;
+                border: 10px solid rgba(0, 255, 0, 0.0);
+                background-clip: content-box;
+                filter: brightness(100%) !important;
+                transform: none !important;
+            }
+
+            #skinht .control {
+                display:flex;
+                flex-wrap:nowrap;
+                justify-content:space-between;
+                align-items:center;
+                margin-left:20px;
+                --b-w:72px;
+                --f-w:70px;
+            }
+            
+            #skinht .control .cback {
+                width: var(--b-w);
+                height: 52px;
+                --imgw: 2048;
+                --imgh: 2048;
+                --spx: 1095;
+                --spy: 651;
+                --spw: 120;
+                --sph: 87;
+                background-image: url(https://s1.imagehub.cc/images/2023/05/03/MenuAtlas.png);
+            }
+            
+            #skinht .control .range {
+                width:calc(100% - var(--b-w) - var(--f-w) - 30px);
+                /*margin:0 15%;*/
+                background:green;
+            }
+            
+            #skinht .control .fswitch {
+                width:var(--f-w);
+                height:40;
+            }
+
+            .mover,
+            .skint div div,
+            #skinht .control .cback,
+            .skins,
+            #puting .prop,
+            .texture {
+                /*贴图自适应*/
+                background-position: calc(100%/(var(--imgw)/var(--spw) - 1)/var(--spw)*var(--spx)) calc(100%/(var(--imgh)/var(--sph) - 1)/var(--sph)*var(--spy));
+                background-size: calc(100%/var(--spw)*var(--imgw)) calc(100%/var(--sph)*var(--imgh));
+                background-repeat: no-repeat;
+            }
+
+            .skint div div:active,
+            .activebutton:active {
+                transform: scale(0.9, 0.9)
+            }
+
+
+            .switch {
+                position: relative;
+                display: inline-block;
+                width: 56px;
+                height: 30px;
+                float: right;
+            }
+
+            .switch input {
+                display: none;
+            }
+
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 22px;
+                width: 22px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                -webkit-transition: .4s;
+                transition: .4s;
+            }
+
+            input:checked+.slider {
+                background-color: #2196F3;
+            }
+
+            input:focus+.slider {
+                box-shadow: 0 0 1px #2196F3;
+            }
+
+            input:checked+.slider:before {
+                -webkit-transform: translateX(26px);
+                -ms-transform: translateX(26px);
+                transform: translateX(26px);
+            }
+
+            .slider.round {
+                border-radius: 34px;
+            }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="topblk">
+            <div class="back" id="btn">
+
+                <i class="fa-solid fa-angle-left"></i>
+            </div>
+            <a href="../index.html">
+                <div class="logo">
+                    <img src="/img/favicon.ico" alt="logo" style="position: absolute;height:40px;width: 40px;left: 50%;transform: translateX(-50%);">
+                    <h3 style="position: absolute;height: 100px;width: 200px;left: 50%;text-align: center;top: 20px;transform: translate(-50%);line-height: 10%;color: #bebebe;"><b>猪吧维基</b></h3>
+                </div>
+            </a>
+            <div id="skinht" style="">
+                <div class="skinscroll" id="skinscroll" onscroll="dqsa('input.range')[0].value=this.scrollLeft/(this.scrollWidth-this.offsetWidth)*100">
+                    <!--inner-->
+                </div><!--skinscroll结束-->
+                <div class="control" style="">
+                    <div class="cback activebutton" onclick="openWorld()"></div>
+                    <input class="range" type="range" style="" oninput="dgbyid('skinscroll').scrollLeft=(dgbyid('skinscroll').scrollWidth-dgbyid('skinscroll').offsetWidth)*this.value/100;" ，min="0" max="100" value="0">
+                    <div class="fswitch" style="">
+                        <label class="switch" style="margin-right:20px;"><input id="skin-information" type="checkbox" onchange="txbfs(this.checked)">
+                            <div class="slider round"></div>
+                        </label>
+                    </div>
+                </div>
+                <div id="logs"></div>
+                <script>
+document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+
+                    function chooseskin(node) {
+                        node.parentNode.parentNode.querySelectorAll(".chose")[0].classList.remove("chose");
+                        node.classList.add("chose");
+                    }
+
+                    function dgbyid(idid) {
+                        return document.getElementById(idid)
+                    }
+
+                    function dgbycn(cncn) {
+                        return document.getElementsByClassName(cncn);
+                    }
+
+                    function dqsa(qsqs) {
+                        return document.querySelectorAll(qsqs);
+                    }
+
+                    function logs(log) {
+                        if (1)
+                            dgbyid("logs").innerHTML += log + " ";
+                    }
+
+
+
+                    var te = {
+                        te0: {
+                            name: "猪",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 190, 330, 95, 95]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1368, 15, 64, 47],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1386, 1069, 112, 55],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1691, 618, 68, 43],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1069, 1323, 97, 85],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1048, 1069, 120, 53],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 475, 160, 99]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 935, 1069, 112, 53],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 486, 1603, 129, 95],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 765, 1174, 80, 87],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 574, 148, 118],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 373, 1504, 129, 82],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 492, 1718, 129, 95]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1263, 1323, 97, 85],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 971, 1323, 97, 85],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1720, 1416, 95, 85],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 874, 1323, 97, 85],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 689, 156, 118],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1277, 1069, 112, 53]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 376, 630, 112, 91]
+                                ]
+                            ]
+                        },
+                        te46: {
+                            name: "定时炸弹",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 845, 584, 83, 71]
+                                ]
+                            ]
+                        },
+                        te1: {
+                            name: "猪王",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1011, 105, 77, 79]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 807, 74, 74],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1042, 1195, 99, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1359, 1323, 89, 85],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 880, 187, 108]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 1813, 320, 238],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 1076, 137, 253]
+                                ],
+                                []
+                            ]
+                        },
+                        te2: {
+                            name: "鸟蛋",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 806, 3, 83, 86]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 140, 0, 118, 98]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 501, 1090, 88, 102]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 188, 891, 74, 97],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 692, 429, 59, 110]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 596, 842, 89, 96]
+                                ]
+                            ]
+                        },
+                        te3: {
+                            name: "木框",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 679, 519, 110, 110],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 0, 256, 100, 100]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 954, 1704, 108, 106],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1281, 1704, 108, 106],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1716, 1704, 108, 106]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1498, 1704, 108, 106],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1607, 1704, 108, 106],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 140, 1077, 121, 115]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 265, 473, 108, 108],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 265, 366, 108, 108],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 229, 103, 122]
+                                ],
+                                []
+                            ]
+                        },
+                        te4: {
+                            name: "铁框",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 681, 736, 110, 110],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 128, 256, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 383, 255, 107, 107]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1389, 1704, 108, 106],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 267, 1475, 108, 108],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1827, 1704, 108, 106]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 107, 240, 114, 111],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 151, 575, 109, 116],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1063, 1704, 108, 106],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1897, 1930, 129, 122]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1172, 1704, 108, 106],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 622, 1705, 106, 106],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 693, 322, 72, 106]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 376, 1701, 114, 110]
+                                ]
+                            ]
+                        },
+                        te5: {
+                            name: "木轮",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1197, 789, 72, 72]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 766, 7, 76, 76],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 765, 80, 76, 76],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 765, 154, 76, 76]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 765, 780, 76, 76],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 845, 360, 76, 76],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 845, 434, 76, 76],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 845, 508, 76, 76]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 765, 458, 76, 76],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 765, 303, 76, 76],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 765, 229, 76, 76]
+                                ],
+                                []
+                            ]
+                        },
+                        te6: {
+                            name: "铁轮",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1123, 548, 73, 71]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/MenuAtlas2.png", 2048, 2048, 627, 825, 187, 194],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1185, 355, 70, 68]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/MenuAtlas2.png", 2048, 2048, 1446, 1218, 187, 194],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1116, 366, 70, 68]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1185, 286, 70, 68],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/MenuAtlas2.png", 2048, 2048, 1632, 1218, 187, 194]
+                                ],
+                                []
+                            ]
+                        },
+                        te7: {
+                            name: "小轮",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1571, 330, 41, 41]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1743, 538, 38, 38],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1899, 538, 38, 38]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1781, 538, 38, 38],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1821, 538, 38, 38]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1489, 498, 43, 36],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1701, 538, 43, 36]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1859, 538, 38, 38]
+                                ]
+                            ]
+                        },
+                        te8: {
+                            name: "动力轮",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 803, 595, 98, 92],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 0, 0, 125, 126]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 593, 460, 97, 91],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/MenuAtlas2.png", 2048, 2048, 627, 825, 187, 194]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 593, 1126, 97, 91],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 593, 1032, 97, 91]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 593, 939, 97, 91],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 593, 370, 97, 91]
+                                ],
+                                []
+                            ]
+                        },
+                        te9: {
+                            name: "气鼓",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1236, 1109, 102, 98]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 375, 721, 102, 98],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 375, 821, 102, 98]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 375, 1117, 102, 98],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 266, 143, 101, 107]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1435, 1137, 114, 55],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 377, 1216, 102, 98]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1195, 1594, 112, 103]
+                                ]
+                            ]
+                        },
+                        te10: {
+                            name: "电扇",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1999, 1346, 52, 119]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 219, 360, 45, 111]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1112, 41, 45, 111],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1185, 421, 45, 111]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 219, 238, 45, 111]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1185, 533, 45, 111]
+                                ]
+                            ]
+                        },
+                        te11: {
+                            name: "小螺旋桨",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1195, 338, 69, 113]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1229, 177, 36, 108],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1158, 43, 28, 108],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1229, 534, 36, 108]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1267, 257, 45, 108],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1231, 423, 32, 108],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1435, 502, 26, 108]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1267, 148, 36, 108],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1344, 469, 26, 108]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1267, 481, 45, 110]
+                                ]
+                            ]
+                        },
+                        te12: {
+                            name: "大螺旋桨",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 891, 1370, 257, 89]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 887, 1840, 244, 91],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1643, 1869, 255, 89],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1132, 1943, 255, 110]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 987, 253, 88],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1643, 1960, 255, 89],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1132, 1851, 255, 89]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1386, 1869, 255, 89],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1386, 1958, 255, 95]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/MenuAtlas2.png", 2048, 2048, 1256, 1218, 187, 194]
+                                ]
+                            ]
+                        },
+                        te13: {
+                            name: "黑汽水",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1267, 738, 89, 51]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1187, 771, 80, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 933, 559, 95, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 933, 742, 95, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1250, 1191, 99, 72]
+                                ]
+                            ]
+                        },
+                        te14: {
+                            name: "绿汽水",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1884, 805, 93, 61]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1185, 708, 80, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 933, 498, 95, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 933, 681, 95, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1349, 1191, 99, 72]
+                                ]
+                            ]
+                        },
+                        te15: {
+                            name: "蓝火箭",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1284, 861, 95, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1025, 765, 93, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1206, 889, 93, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1412, 954, 95, 61]
+                                ],
+                                []
+                            ]
+                        },
+                        te16: {
+                            name: "红火箭",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1193, 861, 95, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1025, 826, 93, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1116, 889, 93, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1506, 954, 95, 61]
+                                ],
+                                []
+                            ]
+                        },
+                        te17: {
+                            name: "电机",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 591, 4, 87, 66]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1955, 1195, 88, 69],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 943, 1192, 99, 70],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 935, 869, 90, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1188, 643, 74, 64],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1765, 1195, 101, 69],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 845, 1192, 99, 70]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 846, 1121, 92, 70],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 935, 806, 90, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 935, 189, 88, 64]
+                                ]
+                            ]
+                        },
+                        te18: {
+                            name: "发动机",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 584, 336, 95, 99]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 499, 91, 95, 91],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1105, 1409, 98, 91]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 499, 0, 95, 91],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 375, 231, 102, 98]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 596, 1218, 96, 96],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1201, 1409, 98, 91]
+                                ],
+                                []
+                            ]
+                        },
+                        te19: {
+                            name: "V8",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1013, 1111, 118, 99]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1305, 1600, 116, 96],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1730, 1595, 106, 98]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 377, 1408, 109, 96],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 614, 1597, 123, 96]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 377, 1313, 109, 98],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1836, 1595, 106, 98]
+                                ],
+                                []
+                            ]
+                        },
+                        te20: {
+                            name: "雨伞",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1258, 924, 116, 57]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1776, 1260, 114, 70],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1300, 1424, 129, 76]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1168, 1065, 110, 55],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1025, 1013, 110, 55]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1550, 1260, 114, 70],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1662, 1260, 114, 70]
+                                ],
+                                []
+                            ]
+                        },
+                        te21: {
+                            name: "动力伞",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1011, 861, 116, 64]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1741, 1342, 114, 70]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1853, 1342, 114, 68]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1617, 1512, 114, 78]
+                                ],
+                                []
+                            ]
+                        },
+                        te22: {
+                            name: "弹簧",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 611, 1102, 71, 108]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 692, 766, 67, 110]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 692, 981, 67, 110]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 692, 658, 67, 110]
+                                ],
+                                []
+                            ]
+                        },
+                        te23: {
+                            name: "TNT",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 681, 630, 106, 106]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1935, 1704, 108, 106]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 501, 1193, 88, 107]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 107, 354, 111, 120],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 267, 1693, 106, 118]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 351, 107, 122]
+                                ]
+                            ]
+                        },
+                        te24: {
+                            name: "绳子",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1067, 1239, 116, 95],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 0, 126, 102, 41],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 253, 126, 107, 43]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 855, 1596, 123, 98],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 124, 126, 107, 109],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 380, 126, 107, 109]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1737, 1500, 99, 87]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 733, 1596, 126, 98]
+                                ],
+                                []
+                            ]
+                        },
+                        te25: {
+                            name: "气球1",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 801, 882, 103, 101]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 500, 992, 97, 99],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 500, 475, 91, 101]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 500, 887, 89, 106],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1899, 1813, 116, 116]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1529, 1588, 99, 108],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 500, 683, 97, 99],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 265, 248, 99, 120]
+                                ],
+                                []
+                            ]
+                        },
+                        te26: {
+                            name: "气球2",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 0, 671, 102, 95]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 282, 671, 107, 105],
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 13, 797, 91, 85]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 285, 799, 101, 91],
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 0, 903, 130, 113]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 265, 900, 127, 116],
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 557, 574, 83, 84],
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 783, 581, 95, 97]
+                                ],
+                                []
+                            ]
+                        },
+                        te27: {
+                            name: "气球3",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 145, 671, 106, 105]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 420, 671, 106, 105],
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 146, 789, 95, 110]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 428, 788, 93, 104],
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 130, 889, 124, 125]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 399, 898, 113, 113],
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 678, 567, 100, 95],
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 905, 572, 115, 109]
+                                ],
+                                []
+                            ]
+                        },
+                        te28: {
+                            name: "沙袋1",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1125, 758, 64, 83]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 768, 1098, 72, 78]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1023, 708, 93, 61],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 764, 931, 68, 90]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1968, 1120, 72, 76],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 693, 1212, 72, 106]
+                                ],
+                                []
+                            ]
+                        },
+                        te29: {
+                            name: "沙袋2",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 540, 679, 105, 107]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 779, 668, 109, 126]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 521, 811, 142, 83]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 783, 799, 116, 103]
+                                ],
+                                []
+                            ]
+                        },
+                        te30: {
+                            name: "沙袋3",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 666, 675, 107, 112]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 902, 676, 111, 126]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 650, 806, 134, 94]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png", 1024, 1024, 909, 796, 112, 103]
+                                ],
+                                []
+                            ]
+                        },
+                        te31: {
+                            name: "木机翼",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1489, 1059, 200, 66]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1536, 1328, 204, 43]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1641, 1819, 200, 51]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 160, 198, 68],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 93, 198, 68]
+                                ],
+                                []
+                            ]
+                        },
+                        te32: {
+                            name: "木尾翼",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1130, 1111, 106, 99]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 377, 1019, 102, 98]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 377, 919, 102, 98]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 376, 1586, 108, 110]
+                                ],
+                                []
+                            ]
+                        },
+                        te33: {
+                            name: "铁机翼",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1286, 1059, 200, 51]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1130, 1809, 210, 43]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1118, 1160, 208, 36]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1533, 1372, 208, 38]
+                                ],
+                                []
+                            ]
+                        },
+                        te34: {
+                            name: "铁尾翼",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1340, 1111, 106, 99]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 160, 475, 106, 99]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1420, 1596, 110, 99]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 975, 1596, 118, 99]
+                                ],
+                                []
+                            ]
+                        },
+                        te35: {
+                            name: "拳套",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 677, 297, 116, 112]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 731, 1704, 107, 106]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 267, 1365, 108, 108]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 157, 693, 109, 109]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 138, 1195, 109, 133]
+                                ]
+                            ]
+                        },
+                        te36: {
+                            name: "吸盘轮",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 468, 28, 122, 129]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 498, 379, 97, 97]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 593, 750, 97, 91]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 498, 282, 97, 97]
+                                ],
+                                []
+                            ]
+                        },
+                        te37: {
+                            name: "吸盘枪",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1620, 685, 72, 51]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1025, 643, 80, 68],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 256, 384, 67, 50],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 384, 384, 67, 50],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 512, 384, 67, 50]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1968, 1013, 70, 55],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1368, 654, 70, 61]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1523, 725, 76, 61]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1659, 1200, 108, 61],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 0, 384, 104, 56]
+                                ]
+                            ]
+                        },
+                        te38: {
+                            name: "南瓜",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 908, 666, 89, 80]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 0, 140, 98]
+                                ],
+                                [],
+                                [],
+                                []
+                            ]
+                        },
+                        te39: {
+                            name: "分离器",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png", 2048, 2048, 1183, 1225, 109, 109]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 263, 689, 112, 108]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 263, 796, 112, 108],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 263, 580, 112, 108]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 263, 903, 112, 108]
+                                ],
+                                []
+                            ]
+                        },
+                        te40: {
+                            name: "变速箱",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas2.png", 2048, 2048, 1108, 703, 92, 92]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 900, 1406, 100, 96],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 698, 1406, 100, 96]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 596, 192, 88, 89],
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1630, 1590, 101, 106]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1816, 1409, 93, 91]
+                                ],
+                                []
+                            ]
+                        },
+                        te41: {
+                            name: "猪王雕像",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas2.png", 2048, 2048, 0, 574, 266, 243]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 1330, 266, 240]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 0, 1570, 266, 240]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 317, 1840, 264, 210]
+                                ],
+                                []
+                            ]
+                        },
+                        te42: {
+                            name: "点光源",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas2.png", 2048, 2048, 1942, 1764, 100, 111]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 371, 432, 109, 103]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 596, 550, 75, 108]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 501, 184, 88, 97]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 498, 784, 93, 103],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 0, 512, 81, 101],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 256, 512, 81, 101]
+                                ]
+                            ]
+                        },
+                        te43: {
+                            name: "射线灯",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas2.png", 2048, 2048, 1854, 892, 76, 86]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 196, 97, 66, 66]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1657, 725, 70, 59]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png", 2048, 2048, 1023, 26, 77, 69]
+                                ],
+                                []
+                            ]
+                        },
+                        te44: {
+                            name: "涡喷",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 0, 640, 214, 74]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 256, 640, 214, 74]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 512, 640, 105, 105],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 896, 640, 105, 105],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 512, 768, 105, 105]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 0, 768, 101, 98]
+                                ],
+                                []
+                            ]
+                        },
+                        te45: {
+                            name: "电路",
+                            value: [
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1408, 0, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1792, 0, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1408, 128, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1792, 128, 100, 100]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1024, 256, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1280, 256, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1408, 256, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1536, 256, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1664, 256, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1792, 256, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1920, 256, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1024, 384, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1152, 384, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1280, 384, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1408, 384, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1536, 384, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1664, 384, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1792, 384, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1152, 512, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1280, 512, 100, 100]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1024, 640, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1280, 640, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1408, 640, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1536, 640, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1664, 640, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1792, 640, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1920, 640, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1024, 768, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1152, 768, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1280, 768, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1408, 768, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1536, 768, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1664, 768, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1792, 768, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1920, 768, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1024, 896, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1152, 896, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1280, 896, 100, 100]
+                                ],
+                                [
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1024, 1024, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1152, 1024, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1280, 1024, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1408, 1024, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1536, 1024, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1792, 1024, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1920, 1024, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1024, 1152, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1152, 1152, 100, 100],
+                                    ["https://s1.imagehub.cc/images/2023/07/20/IngameAtlas4.png", 2048, 2048, 1280, 1152, 100, 100]
+                                ],
+                                []
+                            ]
+                        }
+                    };
+
+                    /*
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,0,103,91,130]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,101,86,120,174]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,231,103,103,147]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,336,336,113,144]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,471,109,89,131]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,576,104,112,143]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,696,111,101,128]
+
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,12,315,61,82]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,123,315,63,84]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,239,317,74,82]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,351,315,75,87]
+
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,12,405,67,77]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,118,401,79,80]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,249,411,72,71]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,367,410,59,72]
+
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,5,541,93,114]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,94,549,98,103]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,188,541,97,111]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,281,549,94,105]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,372,547,97,112]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,467,541,90,111]
+
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,0,671,102,95]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,145,671,106,105]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,282,671,107,105]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,320,671,106,105]
+
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,13,797,91,85]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,146,789,95,110]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,285,799,101,91]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,428,788,93,104]
+
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,0,903,130,113]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,130,889,124,125]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,265,900,127,116]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,399,898,113,113]
+
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,557,574,83,84]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,678,547,100,95]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,783,561,95,97]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,905,572,115,109]
+
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,540,679,105,107]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,666,675,107,112]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,779,668,109,126]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,902,676,111,126]
+
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,521,811,142,83]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,650,806,134,94]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,783,799,116,103]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,909,796,112,103]
+
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,524,906,62,107]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,600,907,59,105]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,676,908,59,103]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,758,897,71,112]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,842,901,72,107]
+                    ["https://s1.imagehub.cc/images/2023/07/24/IngameAtlasX1.png",1024,1024,931,901,70,106]
+                    */
+
+                    try {
+                        //logs(Object.values(te)[0].value[0][0][0])
+                        //value[0][0][0] 0星 第0+1个部件 style(url sp-xywh)
+                        //var te2="";
+                        var te2 //=dqsa(".skinscroll")[0];
+                        te2 = "";
+                        for (var i = 0, i1 = 0, i2 = 0;;) {
+                            //logs(i+","+i1+","+i2+";");
+                            if (i1 === 0 && i2 === 0) {
+                                te2 += '<div class="skint" data-name="' + Object.values(te)[i].name + '">';
+                            }
+                            if (i1 !== 4 && i2 === 0) {
+                                te2 += '<div class="star' + i1 + '">';
+                            }
+                            let classname = "";
+                            if (i2 === 0 && i1 === 0) {
+                                classname = "skin chose";
+                            } else if (i1 !== 4) {
+                                classname = "skin";
+                            } else {
+                                classname = "super";
+                            }
+                            if (Object.values(te)[i].value[i1].length !== 0) {
+                                te2 += '<div class="' + classname + '" data-bs-toggle="popover" data-bs-trigger="hover" title="暂无" data-bs-content="暂无" onclick="chooseskin(this)"><div class="texture" style="background-image: url(' + Object.values(te)[i].value[i1][i2][0] + ');--imgw: ' + Object.values(te)[i].value[i1][i2][1] + ';--imgh: ' + Object.values(te)[i].value[i1][i2][2] + ';--spx:' + Object.values(te)[i].value[i1][i2][3] + ';--spy:' + Object.values(te)[i].value[i1][i2][4] + ';--spw:' + Object.values(te)[i].value[i1][i2][5] + ';--sph:' + Object.values(te)[i].value[i1][i2][6] + ';"></div></div>';
+                            }
+                            if (i2 < Object.values(te)[i].value[i1].length - 1) {
+                                i2++;
+                                continue;
+                            }
+                            if (i1 < Object.values(te)[i].value.length - 1) {
+                                if (i1 !== 3) {
+                                    te2 += '</div><!--2-->';
+                                }
+                                i1++;
+                                i2 = 0
+                                continue
+                            }
+                            if (i < Object.values(te).length - 1) {
+                                te2 += '</div></div><!--3-->';
+                                i++;
+                                i1 = 0;
+                                i2 = 0
+                            } else {
+                                dqsa(".skinscroll")[0].innerHTML = te2;
+                                //logs("<textarea>"+te2+"</textarea>")
+                                //logs(te2)
+                                te2 = null;
+                                break;
+                            }
+                        }
+                    } catch (e) {
+                        logs(e)
+                    }
+
+                    var tn = {
+                        tn00: {
+                            name: "猪",
+                            value: [
+                                [
+                                    ["默认雀斑猪", "提供视野跟随和较小的动力(动力约为三分之一个原皮电机)"]
+                                ],
+                                [
+                                    ["西装猪", "优雅而又不失风度"],
+                                    ["墨西哥猪", "在无垠的沙漠中，你一定会看见一个有着胡须，带着草帽的猪"],
+                                    ["领结猪", "红色的领结是点睛之笔"],
+                                    ["囚服猪", "他憔悴的面庞，书写着他的罪恶"],
+                                    ["海盗猪", "“我征服过整片海洋!”"],
+                                    ["圣诞猪", "他会在圣诞节给他人带来礼物"]
+                                ],
+                                [
+                                    ["维京猪", "去掠夺罢！"],
+                                    ["军帽猪", "寒冷的冬天里，这顶军帽能给你带来温暖"],
+                                    ["潜水猪", "曾在潜水大赛上熬死了三个人"],
+                                    ["度假猪", "天气不错"],
+                                    ["科学怪人猪", "这只是詹姆斯·怀勒拍的电影吧?"],
+                                    ["金发女郎猪", "金发飘逸"]
+                                ],
+                                [
+                                    ["丧尸猪", "保护伞公司的产物"],
+                                    ["窃贼猪", "我，来无影去无踪，你的东西，也来无影去无踪"],
+                                    ["机器猪", "error"],
+                                    ["小丑猪", "快乐来自小丑!"],
+                                    ["巫师猪", "加一点烂蘑菇，一点树根......"],
+                                    ["爵士猪", "一首爵士是绝配"],
+                                    ["外星猪", "无框放置时具有微重力效果，放置框中时会产生升力"]
+                                ]
+                            ]
+                        },
+                        tn01: {
+                            name: "猪王",
+                            value: [
+                                [
+                                    ["默认猪王", "金色皇冠，至高权利"]
+                                ],
+                                [
+                                    ["百叶窗镜猪王", "在迪厅嗨起来"],
+                                    ["圣诞猪王", "一年一度的圣诞节到了"]
+                                ],
+                                [
+                                    ["西装猪王", "单片眼镜，尽享奢华"],
+                                    ["警察猪王", "警局KPI最高"]
+                                ],
+                                [
+                                    ["贵族猪", "红酒，灯光，奢侈品"],
+                                    ["船长猪", "海上的风景是无限的，我对大海的爱也是无限的"]
+                                ]
+                            ]
+                        },
+                        tn03: {
+                            name: "鸟蛋",
+                            value: [
+                                [
+                                    ["默认鸟蛋", "猪猪们的美食"]
+                                ],
+                                [
+                                    ["头骨鸟蛋", "收集品"]
+                                ],
+                                [
+                                    ["石像鸟蛋", "创建以自身高度为海平面的水域"]
+                                ],
+                                [
+                                    ["金蛋", "使鸟蛋所在单位失去碰撞体积"],
+                                    ["菠萝鸟蛋", "使周围7✖7范围内的物品失去碰撞体积"],
+                                    ["外星鸟蛋", "使所在单位形成胶水"]
+                                ]
+                            ]
+                        },
+                        tn04: {
+                            name: "木框",
+                            value: [
+                                [
+                                    ["默认木框", "提供一个最基本的框架，可将其内放置物品"],
+                                    ["木箱", "重量较轻"]
+                                ],
+                                [
+                                    ["蓝色木框", "蓝色，使人感到平静"],
+                                    ["绿色木框", "绿色的大草原，充满了生机"],
+                                    ["饼干木框", "Yummy!"]
+                                ],
+                                [
+                                    ["粉色木框", "粉粉嫩嫩真可爱"],
+                                    ["栏杆木框", "小心掉下去!"],
+                                    ["花木框", "待到山花烂漫时，她在丛中笑"]
+                                ],
+                                [
+                                    ["老木框", "有些年头了"],
+                                    ["破损木框", "他的背后，埋藏着许多过往的秘密"],
+                                    ["南瓜框", "万圣节到了"]
+                                ]
+                            ]
+                        },
+                        tn05: {
+                            name: "铁框",
+                            value: [
+                                [
+                                    ["铁框", "与木框功能相同，但更坚硬"],
+                                    ["铁块", "重量更重，可增加链接强度"],
+                                    ["支架框", "不会与其他框进行相连，但可以与其他支架框相连，并且具有刚性。如果支架框和外部框内同时装有有连接性的物品，则可以与外部框相连"]
+                                ],
+                                [
+                                    ["铜框", "还没有生锈"],
+                                    ["栏杆铁框", "漫无天日的囚禁"],
+                                    ["红铁框", "红色代表着热情"]
+                                ],
+                                [
+                                    ["黑钢框", "金属的质感"],
+                                    ["骨架框", "钙的味道"],
+                                    ["蛛网框", "与不连接框特性相同，但是不能与其他蛛网框相连"],
+                                    ["彩灯框", "增加框架之间的链接强度"]
+                                ],
+                                [
+                                    ["金框", "金色质感"],
+                                    ["防爆框", "看上去十分安全"],
+                                    ["帘框", "拉开窗帘，拥抱阳光！"],
+                                    ["外星框", "无摩擦力"]
+                                ]
+                            ]
+                        },
+                        tn06: {
+                            name: "木轮",
+                            value: [
+                                [
+                                    ["默认木轮", "可转动，使载具前进"]
+                                ],
+                                [
+                                    ["蓝色木轮", "天空的颜色"],
+                                    ["绿色木轮", "在草原中行驶吧！"],
+                                    ["粉色木轮", "想要给旅途添加一点可爱吗？"]
+                                ],
+                                [
+                                    ["老木轮", "他的痕迹，是跋山涉水的证明"],
+                                    ["蓝鸭木轮", "黄色的小鸭子呀，水中游啊游"],
+                                    ["红鸭木轮", "黄色的小鸭子呀，岩浆中游啊游"],
+                                    ["饼干木轮", "为了美食而踏上征程"]
+                                ],
+                                [
+                                    ["黑木木轮", "黑色代表着高级，连极简单的木轮也能衬着高贵"],
+                                    ["红色木轮", "刷上油漆，便是三星"],
+                                    ["彩虹木轮", "遇上木轮，吃定木轮"]
+                                ]
+                            ]
+                        },
+                        tn07: {
+                            name: "铁轮",
+                            value: [
+                                [
+                                    ["默认铁轮", "可转动，使载具前进，相较于木轮更坚固"]
+                                ],
+                                [
+                                    ["铜轮", "有许多人追求铜的金属质感"],
+                                    ["红铁轮", "红色点缀了这个轮子"]
+                                ],
+                                [
+                                    ["黑钢轮", "昂贵的价格也造就了他的辉煌"],
+                                    ["骨架轮", "所行之处无人生还"]
+                                ],
+                                [
+                                    ["金轮", "昂贵，奢侈，顶级，极品!"],
+                                    ["花轮", "清新的香气，迷倒了所有人"]
+                                ]
+                            ]
+                        },
+                        tn08: {
+                            name: "小轮",
+                            value: [
+                                [
+                                    ["默认铁小轮", "可转动，使载具前进，更小，相比于木轮更坚固，"]
+                                ],
+                                [
+                                    ["铜小轮", "铜之微量，不失风采"],
+                                    ["骨小轮", "小骨，小命"]
+                                ],
+                                [
+                                    ["红小轮", "我要的不是轮子的性能怎么样，而是它的外观"],
+                                    ["黑钢小轮", "这点红色根本无法满足他的霸气"]
+                                ],
+                                [
+                                    ["金小轮", "虽然相比于金轮金的用料已经少了很多，但仍然是凡人高攀不起的物品"],
+                                    ["花小轮", "只花香飘远万里"],
+                                    ["外星小轮", "相比于其他小轮可通过发动机提供动力驱动"]
+                                ]
+                            ]
+                        },
+                        tn09: {
+                            name: "动力轮",
+                            value: [
+                                [
+                                    ["默认驱动轮", "可由发动机提供动力转动，使载具前进"],
+                                    ["越野轮", "相比于其它驱动力更大，转速更快，越野更好"]
+                                ],
+                                [
+                                    ["木驱动轮", "别看他是木料所制，但质量真不赖"],
+                                    ["红驱动轮", "红色一直是猪猪们喜欢用在轮子上的颜色"]
+                                ],
+                                [
+                                    ["黑钢驱动轮", "把黑钢用在驱动轮上?好主意!"],
+                                    ["骨架驱动轮", "他的脚步没有结束...更快了..."]
+                                ],
+                                [
+                                    ["金驱动轮", "虽然金这种材质并不适合当驱动轮的材料，但是仍不能阻止人们去追求它"],
+                                    ["花驱动轮", "花香随轮飘九州"]
+                                ]
+                            ]
+                        },
+                        tn10: {
+                            name: "气鼓",
+                            value: [
+                                [
+                                    ["默认气泵", "可向气泵摆放方向产生推力"]
+                                ],
+                                [
+                                    ["蓝色气泵", "很像蓝天，对吧"],
+                                    ["绿色气泵", "绿色气泵，您的健康好助手"]
+                                ],
+                                [
+                                    ["粉色气泵", "谁会拒绝一个粉色气泵!!!"],
+                                    ["饼干气泵", "气泵推出的每一下气流，都包含着饼干的浓浓香味"]
+                                ],
+                                [
+                                    ["气球气泵", "小心捏爆"],
+                                    ["橙色气泵", "橙色令人感到沉稳"],
+                                    ["外星气泵", "推力相较于其它气泵，推力更强"]
+                                ]
+                            ]
+                        },
+                        tn11: {
+                            name: "电扇",
+                            value: [
+                                [
+                                    ["默认风扇", "提供推力，可由发动机驱动"]
+                                ],
+                                [
+                                    ["铜风扇", "嗯...不错"]
+                                ],
+                                [
+                                    ["骨架风扇", "诡异的风"],
+                                    ["红色风扇", "提供悬浮作用"]
+                                ],
+                                [
+                                    ["金风扇", "不仅可以提供推力，还可以将部件吹起"],
+                                    ["外星风扇", "推力相较于其它风扇更强"]
+                                ]
+                            ]
+                        },
+                        tn12: {
+                            name: "小螺旋桨",
+                            value: [
+                                [
+                                    ["默认小螺旋桨", "可提供向前的力，可由发动机驱动"],
+                                ],
+                                [
+                                    ["木小螺旋桨", "这玩意真的可靠吗？"],
+                                    ["铜小螺旋桨", "怀旧"],
+                                    ["红小螺旋桨", "激情，冲刺!"]
+                                ],
+                                [
+                                    ["骨架小螺旋桨", "死亡气息，随桨而前"],
+                                    ["黑钢小螺旋桨", "真的很有高级感"],
+                                    ["绿叶小螺旋桨", "让植物随风而去"]
+                                ],
+                                [
+                                    ["金小螺旋桨", "我什么都要金贵!包括螺旋桨!"],
+                                    ["粉小螺旋桨", "可爱到上天!"],
+                                    ["外星小螺旋桨", "动力相较于其它小螺旋桨更强，推力方向与其它相反"]
+                                ]
+                            ]
+                        },
+                        tn13: {
+                            name: "大螺旋桨",
+                            value: [
+                                [
+                                    ["默认大螺旋桨", "可提供向前的力，相比于小螺旋桨推力更大，可由发动机驱动"],
+                                ],
+                                [
+                                    ["木大螺旋桨", "这让我想起来了莱特兄弟"],
+                                    ["铜大螺旋桨", "让铜也随天空而去吧"],
+                                    ["麋鹿大螺旋桨", "听说圣诞老人的麋鹿就是用这个飞的"]
+                                ],
+                                [
+                                    ["骨架大螺旋桨", "死亡的气流从上至下"],
+                                    ["黑钢大螺旋桨", "金属的质感连云彩都能目睹"],
+                                    ["绿叶大螺旋桨", "使用他的飞机，一定是绿色无污染的"]
+                                ],
+                                [
+                                    ["金大螺旋桨", "金钱当然能飞的高"],
+                                    ["粉大螺旋桨", "粉嫩粉嫩的"],
+                                    ["外星大螺旋桨", "动力相较于其它大螺旋桨更强，推力方向与其它相反，桨叶无碰撞体积"]
+                                ]
+                            ]
+                        },
+                        tn14: {
+                            name: "黑汽水",
+                            value: [
+                                [
+                                    ["默认可乐", "提供推力"]
+                                ],
+                                [
+                                    ["三角瓶可乐", "装的似乎更多了?"]
+                                ],
+                                [
+                                    ["铜加大可乐", "金属支架加上加量可乐，完美!"]
+                                ],
+                                [
+                                    ["金加大可乐", "同是可乐，但他是金子做的"],
+                                    ["外星可乐", "开启后会产生150牛的推力，速度无上限"]
+                                ]
+                            ]
+                        },
+                        tn15: {
+                            name: "绿汽水",
+                            value: [
+                                [
+                                    ["默认雪碧", "提供推力，与可乐相同"]
+                                ],
+                                [
+                                    ["三角瓶雪碧", "装的似乎更多了?"]
+                                ],
+                                [
+                                    ["铜加大雪碧", "金属支架加上加量雪碧，完美!"]
+                                ],
+                                [
+                                    ["金加大雪碧", "同是雪碧，但他是金子做的"],
+                                    ["外星雪碧", "开启后会产生200牛的推力，速度上限150m/s"]
+                                ]
+                            ]
+                        },
+                        tn16: {
+                            name: "蓝火箭",
+                            value: [
+                                [
+                                    ["默认蓝烟花", "提供较大的推力"]
+                                ],
+                                [
+                                    ["蓝星烟花", "具有避障功能，检测到障碍会减速"]
+                                ],
+                                [
+                                    ["TNT蓝烟花", "每单击一次会产生一次爆炸"]
+                                ],
+                                [
+                                    ["龙蓝烟花", "具有避障功能，发现障碍会转向避开障碍物"]
+                                ]
+                            ]
+                        },
+                        tn17: {
+                            name: "红火箭",
+                            value: [
+                                [
+                                    ["默认红烟花", "提供较大的推力，与蓝烟花相同"]
+                                ],
+                                [
+                                    ["红星烟花", "发现目标后会追踪目标，沿正方向追踪"]
+                                ],
+                                [
+                                    ["TNT红烟花", "每单击一次会产生一次爆炸"]
+                                ],
+                                [
+                                    ["龙红烟花", "具有追踪功能，发现目标会先将自身朝向目标再进行追踪"]
+                                ]
+                            ]
+                        },
+                        tn18: {
+                            name: "电机",
+                            value: [
+                                [
+                                    ["默认电机", "提供较小的动力"]
+                                ],
+                                [
+                                    ["铜电机", "废土风格"],
+                                    ["粉色电机", "粉粉嫩嫩，十分可爱"],
+                                    ["烤全鸡电机", "食欲，能使人驱动"]
+                                ],
+                                [
+                                    ["电池电机", "靠蓄电池储能"],
+                                    ["骨架电机", "咔哧咔哧..."],
+                                    ["甜品电机", "甜蜜真的能带动一切"]
+                                ],
+                                [
+                                    ["金电机", "这一个电机已经能顶上一辆豪车了"],
+                                    ["南瓜电机", "燃料来源于南瓜"],
+                                    ["核动力电机", "提供极强的动力，相较于所有发动机动力最强，可为燃料箱补充燃料"]
+                                ]
+                            ]
+                        },
+                        tn19: {
+                            name: "发动机",
+                            value: [
+                                [
+                                    ["默认柴油机", "提供中等的动力"]
+                                ],
+                                [
+                                    ["铜柴油机", "零件的声音咔咔作响，时代的齿缓缓前进"],
+                                    ["粉柴油机", "可爱的外表下有一颗炽热的心"]
+                                ],
+                                [
+                                    ["黑钢柴油机", "黑钢，黑轮胎，黑速度"],
+                                    ["骨架柴油机", "那根骨头便是零件"]
+                                ],
+                                [
+                                    ["金柴油机", "黄金质感，极速体验"],
+                                    ["甜品柴油机", "“甜品的能量，足以驱动我！”"]
+                                ]
+                            ]
+                        },
+                        tn20: {
+                            name: "V8",
+                            value: [
+                                [
+                                    ["默认V8引擎", "提供较大的动力"]
+                                ],
+                                [
+                                    ["铜V8引擎", "铜的光泽"],
+                                    ["粉V8引擎", "美少女引擎，出动！"]
+                                ],
+                                [
+                                    ["黑钢V8引擎", "美式大V8，环保去TM！"],
+                                    ["骨架V8引擎", "引擎的转动使骨架不停作响"]
+                                ],
+                                [
+                                    ["黄金V8引擎", "双排气管，双倍金钱"],
+                                    ["甜品V8引擎", "每一块蛋糕能跑80km"]
+                                ]
+                            ]
+                        },
+                        tn21: {
+                            name: "雨伞",
+                            value: [
+                                [
+                                    ["默认伞", "装配后可使载具在下降的过程中更稳定"]
+                                ],
+                                [
+                                    ["红伞", "具有稳定姿态作用"],
+                                    ["积雪伞", "具有稳定姿态作用，相较于红伞稳控能力更强"]
+                                ],
+                                [
+                                    ["粉伞", "可停留在空中，可以当做支点"],
+                                    ["植物伞", "天街小雨润如酥，草色遥看近却无"]
+                                ],
+                                [
+                                    ["骨架伞", "具有稳定姿态作用和定向功能，可使物体一直朝向伞所指方向，可以通过按钮条件方向"],
+                                    ["紫伞", "具有稳定姿态作用和定向功能，可使物体一直朝向伞所指方向，可以通过按钮条件方向"]
+                                ]
+                            ]
+                        },
+                        tn22: {
+                            name: "动力伞",
+                            value: [
+                                [
+                                    ["默认驱动伞", "开启后会不停的收缩，提供向前的力，可由发动机驱动"]
+                                ],
+                                [
+                                    ["红驱动伞", "激情向前永无止境"]
+                                ],
+                                [
+                                    ["蝙蝠驱动伞", "蝙蝠侠将会来临"]
+                                ],
+                                [
+                                    ["金驱动伞", "24K纯金打造"]
+                                ]
+                            ]
+                        },
+                        tn23: {
+                            name: "弹簧",
+                            value: [
+                                [
+                                    ["默认弹簧", "软弹簧，可减震"]
+                                ],
+                                [
+                                    ["铜弹簧", "硬弹簧，相较于软弹簧硬一些"]
+                                ],
+                                [
+                                    ["彩虹弹簧", "软弹簧。遇上弹簧，吃定弹簧"]
+                                ],
+                                [
+                                    ["金弹簧", "硬弹簧。只要有钱，连弹簧都是金的"]
+                                ]
+                            ]
+                        },
+                        tn24: {
+                            name: "TNT",
+                            value: [
+                                [
+                                    ["默认TNT", "单击后会爆炸"]
+                                ],
+                                [
+                                    ["绿色TNT", "绿油油的炸弹"]
+                                ],
+                                [
+                                    ["圆形TNT", "骷髅图案令人畏惧"]
+                                ],
+                                [
+                                    ["礼物TNT", "嘘...这可是一份惊喜"],
+                                    ["南瓜TNT", "万圣节的惊吓"],
+                                    ["外星TNT", "爆炸威力相较于其它TNT较小，可爆炸无数次"]
+                                ]
+                            ]
+                        },
+                        tn25: {
+                            name: "绳子",
+                            value: [
+                                [
+                                    ["默认绳子", "有链接作用，可剪断"],
+                                    ["深色铰链板", "有链接作用"],
+                                    ["浅色铰链板", "有链接作用"]
+                                ],
+                                [
+                                    ["粉绳子", "爱的引线"],
+                                    ["深色履带", "不可与除自身外的任何部件连接，可用作坦克的履带"],
+                                    ["浅色履带", "不可与除自身外的任何部件连接，可用作坦克的履带"]
+                                ],
+                                [
+                                    ["项链绳子", "珍珠一串穿一串"]
+                                ],
+                                [
+                                    ["黄金绳子", "具有碰撞箱"]
+                                ]
+                            ]
+                        },
+                        tn26: {
+                            name: "气球1",
+                            value: [
+                                [
+                                    ["默认气球", "提供升力，易破"]
+                                ],
+                                [
+                                    ["星星气球", "你是天空中那一颗闪耀的星"],
+                                    ["蛋糕气球", "将美味带到天空"]
+                                ],
+                                [
+                                    ["鸭子气球", "众所周知，鸭子是两栖动物"],
+                                    ["飞鱼气球", "飞鱼真能飞哦"]
+                                ],
+                                [
+                                    ["猪王气球", "“看，我们的王上天了!”"],
+                                    ["香蕉气球", "Bnanananana"],
+                                    ["鬼魂气球", "相比于其它气球不会破"]
+                                ]
+                            ]
+                        },
+                        tn27: {
+                            name: "气球2",
+                            value: [
+                                [
+                                    ["默认双气球", "提供升力，易破"]
+                                ],
+                                [
+                                    ["星星双气球", "你是天空中那一颗闪耀的星"],
+                                    ["蛋糕双气球", "将美味带到天空"]
+                                ],
+                                [
+                                    ["鸭子双气球", "众所周知，鸭子是两栖动物"],
+                                    ["飞鱼气球", "飞鱼真能飞哦"]
+                                ],
+                                [
+                                    ["猪王双气球", "“看，我们的王上天了!”"],
+                                    ["香蕉双气球", "Bnanananana"],
+                                    ["鬼魂双气球", "相比于其它气球不会破"]
+                                ]
+                            ]
+                        },
+                        tn28: {
+                            name: "气球3",
+                            value: [
+                                [
+                                    ["默认三气球", "提供升力，易破"]
+                                ],
+                                [
+                                    ["星星三气球", "你是天空中那一颗闪耀的星"],
+                                    ["蛋糕三气球", "将美味带到天空"]
+                                ],
+                                [
+                                    ["鸭子三气球", "众所周知，鸭子是两栖动物"],
+                                    ["飞鱼三气球", "飞鱼真能飞哦"]
+                                ],
+                                [
+                                    ["猪王三气球", "“看，我们的王上天了!”"],
+                                    ["香蕉三气球", "Bnanananana"],
+                                    ["鬼魂三气球", "相比于其它气球不会破"]
+                                ]
+                            ]
+                        },
+                        tn29: {
+                            name: "沙袋1",
+                            value: [
+                                [
+                                    ["默认沙袋", "提供重量，可剪断"]
+                                ],
+                                [
+                                    ["糖果沙袋", "甜蜜的重量"]
+                                ],
+                                [
+                                    ["铁毡沙袋", "这可有够沉的"],
+                                    ["圣诞沙袋", "看来袜子里面装了许多礼物"]
+                                ],
+                                [
+                                    ["黄金沙袋", "它的密度可有19.3g/cm3"],
+                                    ["墓碑沙袋", "比一般沙袋更重"]
+                                ]
+                            ]
+                        },
+                        tn30: {
+                            name: "沙袋2",
+                            value: [
+                                [
+                                    ["默认双沙袋", "提供重量，可剪断"]
+                                ],
+                                [
+                                    ["糖果双沙袋", "甜蜜的重量"]
+                                ],
+                                [
+                                    ["铁毡双沙袋", "这可有够沉的"]
+                                ],
+                                [
+                                    ["黄金双沙袋", "它的密度可有19.3g/cm3"]
+                                ]
+                            ]
+                        },
+                        tn31: {
+                            name: "沙袋3",
+                            value: [
+                                [
+                                    ["默认三沙袋", "提供重量，可剪断"]
+                                ],
+                                [
+                                    ["糖果三沙袋", "甜蜜的重量"]
+                                ],
+                                [
+                                    ["铁毡三沙袋", "这可有够沉的"]
+                                ],
+                                [
+                                    ["黄金三沙袋", "它的密度可有19.3g/cm3"]
+                                ]
+                            ]
+                        },
+                        tn32: {
+                            name: "木机翼",
+                            value: [
+                                [
+                                    ["默认木滑翔翼", "具有滑翔作用"]
+                                ],
+                                [
+                                    ["蓝色木滑翔翼", "蓝色使人平静"]
+                                ],
+                                [
+                                    ["红色木滑翔翼", "在空中激情飞翔"]
+                                ],
+                                [
+                                    ["龙木滑翔翼", "巨龙飞腾"]
+                                ]
+                            ]
+                        },
+                        tn33: {
+                            name: "木尾翼",
+                            value: [
+                                [
+                                    ["默认木尾翼", "具有平衡机身的作用"]
+                                ],
+                                [
+                                    ["蓝色木尾翼", "蓝色能平衡心情"]
+                                ],
+                                [
+                                    ["红色木滑翔翼", "在空中激情飞翔"]
+                                ],
+                                [
+                                    ["龙木滑翔翼", "巨龙飞腾"]
+                                ]
+                            ]
+                        },
+                        tn34: {
+                            name: "铁机翼",
+                            value: [
+                                [
+                                    ["默认铁滑翔翼", "具有滑翔作用，相较于木滑翔翼更坚硬"]
+                                ],
+                                [
+                                    ["铜滑翔翼", "铜的质感"]
+                                ],
+                                [
+                                    ["骨架滑翔翼", "灰白色的材质"]
+                                ],
+                                [
+                                    ["金滑翔翼", "金色传说"]
+                                ]
+                            ]
+                        },
+                        tn35: {
+                            name: "铁尾翼",
+                            value: [
+                                [
+                                    ["默认铁尾翼", "具有平衡机身的作用，相较于木尾翼更坚硬"]
+                                ],
+                                [
+                                    ["铜尾翼", "铜的质感"]
+                                ],
+                                [
+                                    ["骨架滑翔翼", "曾经也许是一只鸟"]
+                                ],
+                                [
+                                    ["金滑翔翼", "这是什么？黄金！"]
+                                ]
+                            ]
+                        },
+                        tn36: {
+                            name: "拳套",
+                            value: [
+                                [
+                                    ["默认拳套", "可以射出拳头，可当作装甲使用\n11"]
+                                ],
+                                [
+                                    ["棕拳套", "木头的颜色"]
+                                ],
+                                [
+                                    ["蓝拳套", "海洋，一望无际"]
+                                ],
+                                [
+                                    ["绿拳套", "在大草原上搏斗，属于游牧民族的胜利！"],
+                                    ["外星拳套", "伸出来的拳头更长，力量更强，拳套指向拳套可以消除摁键"]
+                                ]
+                            ]
+                        },
+                        tn37: {
+                            name: "吸盘轮",
+                            value: [
+                                [
+                                    ["默认吸盘轮", "可转动，可以吸附在地形上，可由发动机驱动"]
+                                ],
+                                [
+                                    ["蓝吸盘轮", "蓝色代表着开阔，代表着探索"]
+                                ],
+                                [
+                                    ["粉吸盘轮", "粉嫩"]
+                                ],
+                                [
+                                    ["金吸盘轮", "不仅可以吸附在地形上，还可以吸附在部件上"]
+                                ]
+                            ]
+                        },
+                        tn38: {
+                            name: "吸盘枪",
+                            value: [
+                                [
+                                    ["默认吸盘枪", "可发射出吸盘，抓住地形或部件。将吸盘枪套框，可以复制后面的一个部件并发射出去"]
+                                ],
+                                [
+                                    ["铜吸盘枪", "在自己前方四格处生成自己身后一格以内的物品，如果该吸盘枪嵌套了除无星铁框之外的铁框，将会把复制物所嵌套的框一并复制，其它皮肤不带框。如果纵向添加吸盘器，复制出来的物品可以与其它吸盘器复制出来的物品连接。"],
+                                    ["蓝吸盘枪", "在自己前方九格处生成自己身后三格以内的物品，如果该吸盘枪嵌套了除无星铁框之外的铁框，将会把复制物所嵌套的框一并复制，其它皮肤不带框。如果纵向添加吸盘器，复制出来的物品可以与其它吸盘器复制出来的物品连接。"],
+                                    ["紫吸盘枪", "在自己前方十格处生成自己身后三格以内的物品，如果该吸盘枪嵌套了除无星铁框之外的铁框，将会把复制物所嵌套的框一并复制，其它皮肤不带框。如果纵向添加吸盘器，复制出来的物品可以与其它吸盘器复制出来的物品连接。"],
+                                    ["黄吸盘枪", "在自己前方十一格处生成自己身后三格以内的物品，如果该吸盘枪嵌套了除无星铁框之外的铁框，将会把复制物所嵌套的框一并复制，其它皮肤不带框。如果纵向添加吸盘器，复制出来的物品可以与其它吸盘器复制出来的物品连接。"]
+                                ],
+                                [
+                                    ["粉吸盘枪", "在自己前方五格处生成自己身后一格以内的物品，如果该吸盘枪嵌套了除无星铁框之外的铁框，将会把复制物所嵌套的框一并复制，其它皮肤不带框。如果纵向添加吸盘器，复制出来的物品可以与其它吸盘器复制出来的物品连接。"],
+                                    ["黑钢吸盘枪", "在自己前方六格处生成自己身后一格以内的物品，如果该吸盘枪嵌套了除无星铁框之外的铁框，将会把复制物所嵌套的框一并复制，其它皮肤不带框。如果纵向添加吸盘器，复制出来的物品可以与其它吸盘器复制出来的物品连接。"]
+                                ],
+                                [
+                                    ["金吸盘枪", "在自己前方七格处生成自己身后一格以内的物品，如果该吸盘枪嵌套了除无星铁框之外的铁框，将会把复制物所嵌套的框一并复制，其它皮肤不带框。如果纵向添加吸盘器，复制出来的物品可以与其它吸盘器复制出来的物品连接。"],
+                                    ["绿色机炮", "可以发射出闪电状子弹，击中物体会产生较小爆炸"],
+                                    ["紫色机炮", "可以发射出闪电状子弹，击中物体会产生较小爆炸，此为自动机炮，检测到目标会自动发射子弹"]
+                                ]
+                            ]
+                        },
+                        tn39: {
+                            name: "南瓜",
+                            value: [
+                                [
+                                    ["默认南瓜", "可以使南瓜所在单位固定，不会因受到攻击而解体，被固定的部件可以正常使用"]
+                                ],
+                                [
+                                    ["水滴鱼", "可以使水滴鱼所在单位固定，会因受到攻击而解体，被固定的部件可以正常使用"]
+                                ]
+                            ]
+                        },
+                        tn40: {
+                            name: "分离器",
+                            value: [
+                                [
+                                    ["默认分离器", "可以连接两个单位，单击可使分离器脱离，让两个单位分离"]
+                                ],
+                                [
+                                    ["铜分离器", "不需要提前连接即可连接两个单位"]
+                                ],
+                                [
+                                    ["骨架分离器", "在分离后可再次单击使两个单位重新连接（骨架分离器会产生一种吸引力，即便两个单位之间有距离，也会强制拉回结合）"],
+                                    ["花分离器", "在分离后可再次单击使两个单位重新连接（花分离器会产生一种吸引力，即便两个单位之间有距离，也会强制拉回结合）"]
+                                ],
+                                [
+                                    ["金分离器", "不具有分离作用，切换不同颜色以区分阵营，不被同阵营的火箭追踪"]
+                                ]
+                            ]
+                        },
+                        tn41: {
+                            name: "变速箱",
+                            value: [
+                                [
+                                    ["默认变速箱", "可以切换轮子运作方向，无框嵌套也可以与其他部件连接，不同皮肤可以分开点按钮"]
+                                ],
+                                [
+                                    ["铜变速箱", "铜色"],
+                                    ["黑钢变速箱", "黑钢做的变速箱"]
+                                ],
+                                [
+                                    ["骨架变速箱", "骨架做的变速箱"],
+                                    ["饼干变速箱", "变速箱内的齿轮都是饼干做的"]
+                                ],
+                                [
+                                    ["金变速箱", "金子做的变速箱"]
+                                ]
+                            ]
+                        },
+                        tn42: {
+                            name: "猪王雕像",
+                            value: [
+                                [
+                                    ["默认猪王雕像", "“我的雕像呢？！快把它找回来！！！”"]
+                                ],
+                                [
+                                    ["木猪王雕像", "皇家木匠所雕刻"]
+                                ],
+                                [
+                                    ["钻石猪王雕像", "金刚石，缥缈之物罢了"]
+                                ],
+                                [
+                                    ["无敌神鹰雕像", "制作敌人的雕像，是承认对方的强大"]
+                                ]
+                            ]
+                        },
+                        tn43: {
+                            name: "点光源",
+                            value: [
+                                [
+                                    ["默认灯泡", "可以在周围提供照明。可以在自己的顶部为圆心形成一个半径8的半圆光盾，但仅能阻挡正面物体，无法阻挡后方"]
+                                ],
+                                [
+                                    ["蘑菇灯泡", "可以在周围提供照明。在自己上方8格处为中点，作一劣弧，形成一个光盒，但仅能阻挡正面物体，无法阻挡背面"]
+                                ],
+                                [
+                                    ["煤油灯", "可以在周围提供照明。可以在自己的顶部为圆心形成一个半径8的半圆光盒子，但仅能阻挡背面物体，无法阻挡前方"]
+                                ],
+                                [
+                                    ["绿宝石灯泡", "可以在周围提供照明。可以在自己上方8格处为中点，作一劣弧，形成一个光盾，但仅能阻挡背面物体，无法阻挡正面"],
+                                    ["绿色外星灯泡", "可以在周围提供照明。可以在自己的顶部为圆心形成一个的圆形光盾，光盾大小取决于单位大小。仅能阻挡正面物体，无法阻挡后方。在黑暗环境下（例如寻找雕像沙盒）打开后提供夜视仪效果"],
+                                    ["蓝色外星灯泡", "使周围一定范围内物体与减速灯相对速度减小"],
+                                    ["紫色外星灯泡", "可以虚化周围5*5的部件，物体可以穿过被虚化的部件。此部件分为两个模式，默认模式只有物体接近才会虚化，单击四下后可开启第二个模式，将一直保持虚化状态"]
+                                ]
+                            ]
+                        },
+                        tn44: {
+                            name: "射线灯",
+                            value: [
+                                [
+                                    ["默认照射灯", "可以发射出长度为32格的光剑，可以在周围提供照明，有碰撞体积"]
+                                ],
+                                [
+                                    ["铜照射灯", "可以发射出长度为8格的光剑，可以在周围提供照明，有碰撞体积"]
+                                ],
+                                [
+                                    ["粉照射灯", "可以发射出长度为32格的光柱，可以在周围提供照明，有碰撞体积"]
+                                ],
+                                [
+                                    ["金照射灯", "可以发射出长度为8格的光柱，可以在周围提供照明，有碰撞体积"]
+                                ]
+                            ]
+                        },
+                        tn45: {
+                            name: "涡喷",
+                            value: [
+                                [
+                                    ["默认涡喷", "具备反推功能，其推力可在-1500N~3000N间调节，但不具备推力朝向控制技术"]
+                                ],
+                                [
+                                    ["矢量涡喷", "矢量推进型喷气引擎无反推功能，推力可在0~3000N间调节，推力朝向可在-45°~45°间调节。喷气引擎的推力控制与朝向控制技术由新型按键系统中的滑块按键提供支持"]
+                                ],
+                                [
+                                    ["普通管道", "可以运输燃料提供给涡喷，仅有水平连接与垂直连接两种连接方式"],
+                                    ["十字管道", "可以运输燃料提供给涡喷，能够自由连接周围四个朝向上的燃料部件"],
+                                    ["阀门管道", "可以运输燃料提供给涡喷，仅有水平连接与垂直连接两种连接方式，但可以通过按键来自由控制连接的开闭"]
+                                ],
+                                [
+                                    ["燃料箱", "储存着涡喷所需的燃料，燃料箱可以向喷气引擎供油，单个燃料箱具有1kg/s的最大供油速率与0.5kg/s的最大加油速率。核动力电机可为其补充燃料，单个核电机或其它类型发动机向燃料箱提供的加油速率为0.2kg/s， 当受到强烈的尾焰烧灼或者受到极大的冲击时，燃料箱会被引爆"]
+                                ]
+                            ]
+                        },
+                        tn46: {
+                            name: "电路",
+                            value: [
+                                [
+                                    ["导线", "普通导线能够自动连接各个方向上的相邻电路元件，无需额外指定朝向"],
+                                    ["固定导线", "固定导线只能连接固定方向上的相邻电路元件，总共有七种朝向（横向 + 纵向 + 四种转弯朝向 + 纵横交叉）可供选择"],
+                                    ["电磁导线", "电磁导线能够受到安培力作用，因此可应用于电磁驱动领域中（具体内容请见电磁交互部分）。而普通导线不能够受到安培力作用。"],
+                                    ["固定电磁导线", "固定导线只能连接固定方向上的相邻电路元件，总共有七种朝向（横向 + 纵向 + 四种转弯朝向 + 纵横交叉）可供选择"]
+                                ],
+                                [
+                                    ["开关", "单刀单掷开关是最普通的一种开关。单刀单掷开关共有两个端口，用于控制一条支路的开闭"],
+                                    ["单刀双掷开关", "单刀双掷开关共有三个端口，用于两条支路之间的切换"],
+                                    ["0.01Ω电阻器", "具有0.01Ω的电阻值"],
+                                    ["0.1Ω电阻器", "具有0.1Ω的电阻值"],
+                                    ["1Ω电阻器", "具有1Ω的电阻值"],
+                                    ["10Ω电阻器", "具有10Ω的电阻值"],
+                                    ["100Ω电阻器", "具有100Ω的电阻值"],
+                                    ["可变电阻器", "此为可变电阻，能够通过滑块按键来调节阻值，调节范围为 0.1Ω ~ 10Ω"],
+                                    ["1V电压源", "能够在电路中形成一定的电动势，为其它电路元件提供能量。电源元件具有一定的内阻，因此并非理想电源，其电能势为1V"],
+                                    ["5V电压源", "能够在电路中形成一定的电动势，为其它电路元件提供能量。电源元件具有一定的内阻，因此并非理想电源，其电能势为5V"],
+                                    ["50V电压源", "能够在电路中形成一定的电动势，为其它电路元件提供能量。电源元件具有一定的内阻，因此并非理想电源，其电能势为50V"],
+                                    ["0.1F电容器", "电容元件为一类基础电路元件，能够储存一定的能量并将其释放。储能时，电容元件可通过电源的充电来储存电荷，其两端电压也逐渐升高；供能时，电容元件将拥有与电源相类似的效果，但其两端电压将逐渐下降，供能能力也将随时间而衰弱，电容元件所储存的电容量Q与其两端电压U满足 Q=CU 的关系。其中，C代表电容器的电容值，单位为F（法拉）。对于同一种类的电容元件而言，C的值一般是固定的，电容元件的内阻偏小，因此供能时可以产生极大的电流，可应用于电磁轨道炮的制造中，其电容值为0.1F，最大耐受电压为5V，内阻值为0.01Ω"],
+                                    ["1F电容器", "电容元件为一类基础电路元件，能够储存一定的能量并将其释放。储能时，电容元件可通过电源的充电来储存电荷，其两端电压也逐渐升高；供能时，电容元件将拥有与电源相类似的效果，但其两端电压将逐渐下降，供能能力也将随时间而衰弱，电容元件所储存的电容量Q与其两端电压U满足 Q=CU 的关系。其中，C代表电容器的电容值，单位为F（法拉）。对于同一种类的电容元件而言，C的值一般是固定的，电容元件的内阻偏小，因此供能时可以产生极大的电流，可应用于电磁轨道炮的制造中，其电容值为1F，最大耐受电压为50V，内阻值为0.01Ω"],
+                                    ["20F电容器", "电容元件为一类基础电路元件，能够储存一定的能量并将其释放。储能时，电容元件可通过电源的充电来储存电荷，其两端电压也逐渐升高；供能时，电容元件将拥有与电源相类似的效果，但其两端电压将逐渐下降，供能能力也将随时间而衰弱，电容元件所储存的电容量Q与其两端电压U满足 Q=CU 的关系。其中，C代表电容器的电容值，单位为F（法拉）。对于同一种类的电容元件而言，C的值一般是固定的，电容元件的内阻偏小，因此供能时可以产生极大的电流，可应用于电磁轨道炮的制造中，其电容值为0.1F，最大耐受电压为500V，内阻值为0.01Ω"],
+                                    ["电压表", "可以用来获取电路的运行数据，表需并联于电路中"],
+                                    ["电流表", "可以用来获取电路的运行数据，需串联于电路中，内阻为 10000Ω，并非理想电压表；电流表元件的内阻为 0Ω，为理想电流表"]
+                                ],
+                                [
+                                    ["接地（低电平）", "能够在电路中确定一个 0V 电位的低电平参考点，高电平元件能够在电路中确定一个 5V 电位的高电平参考点（实际上，高电平就是接地元件与5V电源的串联）。在添加参考点后，电路中的导线也会根据电位高低来改变亮度，对于所有逻辑电路元件而言，-10V ~ 2.5V间的电位信号将视为低电平信号，2.5V ~ 10V间的电位信号将视为高电平信号，超出范围或者无法确定绝对电位值（即悬空）的电位信号将视为无效信号。如果逻辑电路元件含有无效的输入信号，一般会变为失效状态（贴图变灰）。因此，以逻辑电路的角度而言，接地元件能够输入低电平信号（即逻辑0），高电平元件能够输入高电平信号（即逻辑1），一般来说，电路需要形成回路才能产生电流。但如果在一条电路路径的两端分别添加接地元件，就能够让两端电势均已确定而不再悬空，也能够满足产生电流的条件。因此，接地元件与高电平元件可用于无回路电路的制造中。大部分逻辑电路均为无回路电路（当然，也可以改造成回路电路，但这会使得电路更加复杂）"],
+                                    ["高电平", "对于所有逻辑电路元件而言，-10V ~ 2.5V间的电位信号将视为低电平信号，2.5V ~ 10V间的电位信号将视为高电平信号，超出范围或者无法确定绝对电位值（即悬空）的电位信号将视为无效信号。如果逻辑电路元件含有无效的输入信号，一般会变为失效状态（贴图变灰）。因此，以逻辑电路的角度而言，接地元件能够输入低电平信号（即逻辑0），高电平元件能够输入高电平信号（即逻辑1），一般来说，电路需要形成回路才能产生电流。但如果在一条电路路径的两端分别添加接地元件，就能够让两端电势均已确定而不再悬空，也能够满足产生电流的条件。因此，接地元件与高电平元件可用于无回路电路的制造中。大部分逻辑电路均为无回路电路（当然，也可以改造成回路电路，但这会使得电路更加复杂）"],
+                                    ["缓冲门", "可延迟1tick（在新创中，1tick = 0.02s，即50tick = 1s）再输出信号"],
+                                    ["非门", "输入信号与输出信号相反"],
+                                    ["或门Ⅰ", "只要输入A与输入B中有一个为1，那么或门将输出1，反之或门将输出0，或门与或非门均分别具有两种材质，这两种材质在输入端的朝向分布上有所差异"],
+                                    ["或门Ⅱ", "这是非门的第二种材质，在输入端的朝向分布上有所差异"],
+                                    ["或非门Ⅰ", "非门的输出与或门的输出相反"],
+                                    ["或非门Ⅱ", "这是或非门的第二种材质，在输入端的朝向分布上有所差异"],
+                                    ["与门Ⅰ", "只要输入A与输入B中有一个为0，那么与门将输出0，反之与门将输出1。"],
+                                    ["与门Ⅱ", "这是与门的第二种材质，在输入端的朝向分布上有所差异"],
+                                    ["与非门Ⅰ", "与非门的输出与与门的输出相反"],
+                                    ["与非门Ⅱ", "这是与非门的第二种材质，在输入端的朝向分布上有所差异"],
+                                    ["NMOS管", "在现实中，两类场效应晶体管（FET）——NMOS管与PMOS管共同构成了CMOS电路，被广泛应用于集成电路的制造，在新创中，晶体管并不具备现实中的复杂特性，而经过了一定程度的简化与理想化处理。晶体管具有三个端口，其中一个为控制端。对于NMOS管而言，当控制端为0时，另两个端口断开；当控制端为1时，另两个端口闭合。"],
+                                    ["PMOS", "对于PMOS管而言，当控制端为0时，另两个端口闭合；当控制端为1时，另两个端口断开，因此，新创中的晶体管不具备放大特性，更加类似于继电器，能够通过控制端的电位高低来控制线路的开闭"],
+                                    ["运算放大器Ⅰ", "运算放大器，简称运放，常用于模拟电路中，新创电路系统中的运算放大器经过简化，仅具有两个输入端与一个输出端。运算放大器会将两个输入端的电位作差，并乘以一定的系数，最终成为输出电压，即Vout = A(V+ - V-) 。其中，A 即为与差值相乘的系数，称为开环差动增益。新创电路系统中的运算放大器的开环差动增益为 1000，且输出电压被限制在 -10V 与 10V 之间，运算放大器具有多种用途，可以作为比较器使用，也可以应用于模拟运算电路中。与现实不同，由于新创电路系统进行的是离散化的逐帧运算，因此高增益的运算放大器的输出电压往往会无法收敛到固定的值"],
+                                    ["运算放大器Ⅱ", "这是运算放大器的第二种材质，输出电压具有缓冲机制，无法突变（也就是说，输出电压每帧的变化量会受到限制"],
+                                    ["0.1s延时器", "具有一个输入端与一个输出端，可以将输入信号在延迟0.1s后输出"],
+                                    ["0.5s延时器", "具有一个输入端与一个输出端，可以将输入信号在延迟0.5s后输出"]
+                                ],
+                                [
+                                    ["接口", "接口与导线类似，能够起到连通电路各部分的作用，且内阻均为 0Ω。而区别在于，导线仅能够根据部件间的连接情况来形成固有电路连接；接口既能够形成固有电路连接，也能够通过接口与接口间的空间接触来形成动态电路连接"],
+                                    ["电磁接口", "可受到安培力作用，而普通接口不能"],
+                                    ["无线输电器Ⅰ", "无线输电器能够远距离地传递电路信号，可视为一种能够无线连接的具有内阻的导线。无线输电器具有一个端口。此为发送器，每个发送器可连接多个接收器，而每个接收器只会连接与其距离最近的一个发送器，无线输电器具有传输距离限制（16m），且距离越长电阻越大"],
+                                    ["无线输电器Ⅱ", "无线输电器能够远距离地传递电路信号，可视为一种能够无线连接的具有内阻的导线。无线输电器具有一个端口。此为接送器，每个发送器可连接多个接收器，而每个接收器只会连接与其距离最近的一个发送器，无线输电器具有传输距离限制（16m），且距离越长电阻越大"],
+                                    ["点电荷", "点电荷具有正负两种分类，可单击切换。电荷量分别为 20C 与 -20C。点电荷无端口，不连接于常规电路中。点电荷与点电荷间将产生静电力（即库仑力），静电力公式为F=k*q₁*q₂/r²电容 ，其中 k 为静电力常数，q1与 q2分别为两个点电荷的电荷量，r 为两个点电荷间的距离。与现实不同，新创电路系统中的 k 值仅取1.5，以避免点电荷间的静电力过于巨大"],
+                                    ["电场生成器", "电场生成器可以生成一个半径 8m 的圆形电场。在半径 4m 范围内，该电场为匀强电场；在半径4m~8m 范围内，该电场的电场强度将随距离衰减。电场生成器无端口，不连接于常规电路中。在电场中的点电荷会受到电场力的作用，电场力公式为 F=Eq ，其中 E 为对应位置的电场强度，q为点电荷的电荷量"],
+                                    ["磁场生成器", "磁场生成器的磁场范围以及磁感应强度衰减同电场生成器，同样无端口。在磁场中的点电荷会受到洛伦兹力的作用（洛伦兹力公式为F=Bvq；B：对应位置的磁感应强度，v ：点电荷与磁场间的相对速度，q：点电荷的电荷量）。在磁场中的带电导线会受到安培力的作用（安培力公式为F=BIL；B：对应位置的磁感应强度，I：导线的电流强度，L：导线在与磁场相垂直的方向上的投影距离）。洛伦兹力和安培力的方向均可通过左手定则确定。（左手定则的具体内容可查阅相关资料）"],
+                                    ["部件触发器", "部件触发器可以通过输入的电信号来控制部件的开闭。部件触发器具有一个输入端，且输入端需具备有效的电位值"],
+                                    ["压力传感器", "压力传感器，即压敏电阻，是一类特殊的电阻，其阻值会随着压力的变化而变化。压力传感器具有两个端口。压力传感器的电阻 R 与其所受压力 F的关系为 R=min(500/F,10000) 。也就是说，其阻值在一定范围内与压力成反比，且最大阻值为 10000Ω"],
+                                    ["数字显示器", "数字显示器能够显示一个十六进制字符。数字显示器具有四个输入端，且每个输入端需具备有效的电位值。数字显示器的四个输入端共同构成了一个四位二进制数，也就相当于一个一位十六进制数，位于0~15之间"]
+                                ]
+                            ]
+                        },
+                        te46: {
+                            name: "定时炸弹",
+                            value: [
+                                [
+                                    ["定时炸弹", " 可增强部件之间的连接，无框定时炸弹可四向连接，带框定时炸弹可双向连接"]
+                                ]
+                            ]
+                        }
+                    }
+
+                    var thingnamearray = [];
+                    for (var i = 0; i < dgbycn("skint").length; i++) {
+                        thingnamearray.push(dgbycn("skint")[i].dataset.name)
+                    }
+                    //logs(thingnamearray[1])
+                    try {
+                        //logs(Object.values(tn)[0].value[0][0][0])
+                        //value[0][0][0] 0星 第0+1个部件 名字
+                        for (var i = 0, i1 = 0, i2 = 0;;) {
+                            //logs(i+","+i1+","+i2+";")
+                            if (dgbycn("skint")[thingnamearray.indexOf(Object.values(tn)[i].name)].children[i1].children[i2] != undefined) {
+                                dgbycn("skint")[thingnamearray.indexOf(Object.values(tn)[i].name)].children[i1].children[i2].title = Object.values(tn)[i].value[i1][i2][0];
+                                dgbycn("skint")[thingnamearray.indexOf(Object.values(tn)[i].name)].children[i1].children[i2].dataset.bsContent = Object.values(tn)[i].value[i1][i2][1];
+                            } else {
+                                logs("error:" + Object.values(tn)[i].name + "," + i1 + "," + i2)
+                            }
+                            if (i2 < Object.values(tn)[i].value[i1].length - 1) {
+                                i2++
+                                continue
+                            }
+                            if (i1 < Object.values(tn)[i].value.length - 1) {
+                                i1++;
+                                i2 = 0
+                                continue
+                            }
+                            if (i < Object.values(tn).length - 1) {
+                                i++;
+                                i1 = 0;
+                                i2 = 0
+                            } else {
+                                tn = null;
+                                break;
+                            }
+                        }
+                    } catch (e) {
+                        logs(e)
+                    }
+
+                    //<<<<   载入提示框
+                    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+                    var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+                        return new bootstrap.Popover(popoverTriggerEl);
+                    })
+                    //>>>>
+
+
+                    /*
+                    提取
+                    try{
+                    for(var i=0,j="<span style='font-size:4px'>";i<dqsa(".skint").length;i++){
+                      j+="te"+i+":{name:\""+dqsa(".skint")[i].dataset.name+"\",value:[";
+                      for(var i1=0;i1<dqsa(".skint")[i].querySelectorAll(".star0,.star1,.star2,.star3").length;i1++){
+                        j+="["
+                        for(var i2=0;i2<dqsa(".skint")[i].querySelectorAll(".star0,.star1,.star2,.star3")[i1].querySelectorAll(".skin").length;i2++){
+                          let texts=window.getComputedStyle(dqsa(".skint")[i].querySelectorAll(".star0,.star1,.star2,.star3")[i1].querySelectorAll(".skin .texture")[i2],null);
+                          let rereg=/"/g;
+                          j+="[\""+texts.getPropertyValue("background-image").replace(rereg, "")+"\","+texts.getPropertyValue("--spx")+","+texts.getPropertyValue("--spy")+","+texts.getPropertyValue("--spw")+","+texts.getPropertyValue("--sph")+"]";
+                          if(i2!==dqsa(".skint")[i].querySelectorAll(".star0,.star1,.star2,.star3")[i1].querySelectorAll(".skin").length-1){
+                          j+=","
+                          }
+                        }
+                        j+="]"
+                        if(i1!==dqsa(".skint")[i].querySelectorAll(".star0,.star1,.star2,.star3").length-1){
+                        j+=","
+                        }else{
+                        j+=",["
+                        for(var i2=0;i2<dqsa(".skint")[i].querySelectorAll(".star0,.star1,.star2,.star3")[i1].querySelectorAll(".super").length;i2++){
+                          let texts=window.getComputedStyle(dqsa(".skint")[i].querySelectorAll(".star0,.star1,.star2,.star3")[i1].querySelectorAll(".super .texture")[i2],null);
+                          let rereg=/"/g;
+                          j+="[\""+texts.getPropertyValue("background-image").replace(rereg, "")+"\","+texts.getPropertyValue("--spx")+","+texts.getPropertyValue("--spy")+","+texts.getPropertyValue("--spw")+","+texts.getPropertyValue("--sph")+"]";
+                          if(i2!==dqsa(".skint")[i].querySelectorAll(".star0,.star1,.star2,.star3")[i1].querySelectorAll(".super").length-1){
+                          j+=","
+                          }
+                        }
+                        j+="]"
+                        }
+                      }
+                      j+="]}";
+                      if(i==dqsa(".skint").length-1){
+                      
+                      }else{
+                      j+=","
+                      }
+                    }
+                    }catch(e){alert(e)}
+                    window.onload=function(){document.write(j+"</span>")}
+                    */
+
+
+                    dqsa(".skinscroll")[0].addEventListener('scroll', function() {
+                        var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+                        console.log(scrollTop);
+                    })
+                </script>
+
+                <script>
+                    //全屏
+                    function txbfs(ischecked) {
+                        if (ischecked) {
+                            if (document.documentElement.RequestFullScreen) {
+                                document.documentElement.RequestFullScreen();
+                            }
+                            if (document.documentElement.mozRequestFullScreen) {
+                                document.documentElement.mozRequestFullScreen();
+                            }
+                            if (document.documentElement.webkitRequestFullScreen) {
+                                document.documentElement.webkitRequestFullScreen();
+                            }
+                            if (document.documentElement.msRequestFullscreen) {
+                                document.documentElement.msRequestFullscreen();
+                            }
+                        } else {
+                            if (document.exitFullScreen) {
+                                document.exitFullscreen()
+                            }
+                            if (document.mozCancelFullScreen) {
+                                document.mozCancelFullScreen()
+                            }
+                            if (document.webkitExitFullscreen) {
+                                document.webkitExitFullscreen()
+                            }
+                            if (document.msExitFullscreen) {
+                                document.msExitFullscreen()
+                            }
+                        }
+                    }
+                </script>
+                
+                <script>
+                    function openWorld(){
+                        let win = window.open("", "bp test world", "fullscreen");
+                        let doc = win.document;
+                        
+                        window.owht=(function(){
+                            if(window.owht){
+                                return window.owht;
+                            }else{
+                                let xhr=new XMLHttpRequest();
+                                  xhr.open("GET","/other/world.html",false);
+                                  xhr.send();
+                                  return xhr.responseText;
+                            }
+                        })();
+                        doc.write(window.owht);
+                        doc.close();
+                    }
+                </script>
+                <script>
+                    (function() {
+                        const loadtext = document.querySelector('').innerHTML;
+                        const btn = document.querySelector('button');
+                        let iframe, frameWin, frameDoc, frameBody;
+                        window.onload = function() {
+                            iframe = document.createElement('iframe');
+                            document.body.appendChild(iframe);
+                            iframe.style.cssText = 'width: 100%; height: ' + offsetHeight +';';
+                            iframe.onload = function() {
+                                frameWin = document.querySelector('iframe').contentWindow;
+                                frameDoc = frameWin.document;
+                                frameBody = frameDoc.body;
+                                frameBody.innerHTML = loadtext;
+                            }
+                        }
+                    })();
+
+
+                </script>
+<script src="/js/darkmode.js"></script>
+
+
+
+    </body>
+
+    </html>

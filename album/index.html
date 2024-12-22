@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/dialog.css" />
+    <link rel="stylesheet" href="/css/topbar.css" />
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>相册-猪吧维基BPLEWiki</title>
+    <style>
+
+        .block {
+            position: relative;
+            width: 80%;
+            height: 100px;
+            padding: 5px;
+            margin: 0 auto;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            background-color: white;
+            border-left: 10px solid #a2ffa2;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .block:active {
+            border-left: 10px solid #80DD80;
+        }
+
+        h2 {
+            margin: 0;
+            margin-top: 20px;
+            font-size: 30px;
+            opacity: 0.8;
+        }
+
+        .block p {
+            position: absolute;
+            font-size: 60px;
+            font-weight: 900;
+            font-style: italic;
+            top: -25px;
+            opacity: 0.2;
+        }
+
+        .space {
+            position: absolute;
+            top: 700px;
+            width: 1px;
+            height: 40px;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        }
+
+        .operation {
+            margin: 0 auto;
+        }
+
+        .category {
+            width: 80%;
+            height: 40px;
+            margin: 0 auto;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border-top: 5px solid lightgreen;
+            border-radius: 5px;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .category:active {
+            border-top: 5px solid #80DD80;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="back">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>星舰</h2>
+            <div class="operation starship">
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>陆载</h2>
+            <div class="operation">
+
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>机甲</h2>
+            <div class="operation">
+
+            </div>
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>水域</h2>
+            <div class="operation">
+
+            </div>
+        </div>
+    </div>
+    <h1>相册</h1>
+    <div class="block edit-button">
+        <h2>星舰</h2>
+        <p>Starship</p>
+    </div>
+    <div class="block edit-button">
+        <h2>陆载</h2>
+        <p>LandVehicle</p>
+    </div>
+    <div class="block edit-button">
+        <h2>机甲</h2>
+        <p>Mecha</p>
+    </div>
+    <div class="block edit-button">
+        <h2>水域</h2>
+        <p>WaterArea</p>
+    </div>
+    <div class="space"></div>
+    <script src="/js/dialog.js"></script>
+<script src="/js/darkmode.js"></script>
+    <script>
+        //返回按钮
+        document.getElementById('back').addEventListener('click', function() {
+            history.back();
+        }, true)
+
+        let starshipName = ["护卫级星舰","星空母舰类","领袖级星舰","EX级星舰","驱逐级星舰","巡洋级星舰","星舰全家福","战列级星舰"]
+        let link = ["escortClass","spaceCarrierClass","flagShipClass","exClass","destroyerClass","cruiserClass","collection","battleshipClass"]
+        let starship = document.querySelector(`.starship`)
+        //遍历数组，将星舰分类依次打印到页面中
+        for (let i = 0; i < starshipName.length; i++) {
+            starship.innerHTML += `
+         <a href="starship.html?${link[i]}">
+             <div class="category">
+                    <p>${starshipName[i]}</p>
+             </div>
+         </a>
+        `
+        }
+    </script>
+</body>
+
+</html>

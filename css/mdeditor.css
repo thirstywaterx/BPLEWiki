@@ -1,0 +1,50 @@
+.textarea-parent {
+    position:relative;
+    --width:88%;
+}
+.textarea-parent textarea {
+    max-width: var(--width);
+    margin-top: 20px;
+    min-height: 500px;
+}
+.textarea-parent .textarea-length {
+    position: absolute;
+    top:10px;
+    right:calc((100% - var(--width))*0.25 + 10px);
+    border-radius: 2px;
+    background: #aaa;
+    opacity: 60%;
+    color: #fff;
+}
+.textarea-parent .textarea-length:hover{
+    display:none;
+}
+.tool-font {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    text-align: center;
+    background-color: white !important;
+    box-shadow: 4px 3px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    font-size: 120%;
+}
+.tool-font i {
+    vertical-align: middle;
+}
+.tool-font i:active {
+    color: green;
+}
+body.dark-mode .tool-font i {
+color:black !important;
+}
+body.dark-mode .tool-font{
+color:black !important;
+}
+span.tool-font:active {
+    color: green;
+}

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="https://www.bplewiki.top/bottom_bar.css">
+    <link rel="stylesheet" type="text/css" href="/css/dialog-choose.css">
+    <link rel="stylesheet" href="https://www.bplewiki.top/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.bplewiki.top/css/darkmode.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>我的账户-猪吧维基BPLEWiki</title>
+    <style>
+        body {
+            background-color: #FAFAFC;
+        }
+
+        .cricle {
+            position: absolute;
+            border: 1px solid white;
+            top: 38%;
+            left: 10px;
+            transform: translateY(-50%);
+            width: 83.33px;
+            height: 83.33px;
+            border-radius: 1000px;
+            background: url('https://www.bplewiki.top/img/logo.png') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .bottom_block {
+            position: relative;
+            box-sizing: border-box;
+            width: 300px;
+            height: 40px;
+            background-color: white;
+            padding: 16.66px;
+            border: 0;
+            left: 50%;
+            transform: translate(-50%);
+            border-radius: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .webfont {
+            text-align: center;
+            display: flex； align-items: center； justify-content: center； transform: translateY(-50%);
+            font-size: 133.33%;
+            flex: 1;
+        }
+
+        s-ripple {
+            border-radius: 10px;
+            padding-top: 2px;
+        }
+
+        .mine {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+            width: 320px;
+            height: 80px;
+            background-color: white;
+            font-size: 233.33%;
+            margin-top: 20px;
+            text-align: center;
+            display: flex;
+            justify-content: space-around;
+            /* 保持横向排列 */
+            align-items: center;
+            border-radius: 5px;
+            flex-wrap: nowrap;
+            /* 初始状态下不换行 */
+        }
+
+        .mine a {
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            color: #444746;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+            /* 防止文字换行 */
+        }
+
+        .mine i {
+            margin-right: 8px;
+            /* 调整图标与文字之间的间距 */
+        }
+
+        .mine i {
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 0;
+        }
+
+        .fa-solid:active:not(.fa-plus) {
+            color: green;
+        }
+
+        a {
+            -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            -webkit-user-select: none;
+            -moz-user-focus: none;
+            -moz-user-select: none;
+            color: #484F55;
+            text-decoration-line: none;
+        }
+
+        .space {
+            width: 1px;
+            height: 150px;
+        }
+
+        s-card {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+            min-width: 100%;
+            border-radius: 0;
+            background-color: #FAFAFC;
+            min-height: 254px;
+        }
+
+        .image-border {
+            overflow: hidden;
+        }
+
+        #nickname {
+            margin-left: 15px;
+        }
+
+        s-card .background {
+            width: 100%;
+            opacity: 0.8;
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+            border: 0;
+        }
+
+        #nickname.dark-mode {
+            color:white;
+        }
+
+        @media (min-width: 768px) {
+            .cricle {
+                left: 50px;
+            }
+
+            #nickname {
+                margin-left: 55px;
+            }
+
+            .background {
+                position: relative;
+                transform: translateY(-8%);
+            }
+
+            .mine {
+                width: 150px;
+                height: 180px;
+                flex-wrap: wrap;
+                /* 允许换行，每行两个图标 */
+                padding-left: 25px;
+                left: 150px;
+            }
+
+            .mine a {
+                width: 50%;
+                /* 每行两个元素 */
+                height: 50%;
+                flex-direction: row;
+                /* 保持图标和文字水平排列 */
+                justify-content: center;
+                align-items: center;
+            }
+
+            .mine i {
+                margin-right: 5px;
+                /* 让图标与文字保持水平间距 */
+            }
+
+            .bottom_block {
+                position: relative;
+                left: 65%;
+                transform: translateY(-500%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <body>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>创建</h2>
+                <div class="operation">
+                    <a class="choose" href="article/create.html"><i class="fa-solid fa-file-lines" style="color: #ffdc2c;"></i>新建文章</a>
+                    <hr>
+                    <a class="choose" href="workshop/create.html"><i class="fa-solid fa-wrench" style="color: #5c009a;"></i>上传创意工坊物品</a>
+                    <hr>
+                    <a class="choose" href="#"><i class="fa-solid fa-signs-post" style="color: #b96200;"></i>发布帖子</a>
+                </div>
+            </div>
+        </div>
+
+        <s-card clickable="true">
+            <div slot="image" class="image-border">
+                <img class="background" src="https://www.bplewiki.top/img/logo.png"></img>
+            </div>
+            <div class="cricle"> </div>
+            <div slot="headline" id="nickname"><p>暂未登录</p></div>
+            <s-button slot="action" onclick="javascript:window.open(`https://www.bplewiki.top/signup.html`)" type="filled-tonal">注册</s-button>
+            <s-button slot="action" onclick="javascript:window.open(`https://www.bplewiki.top/signin.html`)">登录</s-button>
+        </s-card>
+
+        <div class="mine">
+            <s-ripple>
+                <a href="/account/message.html" style="color:#444746;;flex: 1;"><i class="fa-solid fa-envelope">
+                        <p style="font-size:22.66%;margin:7px;">我的信息</p>
+                    </i></a>
+            </s-ripple>
+            <s-ripple>
+                <a href="/account/history.html" style="color:#444746;;flex: 1;"><i class="fa-solid fa-clock-rotate-left">
+                        <p style="font-size:22.66%;margin:7px;">历史记录</p>
+                    </i></a>
+            </s-ripple>
+            <s-ripple>
+                <a href="/account/article.html" style="color:#444746;;flex: 1;"><i class="fa-solid fa-file-lines">
+                        <p style="font-size:22.66%;margin:7px;">我的文章</p>
+                    </i></a>
+            </s-ripple>
+            <s-ripple>
+                <a href="#" style="color:#444746;;flex: 1;">
+                    <i class="fa-solid fa-wrench" style="flex: 1;color: #444746;;">
+                        <p style="font-size:22.66%;margin:7px;">我的工坊</p>
+                    </i>
+                </a>
+            </s-ripple>
+        </div>
+
+        <div class="bottom_block">
+            <div class="webfont"> <a href="setting.html" style="color:black;"><i class="fa-solid fa-gear"></i></a></div>
+            <div class="webfont"><a href="service.html" style="color:black;"><i class="fa-solid fa-headphones"></i></a></div>
+            <div class="webfont" id="exit"><a href="javascript:void(0)" style="color:black;"><i class="fa-solid fa-right-from-bracket"></i></a></div>
+        </div>
+
+        <div class="space"></div>
+
+        <div class="bottom-rec">
+            <div class="homepage_ico button">
+                <a href="index.html"><i class="fa-solid fa-house"></i></a>
+            </div>
+            <div class="chat_ico button">
+                <a href="forum.html""><i class=" fa-solid fa-comment"></i></a>
+            </div>
+            <div class="plus button edit-button">
+                <span class="fa-stack fa-2x">
+                    <div class="plusbtn">
+                        <i class="fa-solid fa-plus fa-stack-1x"></i>
+                    </div>
+                </span>
+            </div>
+            <div class="list button">
+                <a href="function.html"><i class=" fa-solid fa-list"></i></a>
+            </div>
+            <div class="user button">
+                <i class="fa-solid fa-user" style="color:green;"></i>
+            </div>
+        </div>
+        <script src="/js/ajax.js"></script>
+        <script src="/js/dialog.js"></script>
+        <script src="/js/darkmode.js"></script>
+        <script src="/js/usersign.js?v=0.1.1"></script>
+        <script type="module" src="https://unpkg.com/sober/dist/main.js"></script>
+
+        <script>
+            usersign.use(true,true).then(function(u) {
+                if (typeof u.data.id !== "undefined") {
+document.querySelector('#nickname').innerText = i.nickname || u.uid;
+                    // 通过查询选择器获取所有的 s-button 标签
+                    let buttons = document.querySelectorAll('s-button');
+
+                    // 遍历每个 s-button 标签并设置 display 属性为 none
+                    buttons.forEach(button => {
+                        button.style.display = 'none';
+                    });
+                    dqsa("#exit")[0].onclick = function() {
+                        if (window.confirm("退出登录？")) {
+                            //document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+                            localStorage.removeItem('articleHistory'); // 清除本地存储中的历史记录
+                            localStorage.removeItem('collect');
+                            buttons.forEach(button => {
+                                button.style.display = 'block';
+                            });
+                            ajax({
+                                url: "/php/user/deletecookie.php",
+                                method: "POST",
+                                success: () => {
+                                    location.reload();
+                                }
+                            });
+                        }
+                    }
+                }else{
+                    console.log(u.data.message);
+                }
+            });
+
+            function dqsa(qsqs, first) {
+                if (first) {
+                    return document.querySelector(qsqs);
+                } else {
+                    return document.querySelectorAll(qsqs);
+                }
+            }
+        </script>
+    </body>
+
+</html>

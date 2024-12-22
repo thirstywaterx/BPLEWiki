@@ -1,0 +1,266 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" href="/css/mdeditor.css" />
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>修改文章-猪吧维基BPLEWiki</title>
+    <style>
+        body {
+            margin-top: 60px;
+        }
+
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .title {
+            width: 90%;
+            height: 20px;
+            margin-bottom: 20px;
+
+        }
+
+        .content {
+            width: 90%;
+            min-height: 800px !important;
+            margin-bottom: 20px;
+        }
+
+        .input {
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+            padding: 10px;
+        }
+
+        .input:focus {
+            outline: 2px solid lightgreen;
+        }
+
+        .submit {
+            width: 60px;
+            height: 30px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 2px;
+            color: black;
+            background-color: lightgreen;
+            font-size: 110%;
+        }
+
+        .submit:active {
+            background-color: #80DD80;
+        }
+
+        .bottom {
+            position: relative;
+            flex-direction: row;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        a {
+            color: lightgreen;
+            text-decoration-line: none;
+        }
+
+        .operation-area {
+            width: 80%;
+            min-height: 80px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 2px;
+            background-color: #f6f6f6;
+        }
+
+        .link {
+            width: 250px;
+        }
+
+        .submit-center {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="../img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <div>
+        <h1>修改文章</h1>
+        <input class="title center input" maxlength="30" placeholder="标题">
+        <input class="title center input" placeholder="封面链接">
+        <div class="operation-area center">
+        </div>
+        <div class="textarea-parent">
+            <div class="textarea-length" data-max="60000">0</div>
+            <textarea class="content center input" placeholder="内容(markdown语法)" style="height:400px"></textarea>
+        </div>
+        <div class="bottom">
+            <input type="submit" class="submit" onclick="run()" value="提交">
+            <a href="index.html?id=17">写作指导</a>
+        </div>
+        <div id="notice"></div>
+    </div>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/mdeditor.js?v=0.0.3"></script>
+<script src="/js/darkmode.js"></script>
+    <script>
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+
+    </script>
+    <script>
+        var wait = true;
+
+        var GETs = (function() {
+            var url = window.document.location.href.toString();
+            var u = url.split("?");
+            if (typeof(u[1]) == "string") {
+                u = u[1].split("&");
+                var get = {};
+                for (var i in u) {
+                    var j = u[i].split("=");
+                    get[j[0]] = j[1];
+                }
+                return get;
+            } else {
+                return {};
+            }
+        })(); //get对象
+        //url:"article.php?id="+GETs.id,
+
+        ajax({
+            url: "/php/user/issignin.php?getinfo=1",
+            method: "POST",
+            success: function(r) {
+                let i = JSON.parse(r);
+                if (!i.success) {
+                    window.open("../signin.html", "_self");
+                } else {
+
+                    dqsa("#notice", 1).innerHTML = `已登录，正在检测编辑权限`;
+
+                    ajax({
+                        url: "article.php",
+                        method: "POST",
+                        send: "id=" + GETs.id,
+                        success: function(rr) {
+                            let ii = JSON.parse(rr);
+                            if (Number(ii.user) === Number(i.user.id)) {
+                                dqsa("input", 1).value = ii.title;
+                                dqsa("input")[1].value = ii.cover;
+                                dqsa("textarea", 1).value = ii.content;
+                                //载入markdown编辑器
+                                mdeditor.create(dqsa(".operation-area",1),dqsa(".content",1),ii.content,true);
+                                mdeditor.loadbtn();
+                                mdeditor.map(mdeditor.clearevent);
+                                dqsa("input", 1).readOnly = false;
+                                dqsa("textarea", 1).readOnly = false;
+                                wait = false;
+                                dqsa("#notice", 1).innerHTML = `可以开始编辑`;
+                            } else {
+                                dqsa("#notice", 1).innerHTML = `该账号无权编辑该文章(${ii.user}，${i.user.id})`;
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
+
+        function run() {
+            if (!wait) {
+
+                if (dqsa("input")[0].value.length < 2) {
+                    alert("标题最少2个字");
+                    return;
+                }
+                if (dqsa("textarea")[0].value.length < 5) {
+                    alert("内容最少5个字");
+                    return;
+                }
+                
+                if (!dqsa("input")[1].value.trim()) {
+            dqsa("input")[1].value = "/img/preview.svg";
+        }
+
+                wait = true;
+                let fd = new FormData();
+                fd.append("title", dqsa("input")[0].value);
+                fd.append("cover", dqsa("input")[1].value);
+                fd.append("content", dqsa("textarea")[0].value);
+                fd.append("aid", GETs.id);
+                dqsa("#notice", 1).innerHTML = `正在提交请求`;
+                ajax_formdata({
+                    url: "/php/article/revise.php",
+                    method: "POST",
+                    send: fd, //`title=${dqsa("input")[0].value}&content=${dqsa("textarea")[0].value}&cover=${dqsa("input")[1].value}&aid=${GETs.id}`
+                    success: function(r) {
+                        wait = false;
+                        let i = JSON.parse(r);
+                        if (i.success) {
+                            dqsa("#notice", 1).innerHTML = ('提交成功')
+                            setTimeout(() => {
+                                window.open(`index.php?id=${GETs.id}&new=true`, "_self")
+                            }, 1000)
+                        } else {
+                            dqsa("#notice", 1).innerHTML = i.notice + " 请重试";
+                        }
+                    }
+                });
+            }
+        }
+
+        function ajax_formdata(options) {
+            let xmlhttp;
+            if (window.XMLHttpRequest) {
+                xmlhttp = new XMLHttpRequest();
+            } else {
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    options.success(this.responseText);
+                }
+            }
+            xmlhttp.open("POST", options.url, true);
+            //xmlhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
+            xmlhttp.send(options.send);
+            return xmlhttp;
+        }
+
+    </script>
+    <script>
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,543 @@
+        p,
+        h1,
+        h2,
+        h3:not(.title),
+        h4,
+        h5,
+        h6 {
+            font-family: sans-serif;
+            word-wrap: break-word;
+        }
+        
+        h1:first-of-type {    
+            font-weight: 400;    /* 设置字体粗细 */    
+        }
+
+        a {
+            text-decoration: none;
+            color: lightgreen;
+        }
+
+        body {
+            margin-top: 60px;
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 100%;
+            padding-bottom: 1000px;
+        }
+        
+        #content * {
+            max-width: 100%;
+        }
+
+        .delete {
+            width: 50px;
+            height: 25px;
+            background-color: red;
+            color: white;
+            font-size: 15px;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .delete:active {
+            background-color: #CC0000;
+        }
+
+        .img-modal img {
+            border-radius: 5px;
+        }
+
+        .search {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            background-color: #c2e7ff;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            align-items: center;
+            /* 垂直居中 */
+            justify-content: center;
+            opacity: 0.9;
+            color: #abb2ba;
+        }
+
+        .fa-magnifying-glass {
+            color: white;
+        }
+
+        .fa-magnifying-glass:active {
+            animation: tilt-hit 0.5s ease forwards;
+        }
+
+
+        @keyframes tilt-hit {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            50% {
+                transform: rotate(-40deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .search-animate {
+            animation: tilt-hit 0.5s ease forwards;
+        }
+
+
+        .slider {
+            border-radius: 4px;
+        }
+
+        .author {
+            width: max-content;
+            height: 40px;
+            background-color: #f6f6f6;
+            margin-top: 20px;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding-right: 10px;
+        }
+
+        .avatar {
+            position: relative;
+            width: 30px;
+            height: 30px;
+            border: 1px solid green;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            margin-left: 5px;
+            float: left;
+        }
+
+        .author p {
+            position: relative;
+            margin-left: 45px;
+            top: 50%;
+            transform: translateY(-60%);
+        }
+
+        .download .fa-download {
+            margin-right: 5px;
+        }
+
+        .bottom-bar {
+            position: fixed;
+            display: flex;
+            flex-direction: row;
+            bottom: 0;
+            left: 0;
+            background-color: #f6f6f6;
+            width: 100%;
+            height: 45px;
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .download {
+            position: relative;
+            background-color: lightgreen;
+            width: 240px;
+            height: 35px;
+            border-radius: 5px;
+            color: white;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: box-shadow 0.1s ease, transform 0.1s ease;
+        }
+
+        .download:active {
+            background-color: #98fb98;
+        }
+
+
+        .fa-circle-question {
+            position: relative;
+            left: 40px;
+            top: 50%;
+            margin-right: 10px;
+            transform: translateY(-25%);
+            font-size: 140%;
+            color: lightgrey;
+        }
+
+        .main-content {
+            width: 600px;
+            min-height: 500px;
+        }
+
+        .comment {
+            width: 320px;
+            height: 400px;
+        }
+
+
+        hr {
+            margin-top: 50px;
+            border: none;
+            width: 95%;
+            height: 1px;
+            background-color: grey;
+        }
+
+
+        .prev,
+        .next {
+            z-index: 0;
+        }
+
+        .desktop-download {
+            display: none;
+        }
+
+
+        .tool-bar {
+            position: relative;
+            background-color: white;
+            float: right;
+            margin-right: 10px;
+            margin-top: 70px;
+            padding: 10px;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.4);
+            width: 75%;
+            height: 40px;
+            border-radius: 30px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+        .tool-bar .fa-solid {
+            margin: 0 auto;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+        .moreOptions {
+            position: relative;
+        }
+
+        .tool-bar .fa-solid:active {
+            color: green;
+        }
+
+        .save-info {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .save-info p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .save-info p strong {
+            font-weight: bold;
+            color: #333;
+        }
+
+        #dialog-download label {
+            display: block;
+            margin: 20px 0 10px;
+            color: #333;
+        }
+
+        #dialog-download select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #dialog-download button {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background-color: lightgreen;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 10px;
+            left: 50%;
+            transform: translate(-50%);
+            margin-top: 35px;
+        }
+
+        #dialog-download button:active {
+            background-color: #32CD32;
+        }
+
+        #numberInput {
+            width: 100px;
+            height: 25px;
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+        }
+
+        #numberInput:focus {
+            outline: 1px solid lightgreen;
+        }
+
+        .submit {
+            width: 50px;
+            height: 25px;
+            background-color: lightgreen;
+            color: white;
+            font-size: 15px;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .submit:active {
+            background-color: #80DD80;
+        }
+
+        .argument {
+            border: none;
+            width: 220px;
+            max-width: 220px;
+            min-height: 200px;
+            border-radius: 2px;
+            background-color: #e9eef6;
+            padding: 10px;
+            margin-bottom: 20px;
+            margin-top: 30px;
+        }
+
+
+        .report-option {
+            padding: 5px 10px;
+            margin-right: 5px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+            border-radius: 5px;
+            user-select: none;
+            display: inline-block;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            /* 添加背景和文字颜色的过渡效果 */
+        }
+
+        .report-option.selected {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .report-option.selected {
+            background-color: #4CAF50;
+            /* 选中后的背景色 */
+            color: white;
+        }
+
+        .comment-container {
+            width: 100%;
+            height: 1000px;
+            /* 调整为您需要的高度 */
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            /* 可选：用于区分评论框 */
+            border-radius: 5px;
+            padding: 10px;
+            background-color: white;
+            padding-top: 20px;
+        }
+
+        .comment-block {
+            margin-left: 0px;
+            width: 90%;
+        }
+
+        #comment .send-comment {
+            width: 106%;
+            min-height: 60px;
+            background-color: white;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.5);
+        }
+        
+        #comment .send-comment .fa-regular:active{
+            color:green;
+        }
+
+#comment .send-comment .fa-solid:active{
+            color:green;
+        }
+
+        #comment .send-comment .inputrow {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 5px;
+        }
+
+        #comment textarea {
+            position: relative;
+            left: 15px;
+            width: 70%;
+            min-height: 50px;
+            max-height: 130px;
+            background-color: #e9eef6;
+            border: none;
+            border-radius: 8px;
+            resize: vertical;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        #comment #send,
+        #comment .openemoji {
+            margin-top: 0;
+            margin-left: 0px;
+            font-size: 18px;
+        }
+
+        #comment .openemoji {
+            margin-left: 20px;
+        }
+
+        #comment #send:active {
+            color: green;
+        }
+
+        #comment div.emoji {
+            overflow: auto;
+            display: none;
+            background-color: #DDDDE2;
+            width: 100%;
+            box-sizing: border-box;
+            height: 140px;
+            padding-left: 4px;
+            padding-right: 2px;
+        }
+
+        #comment span.emoji {
+            display: inline-block;
+            margin: 12px;
+            transform: scale(150%);
+        }
+
+        #comment span.emoji:active {
+            background-color: #f9f9fa;
+            border-radius: 2px;
+        }
+
+
+        @media (min-width: 768px) {
+            body {
+                flex-direction: row;
+                /* 横向布局 */
+                justify-content: space-between;
+                /* 分散对齐 */
+                padding: 50px;
+            }
+
+            .info {
+                width: 70%;
+                margin: 0 auto;
+            }
+
+            .main-content {
+                width: calc(65% - 20px);
+                margin: 10px;
+                padding: 0px;
+            }
+
+            .comment {
+                width: calc(35% - 20px);
+                margin: 10px;
+            }
+
+            h2 {
+                margin-top: 0px;
+            }
+
+            hr {
+                display: none;
+            }
+
+            .bottom-bar {
+                display: none;
+            }
+
+
+            .bottom-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+            }
+
+            .desktop-download {
+                position: relative;
+                top: 35px;
+                display: block;
+                width: 50px;
+                height: 40px;
+                background-color: white;
+                box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .desktop-download:active {
+                color: green;
+            }
+
+        }
+        
+        .hljs {
+            background-color: #282C34;
+            color: #ABB2BF;
+            border-radius: 5px;
+        }
+
+        /* for block of numbers */
+        .hljs-ln-numbers {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+
+            text-align: center;
+            color: #ccc;
+            border-right: 1px solid #CCC;
+            vertical-align: top;
+            padding-right: 5px;
+        }
+
+        .hljs-ln-code {
+            position:relative;
+            left:6px;
+        }
+        
+        .hljs-ln-n {
+            margin-right:6px;
+        }

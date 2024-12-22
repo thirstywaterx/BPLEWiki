@@ -1,0 +1,52 @@
+.img-modal {
+    display: none;
+    /* 默认隐藏*/
+    position: fixed;
+    /* 固定位置*/
+    z-index: 1;
+    /* 坐落在顶层*/
+    padding-top: 100px;
+    /* 位置*/
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* 全宽*/
+    height: 100%;
+    /* 全高*/
+    overflow: auto;
+    /* 启用滚动条*/
+    background-color: rgb(0, 0, 0);
+    /* 背景色*/
+    background-color: rgba(0, 0, 0, 0.9);
+    /* 黑色 w/ opacity*/
+    z-index:10;
+    }
+/* 弹窗内的图片*/
+/* 弹窗内的图片*/
+.modal-img-content {
+    margin: auto;
+    display: block;
+    width: auto;
+    /* 宽度自适应*/
+    max-width: 80%;
+    /* 最大宽度不超过容器宽度*/
+    height: auto;
+    /* 高度自适应*/
+    max-height: 80vh;
+    /* 最大高度不超过视窗高度的80%*/
+     }
+/* 关闭按钮*/
+.close {
+    position: absolute;
+    top: 45px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.close:hover, .close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/topbar.css" />
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>友情链接-猪吧维基BPLEWiki</title>
+    <style>
+        /* 新增的flexbox样式 */
+        .person-container {
+            display: flex;
+            justify-content: space-around;
+            /* 两个.person div之间均匀分布空间 */
+            flex-wrap: wrap;
+            /* 允许项目换行 */
+        }
+
+        p {
+            margin-top: 2px;
+            margin-bottom: 2px;
+            word-wrap: break-word;
+        }
+
+        li a {
+            color: lightgreen;
+            text-decoration-line: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <h1>友情链接</h1>
+    <div>
+<li><a href="https://blog.4qb.cn">小职博客</a></li>
+<li><a href="https://www.luoca.net/">雒收录</a></li>
+<li><a href="https://lucdn.cn/">语鹿云盾CDN</a></li>
+    </div>
+
+<script src="/js/darkmode.js"></script>
+    <script>        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,512 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name='description' content='想成为猪吧维基BPLEWiki的一员吗？想去撰写文章吗？想让别人知道你对捣蛋猪的热爱吗？那就来猪吧维基注册一个账户吧！'>
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!-- <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script> -->
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon">
+    <!-- <script type="text/javascript" src="email_send.json"></script> -->
+    <title>注册-猪吧维基BPLEWiki</title>
+    <style>
+        h1 {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+            font-size: 100%;
+        }
+
+        img {
+            position: absolute;
+            left: 50%;
+            top: -35px;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 60px;
+        }
+
+        .block {
+            position: absolute;
+            width: 280px;
+            height: 420px;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 10px;
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5)
+        }
+
+        .greenblk {
+            margin: 0 auto;
+            width: 100px;
+            height: 5px;
+            border-radius: 10px;
+            background-color: green;
+        }
+
+        #username {
+            position: absolute;
+            width: 150px;
+            height: 25px;
+            top: 55px;
+            left: 50%;
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+            transform: translate(-40%);
+        }
+
+        #psw {
+            position: absolute;
+            width: 150px;
+            height: 25px;
+            top: 150px;
+            left: 50%;
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+            transform: translate(-40%);
+        }
+
+        #mail {
+            position: absolute;
+            width: 150px;
+            height: 25px;
+            top: 100px;
+            left: 50%;
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+            transform: translate(-40%);
+        }
+
+        #nickname {
+            position: absolute;
+            width: 150px;
+            height: 25px;
+            top: 145px;
+            left: 50%;
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+            transform: translate(-40%);
+        }
+
+        input:read-only {
+            background-color: #c9ced6 !important;
+        }
+
+
+        .font {
+            position: absolute;
+            left: 45px;
+            transform: translateY(25%);
+        }
+
+        .font_user {
+            top: 55px;
+        }
+
+        .font_mail {
+            top: 100px;
+        }
+
+        .font_nick {
+            top: 150px;
+            transform: translate(-18%);
+        }
+
+        .font_psw {
+            top: 150px;
+        }
+
+        .font_safe {
+            top: 200px;
+        }
+
+        #submit {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            left: 50%;
+            top: 340px;
+            border: none;
+            border-radius: 2px;
+            background-color: lightgreen;
+            font-size: 110%;
+            transform: translate(-50%);
+        }
+
+        #submit:active {
+            background-color: #80DD80;
+        }
+
+        .signup {
+            position: absolute;
+            bottom: 3px;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        .signup p {
+            font-size: 80%;
+        }
+
+        a {
+            color: lightgreen;
+            text-decoration-line: none;
+        }
+
+        #vcode {
+            position: absolute;
+            color: #757575;
+            top: 5px;
+            height: 25px;
+            width: 75px;
+            border-radius: 2px;
+            border: none;
+            background-color: #e9eef6;
+            transform: translate(-72%);
+        }
+
+        #send {
+            position: absolute;
+            width: 45px;
+            height: 27px;
+            top: 5px;
+            left: 70px;
+            color: green;
+            /*字体颜色绿色*/
+            font-size: 10%;
+            background-color: lightgreen;
+            padding-left: 5px;
+            font-size: 120%;
+            font-family: "华康娃娃体W5";
+            cursor: pointer;
+            transform: translate(-60%);
+            border-radius: 2px;
+            border: none;
+        }
+
+
+        #search_pass_link {
+            width: 70%;
+            text-align: right;
+            margin: 0 auto;
+            padding: 5px;
+        }
+
+        .btns {
+            width: 30%;
+            margin-left: 13%;
+            height: 40px;
+            border: 0;
+            font-size: 14pt;
+            font-family;
+            "微软雅黑";
+            background-color: #FC5628;
+            color: #ffffff;
+            cursor: pointer;
+            /*设置指针鼠标的样式*/
+            border-radius: 20px;
+            /*设置圆角样式*/
+            border: 0;
+        }
+
+        #send,
+        #vcode,
+        .fa-shield {
+            display: none;
+        }
+
+        .verify {
+            position: absolute;
+            left: 50%;
+            top: 195px;
+            transform: translate(-50%);
+        }
+
+        #exit {
+            position: absolute;
+            font-size: 80%;
+            top: 235px;
+            left: 78px;
+            color: lightgreen;
+        }
+
+        .agree {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+            bottom: 90px;
+            font-size: 8px;
+        }
+
+        #agree {
+            position: relative;
+            width: 10px;
+            top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="block">
+        <a href="index.html"><img src="img/logo_with_title.jpg"></a>
+        <h1>注册 <a href="javascript:void(0)" style="color:lightgrey;" onclick="alert('请先输入您的账号，密码与邮箱，输入完毕后点击继续，再点击发送按钮以发送验证码到您的邮箱，如未收到验证码请检查垃圾箱。')"><i class="fa-solid fa-question"></i></a></h1>
+        <div class="greenblk"></div>
+        <i class="fa-solid fa-user font_user font"></i><input type="text" id="username" name="username" placeholder="请在此键入账号" maxlength="16" readonly>
+        <i class="fa-solid fa-envelope font_mail font"></i><input type="email" id="mail" name="mail" placeholder="请在此键入邮箱" readonly>
+        <i class="fa-solid fa-lock font_psw font"></i><input type="password" id="psw" name="psw" placeholder="请在此键入密码" maxlength="18" readonly>
+        <i class="fa-solid fa-shield font_safe font"></i>
+        <div class="verify">
+            <div class="main_bar">
+                <input type="text" id="vcode" placeholder="验证码" value="验证码" onfocus="this.value=''" onblur="this.value=this.value==''?'验证码':this.value" readonly />
+                <button id="send"><i class="fa-solid fa-paper-plane"></i></button>
+                <div id="search_pass_link">
+                </div>
+            </div>
+
+        </div>
+
+        <div style="display:none" id="exit">修改资料</div>
+        <button id="submit">继续</button>
+        <div class="agree">
+            <input type="checkbox" id="agree" name="agree" value="agree">
+            <label for="subscribeNews">我已阅读并同意<a href="doc/user-agreement.html">用户协议</a></label>
+        </div>
+        <div class="signup">
+            <p>已有账户？<a href="signin.html">登录</a></p>
+        </div>
+    </div>
+    <script src="/js/ajax.js"></script>
+    <script>
+    alert("test")
+        const sendCodeBtn = document.getElementById("send");
+        const countdownSeconds = 60;
+        let countdownEnd = getLocalStorage("countdownEnd");
+        let countdown;
+
+        if (countdownEnd && countdownEnd > Date.now()) {
+            countdown = Math.ceil((countdownEnd - Date.now()) / 1000);
+            setBtnState();
+        } else {
+            countdown = countdownSeconds;
+        }
+
+        function setBtnState() {
+            if (countdown === 0) {
+                sendCodeBtn.removeAttribute("disabled");
+                countdown = countdownSeconds;
+                removeLocalStorage("countdownEnd"); // 删除 localStorage 中的倒计时结束时间
+                send.innerHTML = '<i class="fa-solid fa-paper-plane"></i>';
+            } else {
+                sendCodeBtn.setAttribute("disabled", true);
+                sendCodeBtn.innerHTML = `${countdown}s`;
+                countdown--;
+                setLocalStorage("countdownEnd", Date.now() + countdown * 1000); // 保存倒计时结束时间到 localStorage 中
+                setTimeout(setBtnState, 1000);
+            }
+        }
+
+
+        // sendCodeBtn.addEventListener("click", () => {
+        // setBtnState();
+        // });
+
+        function setLocalStorage(name, value) {
+            localStorage.setItem(name, value);
+        }
+
+        function getLocalStorage(name) {
+            const value = localStorage.getItem(name);
+            return value ? parseInt(value) : null;
+        }
+
+        function removeLocalStorage(name) {
+            localStorage.removeItem(name);
+        }
+    </script>
+    <script>
+    alert("test2")
+        var elements = {
+            username: dqsa("#username", 1),
+            password: dqsa("#psw", 1),
+            email: dqsa("#mail", 1),
+            code: dqsa("#vcode", 1),
+            submit: dqsa("#submit", 1),
+            exit: dqsa("#exit", 1)
+        };
+        for (let i of [elements.username, elements.password, elements.email]) {
+            i.onchange = function() {
+                sessionStorage.signup = JSON.stringify({
+                    username: elements.username.value,
+                    password: elements.password.value,
+                    email: elements.email.value
+                });
+            }
+        }
+        var iswait = false;
+        var cmode = "upe";
+        var thendo = {
+            issignin(r) {alert(r)
+                let i = JSON.parse(r);
+                console.log(i.notice);
+                if (i.state === "signed") {
+                    window.open("account.html", "_self");
+                } else if (i.state === "nosession") {
+                    controle.upe();
+                } else {
+                    let localv = JSON.parse(sessionStorage.signup);
+                    elements.username.value = localv.username;
+                    elements.email.value = localv.email;
+                    elements.password.value = localv.password;
+                    controle.code();
+                }
+            },
+            submitclick(e) {
+                if (!iswait) {
+                    let username = dqsa("#username")[0].value;
+                    let password = dqsa("#psw")[0].value;
+                    let email = dqsa("#mail")[0].value;
+                    if (username.length > 2 && password.length > 5 && IsEmail(email)) {
+                        iswait = true;
+                        document.querySelector(`#vcode`).style.display = "block"
+                        document.querySelector(`#send`).style.display = "block"
+                        document.querySelector(`.fa-shield`).style.display = "block"
+                        ajax({
+                            url: "php/user/signup.php?step=1",
+                            method: "POST",
+                            send: `username=${username}&password=${password}&email=${email}`,
+                            success: thendo.signup1
+                        });
+                    } else {
+                        alert("用户名长度至少为3，密码长度至少为6。邮箱格式username@example.com")
+                    }
+                } else {
+                    alert("等待请求中")
+                }
+            },
+            signup1(r) {alert(r)
+                let i = JSON.parse(r);
+                iswait = false;
+                if (i.success === true) {
+                    //dqsa("#username,#mail,#psw")
+                    controle.code();
+
+                } else {
+                    alert(i.notice);
+                }
+            },
+            sendcode(e) {
+                if (!sendCodeBtn.disabled && cmode == "code" && !iswait) {
+                    iswait = true;
+                    ajax({
+                        url: "php/user/signup.php?step=2",
+                        method: "POST",
+                        success: thendo.signup2
+                    });
+                    setBtnState();
+                }
+            },
+            signup2(r) {alert(r)
+                let i = JSON.parse(r);
+                if (i.success === true) {
+                    console.log("验证码已发送")
+                } else {
+                    alert(i.notice);
+                }
+                iswait = false;
+            },
+            vcode(e) {
+                if (!iswait) {
+                    ajax({
+                        url: "php/user/signup.php?step=3",
+                        send: `code=${dqsa("#vcode")[0].value}`,
+                        method: "POST",
+                        success: thendo.signup3
+                    });
+                } else {
+                    alert("请稍后重试");
+                }
+            },
+            signup3(r) {alert(r)
+                console.log(r)
+                let i = JSON.parse(r);
+                if (i.success === true) {
+                    sessionStorage.signup = null;
+                    window.open("account.html", "_self");
+                } else {
+                    alert(i.notice);
+                    iswait = false;
+                }
+            },
+            exitclick(e) {
+                if (!iswait) {
+                    document.querySelector(`#vcode`).style.display = "none"
+                    document.querySelector(`#send`).style.display = "none"
+                    document.querySelector(`.fa-shield`).style.display = "none"
+                    ajax({
+                        url: "php/user/signup.php?step=4",
+                        method: "POST",
+                        success: thendo.signup4
+                    });
+                } else {
+                    alert("暂不可退出，请稍后重试");
+                }
+            },
+            signup4(r) {alert(r)
+                let i = JSON.parse(r);
+                controle.upe();
+                //location.reload();
+            }
+        };
+        var controle = {
+            upe() {
+                elements.username.readOnly = false;
+                elements.password.readOnly = false;
+                elements.email.readOnly = false;
+                elements.code.readOnly = true;
+                elements.exit.style.display = "none";
+                cmode = "upe";
+                elements.submit.innerHTML = "继续";
+                elements.submit.onclick = thendo.submitclick;
+            },
+            code() {
+                elements.username.readOnly = true;
+                elements.password.readOnly = true;
+                elements.email.readOnly = true;
+                elements.code.readOnly = false;
+                elements.exit.style.display = "block";
+                elements.exit.onclick = thendo.exitclick;
+                cmode = "code";
+                sendCodeBtn.onclick = thendo.sendcode;
+                elements.submit.innerHTML = "注册";
+                elements.submit.onclick = thendo.vcode;
+            }
+        };
+
+        ajax({
+            url: "php/user/signup.php?step=0",
+            method: "POST",
+            success: thendo.issignin
+        });
+
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+
+        function IsEmail(str) {
+            var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+            return reg.test(str);
+        }
+    </script>
+</body>
+
+</html>

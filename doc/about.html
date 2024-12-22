@@ -1,0 +1,108 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+<link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>关于我们-猪吧维基BPLEWiki</title>
+    <style>
+        /* 新增的flexbox样式 */
+        .person-container {
+            display: flex;
+            justify-content: space-around;
+            /* 两个.person div之间均匀分布空间 */
+            flex-wrap: wrap;
+            /* 允许项目换行 */
+        }
+
+        .person {
+            width: 180px;
+            height: 200px;
+            margin-top: 30px;
+            /* 调整外边距以适应flex布局 */
+            padding: 20px;
+            text-align: center;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        p {
+            margin-top: 2px;
+            margin-bottom: 2px;
+            word-wrap: break-word;
+        }
+
+
+        img {
+            width: 100px;
+            border-radius: 2px;
+        }
+
+        hr {
+            border: none;
+            width: 95%;
+            height: 1px;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            background-color: grey;
+        }
+
+        p a {
+            color: lightgreen;
+            text-decoration-line: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="btn">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <h1>关于我们</h1>
+    <div>
+        <p>我们是猪吧维基（Bad Piggies Leading Edge Wiki）。我们网站旨在为新创捣蛋猪玩家提供一个交流，分享的平台，让小白也能成为大佬。我们非盈利，只有捐赠，维护网站全靠爱的付出。</p><br>
+        <p>本站的主要开发者有两位，分别是"口渴的水"与"小祸"。口渴的水主要负责网站的前端工作，小祸则是后端，他们承担起了维护网站的重任，为猪吧维基的建立添上了浓厚的一笔，可以说没有他们就没有猪吧维基。</p>
+        <div class="person-container">
+            <div class="person">
+                <img src="https://i.mij.rip/2024/02/22/460f8b3e1c0a9c75cb02bd6371769f19.jpeg" alt=头像" border="0">
+                <p>口渴的水</p>
+                <p><b>职务</b>：站长 前端</p>
+                <p><b>联系方式</b>：thirstywaterx@outlook.com</p>
+            </div>
+            <div class="person">
+                <img src="https://i.mij.rip/2024/02/22/5711025bf8c4daf732b6ab58c898a622.png" alt="头像" border="0">
+                <p>小祸</p>
+                <p><b>职务</b>：副站长 后端</p>
+            </div>
+        </div>
+        <hr>
+        <h2>网站历程</h2>
+        <p>猪吧维基建立与2023年12月14日，那时还是一个缺少功能的小网站，只有一个雏形，但是在我们的维护建设下，最终使其有模有样，成为了一个新创捣蛋猪玩家真正的交流平台。</p>
+        <hr>
+        <h2>为什么建立网站？</h2>
+        <p>这是个很严肃的问题。在捣蛋猪圈子内（以下简称猪吧），主要的交流场所是<a href="https://tieba.baidu.com/f?ie=utf-8&kw=%E6%8D%A3%E8%9B%8B%E7%8C%AA&fr=search">百度贴吧</a>与QQ群，但是这带来了一个很严重的问题--交流不方便。捣蛋猪新玩家没有一个合适的平台去查阅游戏的资料，教程，如果去询问他人的话又太麻烦，我们看到这样的处境便下定决心去建立一个网站，供新人们去学习交流，查阅文章。</p>
+        <p></p>
+    </div>
+
+<script src="/js/darkmode.js"></script>
+    <script>
+        document.getElementById('btn').addEventListener('click', function() {
+            history.back();
+        }, true)
+    </script>
+</body>
+
+</html>

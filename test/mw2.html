@@ -1,0 +1,406 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <link href="/css/page.css" rel="stylesheet">
+    <title>搜索页-猪吧维基BPLEWiki</title>
+    <style>
+        body {
+            max-width: 900px;
+        }
+
+        h1 {
+            display: none;
+        }
+
+        s-search {
+            margin-top: 30px;
+            width: 100%;
+        }
+
+        s-tab {
+            width: 100%;
+            background-color: white;
+            margin-top: 5px;
+        }
+
+        #content {
+            margin-top: 35px;
+        }
+
+        #loading {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            display: block;
+            width: 30px;
+        }
+
+        #results {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        #results div.resultcontain {
+            display: none;
+        }
+
+        #results div.active {
+            display: block !important;
+        }
+
+        a {
+            color: black;
+            text-decoration: none;
+        }
+
+        .contentBlock {
+            box-sizing: border-box;
+            width: 90%;
+            min-height: 165px;
+            background-color: white;
+            padding: 20px;
+            margin: 0 auto;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 10px;
+        }
+
+        .contentBlock h3,
+        .contentBlock p {
+            word-wrap: break-word;
+            /* 新增，确保文本换行 */
+            overflow-wrap: break-word;
+            /* 新增，确保长单词换行 */
+            white-space: normal;
+            /* 新增，防止文本一直在一行显示 */
+        }
+
+        .contentBlock h3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            /* 控制显示的行数 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 80%;
+            /* 超出的部分用省略号表示 */
+        }
+
+        .contentBlock p {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            /* 控制显示的行数 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 2px;
+            font-size: 80%;
+            /* 超出的部分用省略号表示 */
+        }
+
+        .contentBlock img {
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .container {
+            margin-bottom: 70px;
+        }
+
+        .contentBlock:active {
+            transform: scale(0.96);
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        .previewimg {
+            margin-right: 10px;
+            border-radius: 2px;
+            float: left;
+            width: 120px;
+            height: 120px;
+        }
+
+        .sonBlock {
+            width: 85%;
+            height: 50px;
+            box-sizing: border-box;
+            height: 40px;
+            padding: 16.66px;
+            border: 0;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body.dark-mode .contentBlock {
+            background-color: #333333;
+        }
+
+        body.dark-mode s-tab {
+            background-color: #1C1C1C !important;
+        }
+
+        .fa-angle-right {
+            -webkit-text-stroke: 1.5px white;
+            color: #3F484A;
+        }
+
+        body.dark-mode .fa-angle-right {
+            -webkit-text-stroke: 1.5px #333333;
+            color: #3F484A;
+        }
+
+        @media (min-width: 768px) {
+            s-search {
+                max-width: 400px;
+            }
+
+            .contentBlock {
+                max-width: 400px;
+                float: left;
+                margin-right: 20px;
+            }
+
+            .pagination {
+                float: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="back">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+    <h1>搜索</h1>
+
+    <s-search placeholder="搜索关键字" class="searchInput">
+        <s-icon id="run-search" type="search" slot="start"></s-icon>
+    </s-search>
+
+    <s-tab>
+        <s-tab-item class="tab active" id="left" data-search="article" selected="true">
+            <div slot="text">我的文章</div>
+        </s-tab-item>
+        <s-tab-item class="tab" id="right" data-search="workshop">
+            <div slot="text">我的收藏</div>
+        </s-tab-item>
+    </s-tab>
+
+    <div id="content">
+        <div id="article">
+            <!-- output pagination -->
+        </div>
+        <div id="collect">
+            <!-- output pagination -->
+        </div>
+        <div id="results"></div>
+    </div>
+
+    <script src="/js/darkmode.js"></script>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/page.b.js?v=0.0.7"></script>
+    <script src="https://cdn.jsdmirror.cn/npm/sober@0.7.1/dist/sober.min.js"></script>
+    <script>
+        document.getElementById('back').addEventListener('click', function() {
+            history.back();
+        }, true);
+
+        let currentTab = 'article'; // 默认选中“我的文章”
+
+        function updateActiveTab(index) {
+            const tabs = document.querySelectorAll('s-tab-item');
+            tabs.forEach((tab, i) => {
+                if (i === index) {
+                    tab.classList.add('active');
+                    currentTab = tab.getAttribute('data-search'); // 更新当前标签
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            // 根据当前标签显示相应的内容
+            if (currentTab === 'article') {
+                elements.article.style.display = "block";
+                elements.collect.style.display = "none";
+            } else if (currentTab === 'workshop') {
+                elements.article.style.display = "none";
+                elements.collect.style.display = "block";
+            }
+
+            // 隐藏搜索结果
+            elements.results.style.display = "none";
+        }
+
+        document.querySelectorAll('s-tab-item').forEach((tab, index) => {
+            tab.addEventListener('click', () => {
+                updateActiveTab(index);
+                // 不再自动进行搜索，用户需要手动输入关键词后搜索
+            });
+        });
+
+        var elements = {
+            article: dqsa("#article", 1),
+            collect: dqsa("#collect", 1),
+            results: dqsa("#results", 1), // 添加 results 到 elements
+            search: dqsa("#results", 1),
+            searchinput: dqsa(".searchInput", 1),
+            output: {
+                article: dqsa("#article .output", 1),
+                collect: dqsa("#collect .output", 1),
+            }
+        };
+
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+
+        function loadPageData() {
+            // 根据默认标签加载数据
+            ajax({
+                url: '/php/savefile/my.php',
+                method: "POST",
+                success: function(response) {
+                    try {
+                        response = JSON.parse(response);
+                    } catch (e) {
+                        alert("数据解析失败，请稍后再试。");
+                        console.error("JSON解析错误:", e);
+                        return;
+                    }
+
+                    if (!response.success) {
+                        alert(response.notice);
+                        return;
+                    }
+                    Page.create(elements.article);
+                    Page.aptEasy2(elements.article, response.results);
+                },
+                error: function(err) {
+                    alert("请求失败，请稍后再试。");
+                    console.error("AJAX请求错误:", err);
+                }
+            });
+
+            ajax({
+                url: '/php/savefile/collectg.php',
+                method: "POST",
+                success: function(response) {
+                    try {
+                        response = JSON.parse(response);
+                    } catch (e) {
+                        alert("数据解析失败，请稍后再试。");
+                        console.error("JSON解析错误:", e);
+                        return;
+                    }
+
+                    if (!response.success) {
+                        alert(response.notice);
+                        return;
+                    }
+                    Page.create(elements.collect);
+                    Page.aptEasy2(elements.collect, response.workshop);
+                },
+                error: function(err) {
+                    alert("请求失败，请稍后再试。");
+                    console.error("AJAX请求错误:", err);
+                }
+            });
+        }
+
+        function search() {
+            elements.search.innerHTML = `<s-circular-progress indeterminate="true" id="loading"></s-circular-progress>`;
+            elements.search.style.display = "block";
+            elements.article.style.display = "none";
+            elements.collect.style.display = "none";
+            elements.results.style.display = "block"; // 确保显示搜索结果容器
+
+            let url = '';
+            if (currentTab === 'article') {
+                url = "/php/savefile/my.php";
+            } else if (currentTab === 'workshop') {
+                url = "/php/savefile/collectg.php";
+            }
+
+            ajax({
+                url: url,
+                method: "POST",
+                send: `keyword=${encodeURIComponent(elements.searchinput.value)}`,
+                success: function(r) {
+                    let i;
+                    try {
+                        i = JSON.parse(r);
+                    } catch (e) {
+                        elements.search.innerHTML = "数据解析失败，请稍后再试。";
+                        console.error("JSON解析错误:", e);
+                        return;
+                    }
+
+                    if (!i.success) {
+                        elements.search.innerHTML = i.notice;
+                    } else {
+                        elements.search.innerHTML = "";
+                        Page.create(elements.search);
+                        if (currentTab === 'article') {
+                            Page.aptEasy2(elements.search, i.results);
+                        } else if (currentTab === 'workshop') {
+                            Page.aptEasy2(elements.search, i.articles);
+                        }
+                    }
+                },
+                error: function(err) {
+                    elements.search.innerHTML = "请求失败，请稍后再试。";
+                    console.error("AJAX请求错误:", err);
+                }
+            });
+        }
+
+        // 绑定搜索按钮点击事件
+        const runSearchButton = document.getElementById('run-search');
+        if (runSearchButton) {
+            runSearchButton.addEventListener('click', function(e) {
+                search();
+            });
+        } else {
+            console.error("未找到ID为 'run-search' 的元素。");
+        }
+
+        // 绑定搜索输入框的键盘事件
+        elements.searchinput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') { // 更加现代和可靠的键名检测
+                search();
+            }
+        });
+
+        // 页面加载完成后隐藏收藏内容和搜索结果，并加载初始数据
+        window.onload = function() {
+            document.getElementById("collect").style.display = "none"; // 初始隐藏“我的收藏”
+            document.getElementById("results").style.display = "none"; // 初始隐藏搜索结果
+            loadPageData(); // 加载初始数据
+        };
+    </script>
+</body>
+
+</html>

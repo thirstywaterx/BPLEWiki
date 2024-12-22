@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name='description' content='欢迎！我们是猪吧维基BPLEWiki，一个致力于给新创捣蛋猪玩家提供一个交流，分享的平台，我们拥有良好的环境，充足的文章资料，快来加入学习与创作吧！'>
+    <meta name="keywords" content="猪吧维基, 新创捣蛋猪, 新创, 捣蛋猪, BPLE, bple, Bad Piggies">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="/bottom_bar.css">
+    <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/dialog-choose.css">
+    <link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <link rel="stylesheet" href="/css/dialog.css" />
+    <title>论坛-猪吧维基BPLEWiki</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+        }
+
+        h1 {
+            font-size: 120%;
+            font-weight: 400;
+        }
+
+        h2 {
+            font-weight: 300;
+        }
+
+        /* 基础样式 */
+        select {
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 2px solid #ccc;
+            background-color: #f9f9f9;
+            appearance: none;
+            /* 隐藏默认的下拉箭头 */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        /* 聚焦效果 */
+        select:focus {
+            border-color: #007bff;
+            /* 聚焦时的边框颜色 */
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+            /* 聚焦时的阴影效果 */
+            background-color: #fff;
+            /* 聚焦时的背景色 */
+            color: #333;
+        }
+
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: white;
+            border-bottom: 1px solid #eee;
+            overflow-x: auto;
+        }
+
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            white-space: nowrap;
+            color: #666;
+            text-decoration: none;
+        }
+
+        .nav-tab.active {
+            background: #4a5568;
+            color: white;
+            border-radius: 4px;
+        }
+
+        .topic-list {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .topic-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 4px;
+            align-items: flex-start;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .topic-content {
+            flex: 1;
+        }
+
+        .topic-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #2d3748;
+        }
+
+        .topic-meta {
+            font-size: 0.875rem;
+            color: #718096;
+            display: flex;
+        }
+
+        .tag {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+        }
+
+        .tag-help {
+            background: #ebf8ff;
+            color: #2b6cb0;
+        }
+
+        .tag-solved {
+            background: #f0fff4;
+            color: #2f855a;
+        }
+
+        .reply-count {
+            background: #edf2f7;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            color: #4a5568;
+            min-width: 2.5rem;
+            text-align: center;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown select {
+            appearance: none;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 2rem 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            color: #4a5568;
+            cursor: pointer;
+        }
+
+        .dropdown::after {
+            content: '▼';
+            font-size: 0.7rem;
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+            margin-bottom:50px;
+        }
+
+        .pagination #page-info {
+            margin: 7px;
+        }
+
+        .pagination button {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .pagination button:hover {
+            background: #edf2f7;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+            .header-right {
+                gap: 0.5rem;
+            }
+
+            .topic-item {
+                padding: 0.75rem;
+            }
+
+            .avatar {
+                width: 32px;
+                height: 32px;
+                font-size: 0.875rem;
+            }
+
+            .topic-title {
+                font-size: 0.938rem;
+            }
+
+            .topic-meta {
+                font-size: 0.813rem;
+            }
+
+            .nav-tabs {
+                flex-wrap: wrap;
+            }
+
+            .nav-tab[data-category] {
+                display: none;
+            }
+
+            .category-dropdown {
+                display: block;
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+
+            .category-dropdown select {
+                width: 100%;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .category-dropdown {
+                display: none;
+            }
+        }
+
+        s-ripple {
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        a {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            color: #484F55;
+            text-decoration-line: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>创建</h2>
+            <div class="operation">
+                <a class="choose" href="article/create.html"><i class="fa-solid fa-file-lines" style="color: #ffdc2c;"></i>新建文章</a>
+                <hr>
+                <a class="choose" href="workshop/create.html"><i class="fa-solid fa-wrench" style="color: #5c009a;"></i>上传创意工坊物品</a>
+                <hr>
+                <a class="choose" href="forum/create.html"><i class="fa-solid fa-signs-post" style="color: #b96200;"></i>发布帖子</a>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="logo">
+            <h1>论坛</h1>
+        </div>
+        <div class="header-right">
+        </div>
+    </header>
+
+    <nav class="nav-tabs">
+        <a href="#" class="nav-tab active" data-category="all">所有话题</a>
+        <a href="#" class="nav-tab" data-category="help">帮助提问</a>
+        <a href="#" class="nav-tab" data-category="update">更新与公告</a>
+        <a href="#" class="nav-tab" data-category="feedback">建议与反馈</a>
+        <a href="#" class="nav-tab" data-category="discussion">使用交流</a>
+        <div class="dropdown category-dropdown">
+            <select id="category-select">
+                <option value="all">所有话题</option>
+<option value="technical">技术探讨</option>
+<option value="sharing">作品分享</option>
+<option value="solving">疑难解答</option>
+<option value="discussion">综合讨论</option>
+<option value="worldbuilding">铸吧综合世界观交流群</option>
+<option value="beginner">新手交流</option>
+<option value="feedback">反馈与建议</option>
+            </select>
+        </div>
+    </nav>
+
+    <div class="topic-list">
+        <div class="topic-header">
+            <h2>话题列表</h2>
+            <div class="dropdown">
+                <select id="filter-select">
+                    <option value="latest">最新回复</option>
+                    <option value="popular">热门回复</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="topic-container">
+            <!-- Topics will be dynamically inserted here -->
+        </div>
+
+        <div class="pagination">
+            <button id="prev-page" disabled>上一页</button>
+            <span id="page-info"></span>
+            <button id="next-page">下一页</button>
+        </div>
+    </div>
+
+    <div class="bottom-rec">
+        <div class="homepage_ico button">
+            <a href="index.html"><i class="fa-solid fa-house"></i></a>
+        </div>
+        <div class="chat_ico button">
+            <a href="forum.html"><i class="fa-solid fa-comment" style="color:green;"></i></a>
+        </div>
+        <div class="plus button edit-button">
+            <span class="fa-stack fa-2x">
+                <div class="plusbtn">
+                    <i class="fa-solid fa-plus fa-stack-1x"></i>
+                </div>
+            </span>
+        </div>
+        <div class="list button">
+            <a href="function.html"><i class="fa-solid fa-list"></i></a>
+        </div>
+        <div class="user button">
+            <a href="account.html"> <i class="fa-solid fa-user"></i></a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdmirror.cn/npm/sober@0.7.1/dist/sober.min.js"></script>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/dialog.js"></script>
+    <script src="/js/darkmode.js"></script>
+    <script>
+        ajax({
+            url: "https://www.bplewiki.top/php/forum/all.php",
+            method: "POST",
+            success: function(r) {
+                r = JSON.parse(r);
+                if (r.success) {
+                console.log("1")
+                    let topics = r.data
+                    let currentPage = 1;
+                    const itemsPerPage = 5;
+                    let filteredTopics = [];
+
+function renderTopics(topicsToRender) {
+    const container = document.getElementById('topic-container');
+    container.innerHTML = '';
+
+    topicsToRender.forEach(topic => {
+        const rippleWrapper = document.createElement('s-ripple'); // 创建 s-ripple 元素
+        rippleWrapper.onclick = () => { // 在 s-ripple 上绑定点击事件
+            location.href = `/forum/?id=${topic.id}`;
+        };
+
+        const topicElement = document.createElement('div');
+        topicElement.className = 'topic-item';
+        topicElement.innerHTML = `
+            <div class="avatar" style="background: ${topic.avatarColor};">${topic.avatar}</div>
+            <div class="topic-content">
+                <div class="topic-title">${topic.title}</div>
+                <div class="topic-meta">
+                    <span class="tag tag-help">${getCategoryName(topic.category)}</span>
+                    <p style="font-size: 9px;margin-top: 10px;">回复于 ${formatDate(topic.lastReply)}</p>
+                </div>
+            </div>
+            <div class="reply-count">${topic.replyCount}</div>
+        `;
+
+        rippleWrapper.appendChild(topicElement); // 将 topicElement 放入 s-ripple 中
+        container.appendChild(rippleWrapper); // 将 s-ripple 放入容器
+    });
+}
+                    function getCategoryName(category) {
+                        const categoryMapping = {
+    technical: "技术探讨",
+    sharing: "作品分享",
+    solving: "疑难解答",
+    discussion: "综合讨论",
+    worldbuilding: "世界观",
+    beginner: "新手交流",
+    feedback: "反馈与建议"
+};
+                        return categoryMapping[category] || category;
+                    }
+function formatDate(dateString) {
+    if (!dateString) { // 检查 dateString 是否为 null 或 undefined
+        return '暂无回复';
+    }
+
+    const today = new Date();
+    const date = new Date(dateString);
+    const timeDiff = today - date; // 毫秒差值
+
+    const oneDay = 24 * 60 * 60 * 1000;
+    const diffDays = Math.floor(timeDiff / oneDay);
+
+    if (diffDays === 0) {
+        return '今天';
+    } else if (diffDays === 1) {
+        return '昨天';
+    } else {
+        return date.toLocaleDateString(); // 或者格式化为自定义格式
+    }
+}
+// 用于替换页面中的时间
+document.querySelectorAll('.reply-time').forEach(item => {
+    const originalTime = item.dataset.time; // 假设时间存在data-time属性中
+    item.innerText = formatDate(originalTime);
+});
+
+                    function filterTopics() {
+                        const category = document.getElementById('category-select').value;
+                        const filter = document.getElementById('filter-select').value;
+
+                        filteredTopics = topics;
+
+                        // 根据选定的类别筛选话题
+                        if (category !== 'all') {
+                            filteredTopics = filteredTopics.filter(topic => topic.category === category);
+                        }
+
+                        // 先按评论数，再按时间排序
+                        filteredTopics.sort((a, b) => {
+                            if (filter === 'popular') {
+                                // 按评论数从高到低排序
+                                if (b.replyCount !== a.replyCount) {
+                                    return b.replyCount - a.replyCount;
+                                }
+                                // 如果评论数相同，按最后回复时间从新到旧排序
+                                return new Date(b.lastReply) - new Date(a.lastReply);
+                            } else {
+                                // 默认按最新时间排序
+                                if (new Date(b.lastReply) !== new Date(a.lastReply)) {
+                                    return new Date(b.lastReply) - new Date(a.lastReply);
+                                }
+                                // 在时间相同的情况下，按评论数排序
+                                return b.replyCount - a.replyCount;
+                            }
+                        });
+
+                        currentPage = 1;
+                        updatePagination();
+                        renderPage();
+                    }
+
+                    function renderPage() {
+                        const start = (currentPage - 1) * itemsPerPage;
+                        const end = start + itemsPerPage;
+                        const pageTopics = filteredTopics.slice(start, end);
+                        renderTopics(pageTopics);
+                        updatePageInfo();
+                    }
+
+                    function updatePagination() {
+                        const prevButton = document.getElementById('prev-page');
+                        const nextButton = document.getElementById('next-page');
+
+                        prevButton.disabled = currentPage === 1;
+                        nextButton.disabled = currentPage === Math.ceil(filteredTopics.length / itemsPerPage);
+                    }
+
+                    function updatePageInfo() {
+                        const pageInfo = document.getElementById('page-info');
+                        const totalPages = Math.ceil(filteredTopics.length / itemsPerPage);
+                        pageInfo.textContent = `第 ${currentPage} 页，共 ${totalPages} 页`;
+                    }
+
+                    document.getElementById('category-select').addEventListener('change', filterTopics);
+                    document.getElementById('filter-select').addEventListener('change', filterTopics);
+
+                    document.querySelectorAll('.nav-tab').forEach(tab => {
+                        tab.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                            tab.classList.add('active');
+                            document.getElementById('category-select').value = tab.dataset.category;
+                            filterTopics();
+                        });
+                    });
+
+                    document.getElementById('prev-page').addEventListener('click', () => {
+                        if (currentPage > 1) {
+                            currentPage--;
+                            renderPage();
+                            updatePagination();
+                        }
+                    });
+
+                    document.getElementById('next-page').addEventListener('click', () => {
+                        if (currentPage < Math.ceil(filteredTopics.length / itemsPerPage)) {
+                            currentPage++;
+                            renderPage();
+                            updatePagination();
+                        }
+                    });
+
+                    // Initial render
+                    filterTopics();
+
+
+                }
+            }
+        }); //这段代码一运行就会发送请求
+    </script>
+</body>
+
+</html>

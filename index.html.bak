@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name='description' content='欢迎！我们是猪吧维基BPLEWiki，一个致力于给新创捣蛋猪玩家提供一个交流，分享的平台，我们拥有良好的环境，充足的文章资料，快来加入学习与创作吧！'>
+    <meta name="keywords" content="猪吧维基, 新创捣蛋猪, 新创, 捣蛋猪, BPLE, bple, Bad Piggies">
+    <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://www.bplewiki.top/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.bplewiki.top/bottom_bar.css">
+    <link rel="stylesheet" type="text/css" href="https://www.bplewiki.top/css/dialog-choose.css">
+    <link href="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/font-awesome/6.0.0/css/all.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://www.bplewiki.top/css/darkmode.css">
+<link rel="manifest" href="/manifest.json">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>主页-猪吧维基BPLEWiki</title>
+    <style>
+        body {
+            margin: 0;
+        }
+        
+        .rectangle {
+            box-sizing: border-box;
+            width: 300px;
+            height: 150px;
+            background-color: white;
+            padding: 20px;
+            border: 0;
+            margin: 0 auto;
+            margin-bottom: 13px;
+            margin-right: 10px;
+            margin-left: 15px;
+            box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            display: inline-block;
+            vertical-align: top;
+            word-wrap: break-word;
+            overflow: hidden;
+        }
+        
+        .rectangle h3,
+        .rectangle p {
+            word-wrap: break-word;
+            /* 新增，确保文本换行 */
+            overflow-wrap: break-word;
+            /* 新增，确保长单词换行 */
+            white-space: normal;
+            /* 新增，防止文本一直在一行显示 */
+        }
+        
+        .rectangle h3 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            /* 控制显示的行数 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size:80%;
+            /* 超出的部分用省略号表示 */
+        }
+        
+        .rectangle p {
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            /* 控制显示的行数 */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 2px;
+            font-size:80%;
+            /* 超出的部分用省略号表示 */
+        }
+        
+        .container {
+            margin-bottom: 70px;
+        }
+        
+        .search {
+            text-decoration: none;
+            opacity: 0.9;
+            top: 15px;
+            right: 15px;
+            position: fixed;
+            margin: 0;
+            width: 40px;
+            height: 40px;
+            background-color: #c2e7ff;
+            font-size: 140%;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            /* 垂直居中 */
+            justify-content: center;
+            /* 水平居中 */
+            box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        
+        
+        
+        .name {
+            font-weight: bold;
+            text-indent: 20px;
+        }
+        
+        .box2 {
+            top: 500px;
+        }
+        
+        .previewimg {
+            margin-right: 10px;
+            border-radius: 2px;
+            float: left;
+            width: 110px;
+            height: 110px;
+        }
+        
+        .inform {
+            width: 100px;
+            height: 120px;
+        }
+        
+        .head {
+            width: 100%;
+            height: 75px;
+            background-color: #212529;
+            position: relative;
+        }
+        
+        .logo {
+            width: 70px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 70%;
+        }
+        
+        .title {
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -115%);
+            line-height: 1;
+            font-size: 24px;
+        }
+        
+        a {
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+            color: #484F55;
+            text-decoration-line: none;
+        }
+        
+        h3 {
+            margin: 0;
+        }
+        
+        h2 {
+            margin-bottom: 0;
+        }
+        
+        
+        
+        .container {
+            margin-bottom: 0px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding-bottom: 10px;
+            padding-top: 10px;
+        }
+        
+        .line::-webkit-scrollbar {
+            display: none;
+            /* 隐藏滚动条 */
+        }
+        
+        .line {
+            white-space: nowrap;
+            overflow-x: auto;
+            padding-top: 10px;
+        }
+        
+        .search-container {
+            display: none;
+        }
+        
+        /* .random {
+            width: 90%;
+            min-height: 1000px;
+            background-color: #F8F9FA;
+            margin: 0 auto;
+            border-radius: 5px;
+        } */
+        
+        body.dark-mode .fa-house {
+            color: grey !important;
+        }
+        
+        @media (min-width: 768px) {
+        
+            .rectangle:first-child,
+            h2 {
+                margin-left: 50px;
+            }
+        
+            .rectangle {
+                margin-right: 30px;
+            }
+        
+            .head {
+                height: 155px;
+            }
+        
+            .logo {
+                top: 20%;
+                left: 30px;
+                transform: scale(1.3);
+                opacity: 0.9;
+            }
+        
+            .title {
+                color: white;
+                position: absolute;
+                top: 50%;
+                left: 180px;
+                transform: translateY(-115%);
+                line-height: 1;
+                font-size: 3rem;
+            }
+        
+            .search {
+                display: none;
+            }
+        
+            .search-container {
+                position: absolute;
+                display: block;
+                top: 60px;
+                right: 30px;
+                display: flex;
+                align-items: center;
+                width: 250px;
+                height: 40px;
+                border-radius: 20px;
+                background-color: #f8f9fa;
+                box-shadow: 5px 5px 50px rgba(0, 0, 0, 0.1);
+            }
+        
+            .search-desktop {
+                width: 100%;
+                height: 100%;
+                padding: 10px 40px 10px 15px;
+                /* 调整右侧内边距留出图标空间 */
+                border: none;
+                border-radius: 20px;
+                outline: none;
+                font-size: 16px;
+                color: #495057;
+                box-sizing: border-box;
+            }
+        
+            .search-desktop::placeholder {
+                color: #6c757d;
+            }
+        
+            .fa-magnifying-glass {
+                position: absolute;
+                right: 20px;
+                /* 图标位置 */
+                font-size: 20px;
+                color: #6c757d;
+        
+                /* 禁止点击 */
+            }
+        
+            .fa-magnifying-glass:active {
+                color: lightgrey;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>创建</h2>
+            <div class="operation">
+                <a class="choose" href="article/create.html"><i class="fa-solid fa-file-lines" style="color: #ffdc2c;"></i>新建文章</a>
+                <hr>
+                <a class="choose" href="workshop/create.html"><i class="fa-solid fa-wrench" style="color: #5c009a;"></i>上传创意工坊物品</a>
+                <hr>
+                <a class="choose" href="#"><i class="fa-solid fa-signs-post" style="color: #b96200;"></i>发布帖子</a>
+            </div>
+        </div>
+    </div>
+    <div class="search">
+        <a href="/search.html"><i class="fa-solid fa-magnifying-glass" style="color:white;"></i></a>
+    </div>
+    <div class="head">
+        <div class="logo"><img src="https://pic.imgdb.cn/item/660eaab168eb935713b430d7.png" class="logo" alt="logo"></div>
+        <h1 class="title">猪吧维基</h1>
+        <div class="search-container">
+            <input type="text" class="search-desktop" placeholder="键入以搜索..." />
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </div>
+    </div>
+    <!-- 先放置标题 -->
+    <h2 class="name">热门文档</h2>
+    <!-- 再放置内容容器 -->
+<!-- 热门文档 -->
+<div class="container" id="hottest-articles">
+    <div class="line">
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">热门文档标题示例</h3>
+                <p>热门文档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">热门文档标题示例</h3>
+                <p>热门文档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">热门文档标题示例</h3>
+                <p>热门文档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">热门文档标题示例</h3>
+                <p>热门文档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">热门文档标题示例</h3>
+                <p>热门文档内容示例</p>
+            </div>
+        </a>
+        <!-- 可重复此结构添加更多热门文档 -->
+    </div>
+</div>
+
+<h2 class="name">热门存档</h2>
+
+<!-- 热门存档 -->
+<div class="container" id="hottest-savefiles">
+    <div class="line">
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">热门存档标题示例</h3>
+                <p>热门存档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">热门存档标题示例</h3>
+                <p>热门存档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">热门存档标题示例</h3>
+                <p>热门存档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">热门存档标题示例</h3>
+                <p>热门存档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">热门存档标题示例</h3>
+                <p>热门存档内容示例</p>
+            </div>
+        </a>
+        <!-- 可重复此结构添加更多热门存档 -->
+    </div>
+</div>
+
+<h2 class="name">最新文档</h2>
+
+<!-- 最新文档 -->
+<div class="container" id="newest-articles">
+    <div class="line">
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">最新文档标题示例</h3>
+                <p>最新文档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">最新文档标题示例</h3>
+                <p>最新文档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">最新文档标题示例</h3>
+                <p>最新文档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">最新文档标题示例</h3>
+                <p>最新文档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">最新文档标题示例</h3>
+                <p>最新文档内容示例</p>
+            </div>
+        </a>
+        <!-- 可重复此结构添加更多最新文档 -->
+    </div>
+</div>
+
+<h2 class="name">最新存档</h2>
+
+<!-- 最新存档 -->
+<div class="container" id="newest-archives">
+    <div class="line">
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">最新存档标题示例</h3>
+                <p>最新存档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">最新存档标题示例</h3>
+                <p>最新存档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">最新存档标题示例</h3>
+                <p>最新存档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">最新存档标题示例</h3>
+                <p>最新存档内容示例</p>
+            </div>
+        </a>
+        <a style="text-decoration:none;color: inherit;">
+            <div class="rectangle">
+                <img src="/img/preview.jpg" alt="预览图片" class="previewimg">
+                <h3 class="article_title">最新存档标题示例</h3>
+                <p>最新存档内容示例</p>
+            </div>
+        </a>
+        <!-- 可重复此结构添加更多最新存档 -->
+    </div>
+</div>
+
+    <div class="bottom-rec">
+        <div class="homepage_ico button">
+            <i class="fa-solid fa-house" style="color:green;"></i>
+        </div>
+        <div class="chat_ico button">
+            <a href="forum.html"><i class="fa-solid fa-comment"></i></a>
+        </div>
+        <div class="plus button edit-button">
+            <span class="fa-stack fa-2x">
+                <div class="plusbtn">
+                    <i class="fa-solid fa-plus fa-stack-1x"></i>
+                </div>
+            </span>
+        </div>
+        <div class="list button">
+            <a href="function.html"><i class="fa-solid fa-list"></i></a>
+        </div>
+        <div class="user button">
+            <a href="account.html"> <i class="fa-solid fa-user"></i></a>
+        </div>
+    </div>
+    </div>
+    <script src="/js/ajax.js"></script>
+    <script src="/js/dialog.js"></script>
+    <script src="/js/darkmode.js"></script>
+    <script>
+        let options={
+            hotids:{
+                url: "/php/article/hottest.php",
+                method: "GET",
+                success: function(j) {
+                    let r = JSON.parse(j);
+                    if(r.success){
+                        options.hotload.send="ids="+r.results.join(",");
+                        ajax(options.hotload);
+                    }else{
+                        dqsa("#hottest-articles .article_title", 1).innerHTML = (r.notice);
+                    }
+                    console.log("热门文档id加载完毕");
+                }
+            },
+            hotload:{
+                url: "/php/article/articles.php",
+                method: "POST",
+                send: undefined,
+                success: function(j) {
+                    r = JSON.parse(j);
+                    if(r.success){
+                        for(let i=0;i<r.articles.length;i++){
+                            let o=r.articles[i];
+                            let ele=document.querySelector("#hottest-articles");
+                            ele.querySelectorAll("a")[i].href = "article/?id=" + o.id;
+                            ele.querySelectorAll(".article_title")[i].innerHTML = o.title;
+                            ele.querySelectorAll("p")[i].innerHTML = o.content;
+                        }
+                        console.log("热门文档加载完毕");
+                    }else{
+                        dqsa("#hottest-articles .article_title", 1).innerHTML = (r.notice);
+                    }
+                }
+            },
+            newids:{
+                url: "/php/article/newest.php",
+                method: "GET",
+                success: function(j) {
+                    let r = JSON.parse(j);
+                    if(r.success){
+                        options.newload.send="ids="+r.results.join(",");
+                        ajax(options.newload);
+                    }else{
+                        dqsa("#newest-articles .article_title", 1).innerHTML = (r.notice);
+                    }
+                    console.log("最新文档id加载完毕");
+                }
+            },
+            newload:{
+                url: "/php/article/articles.php",
+                method: "POST",
+                send: undefined,
+                success: function(j) {
+                    r = JSON.parse(j);
+                    if(r.success){
+                        for(let i=0;i<r.articles.length;i++){
+                            let o=r.articles[i];
+                            let ele=document.querySelector("#newest-articles");
+                            ele.querySelectorAll("a")[i].href = "article/?id=" + o.id;
+                            ele.querySelectorAll(".article_title")[i].innerHTML = o.title;
+                            ele.querySelectorAll("p")[i].innerHTML = o.content;
+                        }
+                        console.log("最新文档加载完毕");
+                    }else{
+                        dqsa("#newest-articles .article_title", 1).innerHTML = (r.notice);
+                    }
+                }
+            }
+        };
+        
+        ajax(options.hotids);
+        ajax(options.newids);
+
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+    </script>
+    <script>
+        // 为搜索图标绑定点击事件
+        document.querySelector('.search-container .fa-magnifying-glass').addEventListener('click', function() {
+            performSearch();
+        });
+
+        // 监听回车键事件
+        document.querySelector('.search-desktop').addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        });
+
+        function performSearch() {
+            const keywords = document.querySelector('.search-desktop').value.trim();
+            if (keywords) {
+                window.location.href = `https://www.bplewiki.top/search.html?keyword=${encodeURIComponent(keywords)}`;
+            }
+        }
+    </script>
+    <script>
+        // 检测是否支持触摸
+        const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+        if (!isTouchDevice) {
+            // 如果是非触摸设备，使用鼠标事件来实现滚动
+            const scrollContainers = document.querySelectorAll('.line');
+
+            scrollContainers.forEach(scrollContainer => {
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+
+                scrollContainer.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    startX = e.pageX - scrollContainer.offsetLeft;
+                    scrollLeft = scrollContainer.scrollLeft;
+                });
+
+                scrollContainer.addEventListener('mouseleave', () => {
+                    isDown = false;
+                });
+
+                scrollContainer.addEventListener('mouseup', () => {
+                    isDown = false;
+                });
+
+                scrollContainer.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - scrollContainer.offsetLeft;
+                    const walk = (x - startX) * 2; // 滚动速度
+                    scrollContainer.scrollLeft = scrollLeft - walk;
+                });
+            });
+        }
+    </script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+      })
+      .catch(error => {
+        console.log('ServiceWorker registration failed: ', error);
+      });
+  });
+}
+</script>
+</body>
+
+</html>

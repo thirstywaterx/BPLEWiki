@@ -1,0 +1,795 @@
+<!DOCTAPE html>
+<html>
+<head>
+<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<style>
+body{margin:0;padding:0;}
+</style>
+</head>
+<body>
+<!--html-->
+<noscript>noscript</noscript>
+<canvas id="canvas" width="1200" height="675" style="width:100vw;">你的浏览器不支持canvas</canvas>
+<script src="https://cdn.bootcdn.net/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<script>
+function dgbyid(idid){
+return document.getElementById(idid)
+}
+
+function at(n) {
+    // ToInteger() abstract op
+    n = Math.trunc(n) || 0;
+    // Allow negative indexing from the end
+    if (n < 0) n += this.length;
+    // OOB access is guaranteed to return undefined
+    if (n < 0 || n >= this.length) return undefined;
+    // Otherwise, this is just normal property access
+    return this[n];
+}
+const TypedArray = Reflect.getPrototypeOf(Int8Array);
+for (const C of [Array, String, TypedArray]) {
+    Object.defineProperty(C.prototype, "at",
+        {
+            value: at,
+            writable: true,
+            enumerable: false,
+            configurable: true
+        });
+}
+
+
+
+
+//matter0.19
+// module模块 aliases
+var Engine = Matter.Engine,
+    Render = Matter.Render,
+    Runner = Matter.Runner,
+    Bodies = Matter.Bodies,
+    Constraint = Matter.Constraint,//约束
+    Composite = Matter.Composite,
+    Composites = Matter.Composites,
+    Body = Matter.Body,
+    MouseConstraint = Matter.MouseConstraint,
+    Mouse = Matter.Mouse,
+    Query = Matter.Query,
+    Events = Matter.Events,
+    Example = Matter.Example,
+    Vector = Matter.Vector;
+    
+    var _getTexture = function(render, imagePath) {
+        var image = render.textures[imagePath];
+
+        if (image)
+            return image;
+
+        image = render.textures[imagePath] = new Image();
+        image.src = imagePath;
+
+        return image;
+    };
+    Render.bodies = function(render, bodies, context) {
+        var c = context,
+            engine = render.engine,
+            options = render.options,
+            showInternalEdges = options.showInternalEdges || !options.wireframes,
+            body,
+            part,
+            i,
+            k;
+
+        for (i = 0; i < bodies.length; i++) {
+            body = bodies[i];
+
+            if (!body.render.visible)
+                continue;
+
+            // handle compound parts
+            for (k = body.parts.length > 1 ? 1 : 0; k < body.parts.length; k++) {
+                part = body.parts[k];
+
+                if (!part.render.visible)
+                    continue;
+
+                if (options.showSleeping && body.isSleeping) {
+                    c.globalAlpha = 0.5 * part.render.opacity;
+                } else if (part.render.opacity !== 1) {
+                    c.globalAlpha = part.render.opacity;
+                }
+
+                if (part.render.sprite && part.render.sprite.texture && !options.wireframes) {
+                    // part sprite
+                    var sprite = part.render.sprite,
+                        texture = _getTexture(render, sprite.texture);
+
+                    c.translate(part.position.x, part.position.y);
+                    c.rotate(part.angle);
+
+                    if(sprite.cutx!=null&&sprite.cutx!=undefined){
+                        c.drawImage(
+                            texture,
+                            sprite.cutx,
+                            sprite.cuty,
+                            sprite.cutwidth,
+                            sprite.cutheight,
+                            texture.width * -sprite.xOffset * sprite.xScale,
+                            texture.height * -sprite.yOffset * sprite.yScale,
+                            texture.width * sprite.xScale,
+                            texture.height * sprite.yScale
+                        );
+                    }else{
+                        c.drawImage(
+                            texture,
+                            texture.width * -sprite.xOffset * sprite.xScale,
+                            texture.height * -sprite.yOffset * sprite.yScale,
+                            texture.width * sprite.xScale,
+                            texture.height * sprite.yScale
+                        );
+                    }
+
+                    // revert translation, hopefully faster than save / restore
+                    c.rotate(-part.angle);
+                    c.translate(-part.position.x, -part.position.y);
+                } else {
+                    // part polygon
+                    if (part.circleRadius) {
+                        c.beginPath();
+                        c.arc(part.position.x, part.position.y, part.circleRadius, 0, 2 * Math.PI);
+                    } else {
+                        c.beginPath();
+                        c.moveTo(part.vertices[0].x, part.vertices[0].y);
+
+                        for (var j = 1; j < part.vertices.length; j++) {
+                            if (!part.vertices[j - 1].isInternal || showInternalEdges) {
+                                c.lineTo(part.vertices[j].x, part.vertices[j].y);
+                            } else {
+                                c.moveTo(part.vertices[j].x, part.vertices[j].y);
+                            }
+
+                            if (part.vertices[j].isInternal && !showInternalEdges) {
+                                c.moveTo(part.vertices[(j + 1) % part.vertices.length].x, part.vertices[(j + 1) % part.vertices.length].y);
+                            }
+                        }
+
+                        c.lineTo(part.vertices[0].x, part.vertices[0].y);
+                        c.closePath();
+                    }
+
+                    if (!options.wireframes) {
+                        c.fillStyle = part.render.fillStyle;
+
+                        if (part.render.lineWidth) {
+                            c.lineWidth = part.render.lineWidth;
+                            c.strokeStyle = part.render.strokeStyle;
+                            c.stroke();
+                        }
+
+                        c.fill();
+                    } else {
+                        c.lineWidth = 1;
+                        c.strokeStyle = '#bbb';
+                        c.stroke();
+                    }
+                }
+
+                c.globalAlpha = 1;
+            }
+        }
+    };
+    
+
+// create an engine
+var engine = Engine.create({
+  gravity:{x:0,y:1.2},
+  timing:{timeScale:1}
+});
+
+// create a renderer
+var render = Render.create({
+    canvas: dgbyid("canvas"),
+    //element: document.body,
+    engine: engine,
+    options: {
+        width: 1200,
+        height: 675,
+        background:"url(https://s1.imagehub.cc/images/2023/05/14/Night_Sky_Texture.png)",
+        hasBounds:true,
+        //showAngleIndicator: true,
+        showPerformance: true,
+        showDebug:true,
+        showIds: true,
+        //showSeparations: true,
+        //showVelocity: true,
+         wireframes: false//线框模式
+    }
+});
+
+//创造界面
+
+
+</script>
+
+<script>
+var Body=Body||Matter.body;
+//var groupx=[Body.nextGroup(true)]
+var toptions = {//贴图
+    mubox0: {//0木框
+      render: {
+        sprite: {
+          texture: "https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png",
+          cutx: 679,
+          cuty: 519,
+          cutwidth: 110,
+          cutheight: 110,
+          xScale: 0.053,
+          yScale: 0.053
+        }
+      }, collisionFilter: {
+        //group: groupx[0],
+      }, mass: 0.5//,isStatic: true 
+    }, febox0:{//0铁框
+      render: {
+        sprite: {
+          texture: "https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png",
+          cutx: 681,
+          cuty: 736,
+          cutwidth: 110,
+          cutheight: 110,
+          xScale: 0.053,
+          yScale: 0.053
+        }
+      },collisionFilter: {
+        //group: groupx[1]
+      }, mass: 1
+    }, pig0: {//0猪
+      render: {
+        sprite: {
+          texture: "https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png",//pig.png
+          cutx: 190,
+          cuty: 330,
+          cutwidth: 95,
+          cutheight: 95,
+          xScale: 0.05,
+          yScale: 0.05
+        }
+      },collisionFilter: {
+        //group: groupx[0]
+      }, mass: 1
+    }, egg0:{//0鸟蛋
+      render: {
+        sprite: {
+          texture: "https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png",
+          cutx: 805,
+          cuty: 0,
+          cutwidth: 90,
+          cutheight: 90,
+          xScale: 0.05,
+          yScale: 0.05
+        }
+      },collisionFilter: {
+        //group: groupx[1],
+      },mass: 0.5
+    }, spring:{//0弹簧
+      render: {
+        sprite: {
+          texture: "https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png",
+          cutx: 611,
+          cuty: 1102,
+          cutwidth: 71,
+          cutheight: 108,
+          xScale: 0.04,
+          yScale: 0.05
+        }
+      }
+    }, muwheel0: {
+        wsjx:{//0木轮 轮轴
+          render: {
+            sprite: {
+              texture: "https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png",
+              cutx: 1795,
+              cuty: 1124,
+              cutwidth: 111,
+              cutheight: 88,
+              xScale: 0.05,
+              yScale: 0.04
+            }
+          }, collisionFilter: {
+            //group: groupx[2]
+          }
+        }, wcircle:{//0木轮 轮圆
+          render: {
+            sprite: {
+              texture: "https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png",
+              cutx: 1197,
+              cuty: 789,
+              cutwidth: 72,
+              cutheight: 72,
+              xScale: 0.04,
+              yScale: 0.04
+            }
+          }, collisionFilter: {
+            //group: groupx[2],
+          }, mass: 0.5
+        }
+    }, dp0:{//短喷 0
+      render: {
+        sprite: {
+          texture: "https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png",
+          cutx: 1236,
+          cuty: 1109,
+          cutwidth: 104,
+          cutheight: 101,
+          xScale: 0.05,
+          yScale: 0.05
+        }
+      }, collisionFilter: {
+        //group: Body.nextGroup(true),
+      }, mass: 1,
+      label:{
+        name:"dpen"
+      }
+    }, pinkdp:{//粉色短喷
+      render: {
+        sprite: {
+          texture: "https://s1.imagehub.cc/images/2023/05/03/IngameAtlas3.png",
+          cutx: 376,
+          cuty: 1117,
+          cutwidth: 106,
+          cutheight: 97,
+          xScale: 0.04,
+          yScale: 0.04
+        }
+      }, collisionFilter: {
+        //group: -1,
+      }, mass: 1,
+      label:{
+        name:"dpen"
+      }
+    }, tnt0:{//tnt
+      render: {
+        sprite: {
+          texture: "https://s1.imagehub.cc/images/2023/05/03/IngameAtlas.png",
+          cutx: 681,
+          cuty: 630,
+          cutwidth: 106,
+          cutheight: 106,
+          xScale: 0.04,
+          yScale: 0.04
+        }
+      }, collisionFilter: {
+        //group: -1,
+      }, mass: 1
+    }, explodeball: {
+      render: {
+        sprite: {
+          texture: "https://s1.imagehub.cc/images/2023/05/03/Particles_Sheet_01.png",
+          cutx: 0,
+          cuty: 260,
+          cutwidth: 260,
+          cutheight: 260,
+          xScale: 1,
+          yScale: 1
+        }
+      }
+    }
+};//贴图结束
+</script>
+<!--/*  贴图等  */-->
+
+<script>
+var controlConstraint={
+  create: function(bodya,bodyb,move,stiffness,angularStiffness,length,movem){
+      let xx = 0,
+          yy = 0,
+          xb=0,
+          yb=0;
+      movem=movem || 20
+      return Constraint.create({
+          pointA: { x: xx, y: yy },
+          pointB: { x: xb, y: yb },
+          bodyA: bodya,
+          bodyB: bodyb,
+          // stiffness: stiffness,
+          damping: 0,
+          length: length,
+          type: 'constraint'
+      });
+  },
+  create2: function(bodya,bodyb,pointa,stiffness,angularStiffness,length){
+    return Constraint.create({
+        pointA: pointa,
+        pointB: {
+            x: pointa.y===30||-30 ? -pointa.x : -pointa.y,
+            y: pointa.x===30||-30 ? -pointa.y : -pointa.x
+        },
+        bodyA: bodya,
+        bodyB: bodyb,
+        stiffness: stiffness,
+        angularStiffness: angularStiffness,
+        length: length,
+        type: 'constraint'
+    });
+  },
+  connect: function(bodya,bodyb,pointa,stiffness){
+    if(pointa.x!==0){xx=pointa.x;xb=xx;yy=20;yb=-20;}
+    else{xx=20;xb=-20;yy=pointa.y;yb=yy;}
+    return [this.create2(bodya,bodyb,{x:xx,y:yy},stiffness,0.7),
+    this.create2(bodya,bodyb,pointa,stiffness,0.7),
+    this.create2(bodya,bodyb,{x:xb,y:yb},stiffness,0.7)]
+  },
+  connect2: function(bodya,bodyb,xory,stiffness){
+    function gbp(body){//get build position
+      return Vector.mult(vector_round(Vector.div(body.position,100)),100)
+    }
+    function vector_round(vector){
+      return {x: Math.round(vector.x), y: Math.round(vector.y)};
+    }
+    let mo= xory===0 ? {x:-50,y:0} : {x:0,y:-50};
+    return Constraint.create({
+        pointA: Vector.add(Vector.mult(Vector.sub(gbp(bodya),bodya.position),1),mo),
+        pointB: Vector.sub(Vector.mult(Vector.sub(gbp(bodyb),bodyb.position),1),mo),
+        bodyA: bodya,
+        bodyB: bodyb,
+        stiffness: stiffness,
+        type: 'constraint'
+    });
+  }
+};
+
+
+var lattice=100;
+
+var buildgird = {
+  size: 100,
+  positiontogird:function(position){
+    return {x: position.x/100, y: position.y/100};
+  },
+  girdtoposition:function(position){
+    return {x: position.x*100, y: position.y*100};
+  },
+  issameposition:function(oa,ob){
+    return oa.x===ob.x&&oa.y===ob.y;
+  },
+  gird: Composites.stack(-100-50, -100-50, 4, 3, 0, 0, function(x, y) {
+    return Bodies.rectangle(x, y, 100, 100, {
+      render: {
+        //fillStyle: 'rgba(0,0,0,0.5)',
+        //strokeStyle: 'black'
+        sprite: {
+            texture: "https://s1.imagehub.cc/images/2023/05/03/MenuAtlas2.png",
+            cutx: 1774,
+            cuty: 1412,
+            cutwidth: 195,
+            cutheight: 195,
+            xScale: 0.050,
+            yScale: 0.050
+        },
+        visible:false
+      },
+      isStatic:true,
+      isSensor:true,
+      label: {
+        name: "gird",
+        insidebox: undefined,
+        insidebody: undefined
+      }
+    });
+  }),
+  move: function(position,absolute){
+    if(absolute){
+      position=buildgird.round(Vector.sub(position,Vector.div(Vector.add(Composite.allBodies(buildgird.gird)[0].position,Composite.allBodies(buildgird.gird).at(-1).position),2)));
+    }
+    Composite.translate(buildgird.gird, position, true)
+  },
+  show: function(){
+    Composite.add(engine.world, [buildgird.gird])
+  },
+  hide: function(){
+    Composite.remove(engine.world, [buildgird.gird])
+  },
+  bodies: Composite.create({label: "buildgird"}),
+  add:function(body){
+    Composite.add(buildgird.gird,body)
+  },
+  isput:function(position){
+    return Composite.allBodies(buildgird.bodies).some((body)=>{buildgird.issameposition(body.position,position)})
+  },
+  start:function(){
+    for(let i of Composite.allBodies(buildgird.bodies)){
+      Body.setStatic(i,false);
+    }
+    Composite.move(buildgird.bodies,Composite.allBodies(buildgird.bodies),engine.world)
+  },
+  round:function(position){
+    return {
+      x:Math.round((position.x)/100)*100,
+      y:Math.round((position.y)/100)*100
+    };
+  }
+};
+buildgird.show()
+//Composite.rotate(buildgird.gird,Math.PI / 180 * 30,{x:0,y:0})
+function arrequa(arr1,arr2){
+  if(arr1.length===arr2.length){
+    for(let i=0;i<arr1.length;i++){
+      if(arr1[i]!==arr2[i]){return false}
+    }
+    return true;
+  }else{
+    return false;
+  }
+}
+var bodymodel={
+  mubox:Bodies.rectangle(0*lattice, 0*lattice, 1*lattice, 1*lattice, toptions.mubox),
+  febox:Bodies.rectangle(0*lattice, 0*lattice, 1*lattice, 1*lattice, toptions.febox),
+  //muwheel:wwheel(0*lattice, 0*lattice, 8.5, 58, 34, toption.muwheel0.wsjx.render, toption.muwheel0.wcircle.render),
+  dpen:Bodies.polygon((0+0.25)*lattice, 0*lattice, 3, 50, toptions.dpen0),
+  TNT:Bodies.rectangle(0*lattice, 0*lattice, 1*lattice, 1*lattice, toptions.tnt0),
+  g:function(position,type){
+    ///create
+    let body=undefined;
+    let box=0;
+    switch(type){
+      case "mubox":
+      body=Bodies.rectangle(position.x, position.y, 1*lattice, 1*lattice, toptions.mubox0);
+      box=1;
+      break;
+      case "febox":
+      body=Bodies.rectangle(position.x, position.y, 1*lattice, 1*lattice, toptions.febox0);
+      box=1;
+      break;
+      case "pig":
+      body=Bodies.circle(position.x, position.y, 44, toptions.pig0);
+      body.label={};
+    Object.assign(body.label,{
+      name: "pig"
+    });
+    logs(body.label.name+"$$")
+      break;
+      case "egg":
+      body=Bodies.circle(position.x, position.y, 44, toptions.egg0);
+      case "dpen":
+      body=Bodies.polygon(position.x+25, position.y, 3, 50, toptions.dp0);
+      body.label={};
+      Object.assign(body.label,{buildposition: position})
+      break;
+      case "TNT":
+      body=Bodies.rectangle(position.x, position.y, 1*lattice, 1*lattice, toptions.tnt0);
+      body.label={};
+      Object.assign(body.label,{name: "TNT",erange:200,eforce:1});
+      break;
+      case "rocket":
+      break;
+      case "muwheel":
+      body=wwheel(position.x, position.y, 8.5, 58, 34, toptions.muwheel0.wsjx.render, toptions.muwheel0.wcircle.render);
+    }
+    if(box===0){
+      thingsp.thingss.push(body);
+    }else{
+      boxsp.boxss.push(body);
+    }
+    return body;
+  }
+};
+var thingsp={
+  thingss:[],
+  thingssxy:[],
+  thingssxyx:[],
+  thingssxyy:[]
+}
+var boxsp={
+  boxss:[],
+  boxssxy:[],
+  boxssxyx:[],
+  boxssxyy:[]
+}
+
+
+function thingsadd(things){things.create();}
+  try{
+  //new Box({x:1,y:0},toptions.febox0).create()
+  //new Box({x:2,y:0},toptions.febox0).create()
+  bodymodel.g({x:300,y:0},"TNT")
+  //var b1=new Box({x:3,y:0},toptions.febox0);
+  var b2=bodymodel.g({x:300,y:0},"febox")
+  
+  bodymodel.g({x:500,y:-100},"febox")
+  bodymodel.g({x:500,y:0},"febox")
+  bodymodel.g({x:500,y:0},"TNT")
+  //new Box({x:3,y:-1},toptions.febox0).create()
+//b1.start()
+//Matter.Events.on(b2, "click", function(e){logs(e)})
+var pig0=bodymodel.g({x:200,y:-300},"pig")
+bodymodel.g({x:100,y:0},"febox")
+bodymodel.g({x:200,y:0},"febox")
+//bodymodel.g({x:300,y:0},"febox")
+
+
+  }catch(e){logs(e)}
+
+var bodyss=thingsp.thingss.concat(boxsp.boxss);
+
+
+
+//数组内双向对比，赋值重复出现的值。
+
+//连接框与其内物
+function generate(){
+  //生成建造内容
+  function compareAr(arr1, arr2, isposition) {
+    if(isposition){
+      return arr1.filter((v) => {
+        return arr2.map((w)=>{return w.x+","+w.y}).indexOf((v.x+","+v.y)) !== -1;
+      });
+    }else{
+      return arr1.filter((v) => {
+        return arr2.indexOf(v) !== -1;
+      });
+    }
+  }
+  //compareAr()取交集
+  for ( let i of compareAr(boxsp.boxss.map((v)=>{return v.position}), thingsp.thingss.map((v)=>{return v.position}), true) ){
+      let group=Body.nextGroup(true);
+      let b1=bodyinposition(i,boxsp.boxss);
+      let b2=bodyinposition(i,thingsp.thingss);
+      b1.collisionFilter.group=group;
+      b2.collisionFilter.group=group;
+      bodyss.push(controlConstraint.create(b1,b2,0,1,1));
+  } //连接框物
+  
+  
+  
+  for ( let i of compareAr(boxsp.boxss.map((v)=>{return v.position}),boxsp.boxss.map((v)=>{return {x:v.position.x+100,y:v.position.y}}),true) ){
+      bodyss=bodyss.concat(controlConstraint.connect2(bodyinposition(i,boxsp.boxss),bodyinposition({x:i.x-100,y:i.y},boxsp.boxss),0,1));
+  }
+  for ( let i of compareAr(boxsp.boxss.map((v)=>{return v.position}),boxsp.boxss.map((v)=>{return {x:v.position.x,y:v.position.y+100}}),true) ){
+      bodyss=bodyss.concat(controlConstraint.connect2(bodyinposition(i,boxsp.boxss),bodyinposition({x:i.x,y:i.y-100},boxsp.boxss),1,1));
+  }
+  function bodyinposition(position,arr){
+    for(let i of arr){
+      if(buildgird.issameposition(position, i.label.buildposition||i.position)){
+        if(i.type!=="composite"){
+          return i
+        }else{
+          return i.label.connectpart
+        }
+      }
+    }
+  }
+  
+  
+}
+generate()
+
+
+
+
+
+// createing 创建物品
+var ground = [
+  Bodies.rectangle(400, 1110, 9910, 60, { isStatic: true })
+  //Bodies.rectangle(400, 610, 910, 70, { isStatic: true })
+];
+//地面
+
+
+
+
+    /**添加鼠标控制*/
+    // add mouse control
+    var mouse = Mouse.create(render.canvas),
+        mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
+
+    Composite.add(engine.world, mouseConstraint);
+
+    // keep the mouse in sync with rendering
+    render.mouse = mouse;
+
+
+//添加所有物品到world里
+//Composite.add(engine.world, [mubox0, febox0, pig0,egg0, dpen]);//stack,mwheel,softBody
+Composite.add(engine.world, ground)
+//Composite.add(engine.world, bcst)
+Composite.add(engine.world, bodyss)
+
+
+
+
+//运行(渲染)renderer
+Render.run(render);
+//创建runner
+var runner = Runner.create();
+//运行engine
+Runner.run(runner, engine);
+
+//Engine.run(engine);
+//Render.run(render);
+
+
+
+var slookat={
+  x: render.options.width/2,
+  y: render.options.height/2,
+  size:1,
+  body:undefined,
+  cx:0,
+  cy:0,
+  lookat:function(x,y,csize,csizex){
+    if(csizex){
+      if(slookat.size*csize>1&&slookat.size*csize<50){
+        slookat.size*=csize;
+      }else if(slookat.size*csize<1){
+        slookat.size=1
+      }else if(slookat.size*csize>50){
+        slookat.size=50
+      }
+    }else if(slookat.size+csize>0.5&&slookat.size+csize<50){
+      slookat.size+=csize;
+    }
+    let size=slookat.size;
+    if(false){
+      slookat.cx+=x*size;
+      slookat.cy+=y*size;
+    }else{
+      slookat.x+=x*size;
+      slookat.y+=y*size;
+    }
+    Render.lookAt(render, {
+      min: { x: slookat.x-render.options.width/2*size, y: slookat.y-render.options.height/2*size },
+      max: { x: slookat.x+render.options.width/2*size, y: slookat.y+render.options.height/2*size }
+    });
+    
+    buildgird.move({x:slookat.x,y:slookat.y},true)
+  },
+  followthings:function(){
+    slookat.x=slookat.body.position.x+slookat.cx;
+    slookat.y=slookat.body.position.y+slookat.cy;
+    slookat.lookat(0,0,0)
+  }
+};
+
+slookat.lookat(-300,400,0)
+
+
+
+function dqsa(qsqs){return document.querySelectorAll(qsqs);}
+function logs(e){
+//dgbyid("log").innerHTML+=e+", ";
+}
+
+
+
+class Loop{
+  constructor(event,interval){
+    this.tick=0;
+    this.times=undefined;
+    this.event=function(){
+      event();
+      if(++this.tick===this.times){this.stop();this.times=undefined;}
+    };
+    this.event=this.event.bind(this)
+    this.interval=interval;
+    this.run=undefined;
+  }
+  start(times){
+    this.run=setInterval(this.event,this.interval)
+    if(times){
+      this.times=times;
+    }
+  }
+  stop(){
+    clearInterval(this.run)
+  }
+}
+</script>
+
+</body>
+</html>

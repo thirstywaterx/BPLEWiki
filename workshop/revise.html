@@ -1,0 +1,583 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name='description' content='您可以在这里上传您的新创捣蛋猪存档或者插件，将您创作的内容分发四处，让他人也可以欣赏到您的作品'>
+    <meta name="keywords" content="新创 捣蛋猪 新创捣蛋猪 插件 存档 上传">
+    <link rel="shortcut icon" href="../img/favicon.ico" type="image/x-icon">
+    <link href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.2/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/topbar.css" />
+    <link rel="stylesheet" href="/css/dialog.css" />
+    <link rel="stylesheet" href="/css/mdeditor.css" />
+    <link rel="stylesheet" type="text/css" href="/css/darkmode.css">
+    <title>编辑创意工坊物品-猪吧维基BPLEWiki</title>
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+
+        .input {
+            width: 90%;
+            border: none;
+            border-radius: 2px;
+            background-color: #e9eef6;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .input:focus {
+            outline: 2px solid lightgreen;
+        }
+
+        .center {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .choose {
+            width: 180px;
+            height: 20px;
+            font-size: 115%;
+            margin-top: 20px;
+        }
+
+        select {
+            border: none;
+            width: 80px;
+            height: 20px;
+            background-color: white;
+            border-radius: 2px;
+            font-size: 75%;
+        }
+
+        select:focus {
+            outline: 1px solid lightgreen;
+        }
+
+        .upload-blk {
+            width: 80%;
+            height: 300px;
+            background-color: #f6f6f6;
+            margin: 0 auto;
+            margin-top: 20px;
+            padding: 1px;
+        }
+
+        .file-upload {
+            width: 85%;
+            height: 200px;
+            margin: 0 auto;
+            margin-top: 30px;
+            border: 2px dashed #0099cc;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .file-upload.dragover {
+            border-color: #0066cc;
+            background-color: #f0f8ff;
+        }
+
+        .file-upload input[type="file"] {
+            display: none;
+        }
+
+        .icon {
+            font-size: 48px;
+            color: #0099cc;
+        }
+
+        .text {
+            text-align: center;
+            width: 210px;
+            margin-top: 10px;
+            color: #666;
+            font-size: 16px;
+            overflow: hidden;
+        }
+
+        .operation-area {
+            width: 80%;
+            min-height: 80px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 2px;
+            background-color: #f6f6f6;
+        }
+
+        h3 {
+            text-align: center;
+        }
+
+        button,
+        .submit {
+            width: 60px;
+            height: 30px;
+            font-size: 100%;
+            color: white;
+            background-color: lightgreen;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .submit:active,
+        button:active {
+            background-color: #80DD80;
+        }
+
+        .submit {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+        }
+
+        #image-container {
+            margin: 0 auto;
+            margin-bottom: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            /* 允许容器换行 */
+            justify-content: start;
+            max-width: 380px;
+            /* 增加宽度以适应三个图片框及边距 */
+        }
+
+        .image-box {
+            width: 95px;
+            height: 95px;
+            border: 2px solid #ccc;
+            /* 灰色边框 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 5px;
+            border-radius: 10px;
+            /* 圆角边框 */
+            overflow: hidden;
+            /* 防止图片溢出 */
+            cursor: pointer;
+            /* 指针样式表示可以点击 */
+        }
+
+        .image-box i {
+            font-size: 24px;
+        }
+
+        .image-box img {
+            width: 120%;
+            height: 120%;
+            object-fit: cover;
+            /* 确保图片填充整个框，同时保持比例 */
+        }
+
+        #ok {
+            width: 90px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topblk">
+        <div class="back" id="back">
+            <i class="fa-solid fa-angle-left"></i>
+        </div>
+        <a href="../index.html">
+            <div class="logo">
+                <img src="/img/favicon.ico" alt="logo">
+                <h3>猪吧维基</h3>
+            </div>
+        </a>
+    </div>
+
+    <!-- 弹窗内容 -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>编辑预览图</h2>
+            <div class="operation">
+                <center>
+                    <p>请输入图片链接来添加或更换预览图</p>
+                    <input class="input" id="img-url" placeholder="请在此键入图片链接"><br>
+                    <button id="ok">添加/更换</button>
+                    <button id="delete">删除</button> <!-- 新增的删除按钮 -->
+                </center>
+            </div>
+        </div>
+    </div>
+
+    <div id="uploading" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>上传中</h2>
+            <div class="operation">
+                <center>
+                    <p>请稍后</p>
+                    <s-circular-progress indeterminate="true" style="color: lightgreen;"></s-circular-progress>
+                </center>
+            </div>
+        </div>
+    </div>
+
+
+
+    <h1>编辑创意工坊物品</h1>
+
+    <input class="title center input" id="title" name="title" form="upload-file" maxlength="30" placeholder="*标题">
+    <input class="title center input" id="cover" name="cover" form="upload-file" maxlength="500" placeholder="*封面(请填写图片链接)">
+
+    <!-- 图片上传功能 -->
+    <h3>预览图</h3>
+
+    <div id="image-container" class="edit-button" style="margin-top: 20px;"></div>
+
+    <div class="upload-blk">
+        <div class="choose center">
+            <form action="https://www.bplewiki.top/php/savefile/recive.php" method="post" enctype="multipart/form-data" id="upload-file">
+                <label for="map">选择类型：</label>
+                <select id="map" onchange="showSelection()">
+                    <option value="savefile">存档</option>
+                </select>
+        </div>
+        <div class="file-upload" id="drop_area">
+            <i class="fas fa-cloud-upload-alt icon"></i>
+            <span class="text">请选择文件或拖拽文件到这里</span>
+            <label for="file"></label>
+            <input type="file" onchange="updateFileName()" name="file" id="file">
+            </form>
+        </div>
+    </div>
+
+    <h3>物品简介</h3>
+    <div class="operation-area center">
+    </div>
+    <div class="textarea-parent">
+        <div class="textarea-length" data-max="500">0</div>
+        <textarea class="input center content" id="content" name="content" form="upload-file" placeholder="*请在此键入创意工坊物品描述（Markdown语法）"></textarea>
+    </div>
+    <input class="submit edit-button" id="submit" type="submit" value="提交">
+
+    <script src="/js/ajax.js"></script>
+    <script src="/js/mdeditor.js?v=0.0.3"></script>
+    <script src="/js/dialog.js"></script>
+    <script src="/js/darkmode.js"></script>
+    <script type="module" src="https://cdn.jsdmirror.cn/npm/sober@0.6.2/dist/sober.min.js"></script>
+    <script>
+        document.getElementById('back').addEventListener('click', function() {
+            history.back();
+        }, true)
+
+        function dqsa(qsqs, first) {
+            if (first) {
+                return document.querySelector(qsqs);
+            } else {
+                return document.querySelectorAll(qsqs);
+            }
+        }
+
+        ajax({
+            url: "/php/user/issignin.php",
+            method: "POST",
+            success: function(r) {
+                let i = JSON.parse(r);
+                if (!i.success) {
+                    window.open("../signup.html", "_self");
+                } else {
+                    wait = false;
+                }
+            }
+        });
+
+        var wait = false;
+
+        var GETs = (function() {
+            var url = window.document.location.href.toString();
+            var u = url.split("?");
+            if (typeof(u[1]) == "string") {
+                u = u[1].split("&");
+                var get = {};
+                for (var i in u) {
+                    var j = u[i].split("=");
+                    get[j[0]] = j[1];
+                }
+                return get;
+            } else {
+                return {};
+            }
+        })(); //get对象
+        //url:"article.php?id="+GETs.id,
+
+
+        // 加载页面时发送请求并初始化数据
+        let imageLinks = []; // 图片链接数组
+        let imageCount = 0; // 图片计数
+        const maxImages = 6; // 图片最大数量
+
+        // 删除初始的加号框
+        function removeInitialAddBox() {
+            const initialBox = document.querySelector('.image-box');
+            if (initialBox) {
+                initialBox.remove();
+            }
+        }
+
+        function addImageBox(additional = false) {
+            // 确保总图片数不超过 maxImages
+            if (imageCount < maxImages) {
+                const box = document.createElement('div');
+                box.className = 'image-box';
+                const boxId = imageCount;
+                box.dataset.index = boxId;
+                box.onclick = function() {
+                    openModal(box);
+                };
+                box.innerHTML = '<i class="fas fa-plus"></i>';
+                document.getElementById('image-container').appendChild(box);
+                imageCount++;
+
+                if (!additional) {
+                    imageLinks[boxId] = ''; // 初始化链接为空字符串
+                }
+            }
+        }
+
+        function initializeImageBoxes(images) {
+            // 删除初始的加号框
+            removeInitialAddBox();
+
+            // 先加载已有的图片
+            for (let i = 0; i < images.length; i++) {
+                if (images[i]) {
+                    const box = document.createElement('div');
+                    box.className = 'image-box';
+                    box.dataset.index = i;
+                    box.dataset.added = "true"; // 标记为已添加图片
+                    box.onclick = function() {
+                        openModal(box);
+                    };
+                    box.innerHTML = `<img src="${images[i]}" alt="Uploaded Image">`;
+                    document.getElementById('image-container').appendChild(box);
+                    imageLinks.push(images[i]);
+                    imageCount++;
+                }
+            }
+
+            // 检查是否需要添加加号框
+            if (imageCount < maxImages) {
+                addImageBox();
+            }
+        }
+
+        function openModal(box) {
+            document.getElementById('myModal').style.display = 'block';
+
+            // 保存当前的 image-box 以便删除
+            const currentBox = box;
+
+            // 检查当前框是否是已添加的图片框
+            const isImageAdded = currentBox.querySelector('img') !== null;
+
+            // 根据是否为已添加图片框来控制删除按钮的显示
+            document.getElementById('delete').style.display = isImageAdded ? 'inline-block' : 'none';
+
+            document.getElementById('ok').onclick = function() {
+                const url = document.getElementById('img-url').value;
+                if (url) {
+                    currentBox.innerHTML = '<img src="' + url + '" alt="Uploaded Image">';
+                    document.getElementById('myModal').style.display = 'none';
+                    document.getElementById('img-url').value = '';
+
+                    // 更新图片链接数组
+                    imageLinks[currentBox.dataset.index] = url;
+
+                    // 检查是否添加新的加号框
+                    if (!currentBox.dataset.added && imageCount < maxImages) {
+                        addImageBox(true);
+                        currentBox.dataset.added = "true";
+                    }
+                }
+            };
+
+            document.getElementById('delete').onclick = function() {
+    // 仅在已添加的图片框上操作删除
+    if (isImageAdded) {
+        currentBox.remove();
+        // 在数组中清空对应的链接
+        imageLinks[currentBox.dataset.index] = '';
+        imageCount--;
+
+        // 重新排列剩余的索引
+        const remainingBoxes = document.querySelectorAll('.image-box');
+        imageLinks = Array.from(remainingBoxes).map((box) => {
+            const imgElement = box.querySelector('img');
+            return imgElement ? imgElement.src : '';
+        });
+
+        // 关闭弹窗
+        document.getElementById('myModal').style.display = 'none';
+    }
+};
+        }
+
+        isFileChanged = false
+
+        function showSelection() {
+            var selectedType = document.getElementById('map').value;
+            alert("你选择的是: " + selectedType);
+        }
+
+        const dropArea = document.getElementById('drop_area');
+        const fileInput = document.querySelector('.file-upload input[type="file"]');
+        const text = document.querySelector('.file-upload .text');
+
+        function updateFileName() {
+            if (fileInput.files.length > 0) {
+                text.textContent = fileInput.files[0].name;
+                isFileChanged = true
+            } else {
+                text.textContent = "请选择文件或拖拽文件到这里";
+            }
+        }
+
+        // 拖拽逻辑
+        dropArea.addEventListener('click', () => fileInput.click());
+
+        // Drag events
+        dropArea.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropArea.classList.add('dragover');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('dragover');
+        });
+
+        dropArea.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropArea.classList.remove('dragover');
+            if (event.dataTransfer.files.length) {
+                fileInput.files = event.dataTransfer.files;
+                updateFileName();
+            }
+        });
+
+        // 初始化已有图片数据
+        ajax({
+            url: "https://www.bplewiki.top/workshop/workshop.php",
+            method: "POST",
+            send: "id=" + `${GETs.id}`,
+            success: function(rr) {
+                let ii = JSON.parse(rr);
+                if (1) {
+                    dqsa("#title", 1).value = ii.title;
+                    dqsa("#cover", 1).value = ii.cover;
+                    dqsa("textarea", 1).value = ii.content;
+                    ajax({
+                        url: `https://www.bplewiki.top/workshop/filename.php?id=${GETs.id}`,
+                        method: "POST",
+                        success: function(filename) {
+                            dqsa(".text", 1).innerHTML = filename;
+                        }
+                    });
+
+                    // 提取图片链接数组并加载图片框
+                    ii.viewImg = ii.viewImg.match(/https?:\/\/[^\s,]+/g) || [];
+                    initializeImageBoxes(ii.viewImg);
+
+                    // 载入markdown编辑器
+                    mdeditor.create(dqsa(".operation-area", 1), dqsa(".content", 1), ii.content, true);
+                    mdeditor.loadbtn();
+                    mdeditor.map(mdeditor.clearevent);
+                } else {
+                    alert(`该账号无权编辑该文章(${ii.user}，${i.user.id})`);
+                }
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var submitButton = document.getElementById('submit');
+            var formElement = document.getElementById('upload-file');
+            let wait = false;
+
+            submitButton.addEventListener('click', function() {            
+
+                var titleElement = document.getElementById('title');
+                var coverElement = document.getElementById('cover');
+                var contentElement = document.getElementById('content');
+
+                var title = titleElement.value;
+                var cover = coverElement.value;
+                var content = contentElement.value;
+                var exitdo = function(str) {
+                    alert(str);
+                    document.getElementById('uploading').style.display = "none";
+                };
+
+                if (!title.trim() || !cover.trim() || !content.trim()) {
+                    exitdo("请输入所有必填信息。");
+                    return;
+                }
+
+                if (content.length > 500) {
+                    exitdo("简介内容过长");
+                    return;
+                }
+
+                if (imageLinks[0] == "") {
+                    imageLinks[0] = cover;
+                }
+                
+                function removeEmptyLinks(imageLinks) {
+    return imageLinks.filter(link => link.trim() !== '');
+}
+
+imageLinks = removeEmptyLinks(imageLinks)
+
+                if (wait) {
+                    alert("请稍等");
+                    return;
+                }
+                wait = true;
+
+                var formData = new FormData(formElement);
+                formData.append("viewImg", imageLinks.join(","));
+                formData.append("id", GETs.id); // 将 id 参数添加到 formData 中
+                formData.append("isFileChanged", isFileChanged); // 将 isFileChanged 参数添加到 formData 中
+
+                ajax({
+                    url: "https://www.bplewiki.top/php/savefile/recive.php", // 去掉 URL 中的 id 和 isFileChanged 参数
+                    method: "POST",
+                    sendtype: "send",
+                    send: formData,
+                    success: function(response) {
+                        if (response.indexOf("<br") > -1) {
+                            alert(response)
+                        }
+                        var r = JSON.parse(response);
+                        if (r.success) {
+                            alert("上传成功");
+                            formElement.reset();
+                            window.open(`https://www.bplewiki.top/workshop/?id=${GETs.id}`)
+                        } else {
+                            alert(r.notice);
+                            document.getElementById('uploading').style.display = "none"
+                        }
+                        wait = false;
+                    },
+                    fail(st) {
+                        alert(st)
+                        document.getElementById('uploading').style.display = "none"
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

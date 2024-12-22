@@ -1,0 +1,42 @@
+        .dropdown {
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            width: 40px;
+            /* 更窄的宽度 */
+            top: 20px;
+            /* 确保从图标下方展开 */
+            left: 0;
+            /* 对齐到父容器的左边 */
+            z-index: 1;
+            display: none;
+            /* 初始不显示 */
+        }
+
+        .dropdown-item {
+            padding: 10px;
+            text-align: center;
+            border-bottom: 1px solid #f1f1f1;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            /* 平滑的背景颜色过渡 */
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:active {
+            background-color: #f1f1f1;
+            /* 鼠标点击时的背景颜色 */
+        }
+
+        .dropdown-item i {
+            color: black;
+            /* 图标的初始颜色 */
+        }
+
+        .dropdown-item:hover i {
+            color: green;
+            /* 鼠标悬停时图标的颜色 */
+        }

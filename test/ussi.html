@@ -1,0 +1,16 @@
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/eruda/2.4.1/eruda.min.js"></script>
+<script>
+    eruda.init()
+</script>
+<script src="/js/usersign.js?v=0.1.4"></script>
+<script>
+    usersign.use().then((r)=>{
+        document.body.innerHTML+=(r)
+        for(let i in r){
+            document.body.innerHTML+=`${i} : ${r[i]}; `;
+        }
+    }).catch(e=>alert(e))
+    document.body.innerHTML+=("100;")
+</script>
+</body>
