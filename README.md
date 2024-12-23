@@ -51,6 +51,7 @@
 - **FontAwesome**：用于美观的图标显示。
 - **highlight.js**：代码高亮功能。
 - **marked.js**：Markdown 解析与渲染。
+- **Sober.js**：MD3 UI库。
 
 ### PWA
 - **Service Worker**：实现离线缓存与网络拦截。
